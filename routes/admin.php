@@ -1,0 +1,17 @@
+<?php
+
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\LeadController;
+use Illuminate\Support\Facades\Route;
+
+Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as'=>'admin.'],function (){
+    Route::get('/dashboard', [HomeController::class ,'index'])->name('dashboard');
+    Route::get('/lead/index', [LeadController::class ,'index'])->name('lead.index');
+    Route::get('/lead/table', [LeadController::class ,'table'])->name('lead.table');
+    Route::get('/lead/{lead_id}', [LeadController::class ,'show'])->name('lead.show');
+
+    Route::post('/personal_info/{lead_id}/update',      [LeadController::class, 'updatePersonalInfo'])->name('personal.update');
+    Route::post('/vehicle_info/{lead_id}/update',       [LeadController::class, 'updateVehicleInfo'])->name('vehicle.update');
+    Route::post('/transaction_info/{lead_id}/update',   [LeadController::class, 'updateTransactionInfo'])->name('transaction.update');
+    Route::post('/special_req/{lead_id}/update',        [LeadController::class, 'updateSpecialReqInfo'])->name('special_req.update');
+});

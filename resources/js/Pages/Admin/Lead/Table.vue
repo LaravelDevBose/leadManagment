@@ -1,0 +1,102 @@
+<template>
+    <app-admin-layout>
+        <b-container fluid>
+            <b-row>
+                <b-col sm="12">
+                    <iq-card>
+                        <template v-slot:headerTitle>
+                            <h4 class="card-title">User List</h4>
+                        </template>
+                        <template v-slot:body>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Progress</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-if="leads && leads.length > 0">
+                                    <tr v-for="(lead, index) in leads" :key="index">
+                                        <td>{{ lead.full_name}}</td>
+                                        <td>{{ lead.email}}</td>
+                                        <td>{{ lead.phone_no}}</td>
+                                        <td>{{ lead.full_address}}</td>
+                                        <td style="max-width: 7rem">
+                                            <div class="progress">
+                                                <div class="progress-bar bg-primary" v-if="lead.current_step  >= 1" style="width:25%"> </div>
+                                                <div class="progress-bar bg-warning" v-if="lead.current_step  >= 2" style="width:25%"></div>
+                                                <div class="progress-bar bg-info" v-if="lead.current_step  >= 3" style="width:25%"></div>
+                                                <div class="progress-bar bg-success" v-if="lead.current_step === 4" style="width:25%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="flex align-items-center list-user-action">
+                                                <inertia-link :href="route('admin.lead.show', lead.lead_id)"  class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="View">
+                                                    <i class="ri-eye-line"></i>
+                                                </inertia-link>
+                                                <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </template>
+                    </iq-card>
+                </b-col>
+            </b-row>
+        </b-container>
+    </app-admin-layout>
+</template>
+
+<script>
+import AppAdminLayout from "../../../Layouts/AppAdminLayout";
+import 'ag-grid-community/dist/styles/ag-grid.min.css'
+import 'ag-grid-community/dist/styles/ag-theme-material.css'
+import { AllCommunityModules } from '@ag-grid-enterprise/all-modules';
+import { AgGridVue } from 'ag-grid-vue'
+import ActionUser from './Components/ActionUser';
+import IqCard from "../../../Component/core/cards/iq-card";
+
+export default {
+    name: "Table",
+    props:['leads'],
+    components: {
+        AppAdminLayout,
+        AgGridVue,
+        ActionUser,
+        IqCard,
+    },
+    data () {
+        return {
+            columnDefs: null,
+            rowData: this.leads,
+            modules: AllCommunityModules
+        }
+    },
+    beforeMount () {
+        this.columnDefs = Object.freeze([
+            {  headerName: 'Name', field: 'full_name', sortable: true, },
+            { headerName: 'Phone', field: 'phone_no', sortable: true, filter: true },
+            { headerName: 'Email', field: 'email', sortable: true, filter: true },
+            { headerName: 'Address', field: 'full_address', sortable: true, filter: true },
+        ]);
+
+    },
+    computed: {
+       /* rowDataList(){
+            return Object.freeze(this.leads);
+        }*/
+
+    }
+}
+</script>
+
+<style scoped>
+    tr:hover .progress{
+        background-color: #ffffff;
+    }
+</style>
