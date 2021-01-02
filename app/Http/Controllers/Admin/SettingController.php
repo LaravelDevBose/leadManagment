@@ -34,7 +34,7 @@ class SettingController extends Controller
             $data = FrontendData::updateOrCreate([
                 'key'=>FrontendData::DataKeys['About Us'],
             ],[
-                'data'=>['details'=>$request->input('details')],
+                'data'=>json_encode($request->except('_method', 'token')),
             ]);
             if (!empty($data)){
                 DB::commit();
