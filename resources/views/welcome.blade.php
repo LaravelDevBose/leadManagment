@@ -473,7 +473,7 @@
 
     <div class="container ">
         <div class="copyright">
-            &copy; Copyright <strong><span>OnCall</span></strong>. All Rights Reserved || <strong>Arafat Tareque</strong>
+            &copy; Copyright <strong><span>OnCall</span></strong>. All Rights Reserved
         </div>
 
     </div>

@@ -1,94 +1,95 @@
 <template>
-    <app-layout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Register
-            </h2>
+    <app-layout class="bg-gray-50">
+        <template v-slot:header>
+            <div class="section-title contact_head pt-3">
+                <h1>Apply For Service</h1>
+            </div>
         </template>
-
-        <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <jet-form-section @submitted="registerLead">
-                    <template #title>
-                        Your Information
-                    </template>
-
-                    <template #description>
-                        Enter Your Details and address Information
-                    </template>
-
-                    <template #form>
-                        <div class="row" v-if="$page.flash.success || $page.flash.error">
-                            <div class="col-12">
-                                <jet-action-message :on="$page.flash.success">
-                                    <div class="alert alert-success">
-                                        {{ $page.flash.success}}
-                                        <button type="button" class="close" aria-label="Close" @click.prevent="closeAlertMsg">
-                                            <span aria-hidden="true" class="text-white font-weight-bold">&times;</span>
-                                        </button>
-                                    </div>
-                                </jet-action-message>
-                                <jet-action-message :on="$page.flash.error">
-                                    <div class="alert alert-danger">
-                                        {{ $page.flash.error}}
-                                        <button type="button" class="close" data-dismiss="modal" @click.prevent="closeAlertMsg">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                </jet-action-message>
-                            </div>
+        <div class="card" style="width: 100%">
+            <form @submit.prevent="registerLead">
+                <div class="card-body">
+                    <div class="row" v-if="$page.flash.success || $page.flash.error">
+                        <div class="col-12">
+                            <jet-action-message :on="$page.flash.success">
+                                <div class="alert alert-success">
+                                    {{ $page.flash.success}}
+                                    <button type="button" class="close" aria-label="Close" @click.prevent="closeAlertMsg">
+                                        <span aria-hidden="true" class="text-white font-weight-bold">&times;</span>
+                                    </button>
+                                </div>
+                            </jet-action-message>
+                            <jet-action-message :on="$page.flash.error">
+                                <div class="alert alert-danger">
+                                    {{ $page.flash.error}}
+                                    <button type="button" class="close" data-dismiss="modal" @click.prevent="closeAlertMsg">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </jet-action-message>
                         </div>
-                        <div class="col-span-12">
-                            <jet-label for="name" value="Name" />
-                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.full_name" autocomplete="name" :required="true" />
-                            <jet-input-error :message="form.error('full_name')" class="mt-2" />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="name" value="Name" />
+                                <jet-input id="name" type="text" class="mt-1 block w-full rounded-0" v-model="form.full_name" autocomplete="name" :required="true" />
+                                <jet-input-error :message="form.error('full_name')" class="mt-2" />
+                            </div>
                         </div>
 
                         <!-- Email -->
-                        <div class="col-span-12">
-                            <jet-label for="email" value="Email" />
-                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email"  :required="true" />
-                            <jet-input-error :message="form.error('email')" class="mt-2" />
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="email" value="Email" />
+                                <jet-input id="email" type="email" class="mt-1 block w-full rounded-0" v-model="form.email"  :required="true" />
+                                <jet-input-error :message="form.error('email')" class="mt-2" />
+                            </div>
                         </div>
 
-                        <div class="col-span-12">
-                            <jet-label for="phone" value="Phone No." />
-                            <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="form.phone_no" :required="true" />
-                            <jet-input-error :message="form.error('phone_no')" class="mt-2" />
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="phone" value="Phone No." />
+                                <jet-input id="phone" type="text" class="mt-1 block w-full rounded-0" v-model="form.phone_no" :required="true" />
+                                <jet-input-error :message="form.error('phone_no')" class="mt-2" />
+                            </div>
                         </div>
-                        <div class="col-span-12">
-                            <jet-label for="address" value="Address" />
-                            <jet-input id="address" type="text" class="mt-1 block w-full" v-model="form.address"  :required="true" />
-                            <jet-input-error :message="form.error('address')" class="mt-2" />
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="address" value="Address" />
+                                <jet-input id="address" type="text" class="mt-1 block w-full rounded-0" v-model="form.address"  :required="true" />
+                                <jet-input-error :message="form.error('address')" class="mt-2" />
+                            </div>
                         </div>
-                        <div class="sm:col-span-12 md:col-span-4">
-                            <jet-label for="city" value="City" />
-                            <jet-input id="city" type="text" class="mt-1 block w-full" v-model="form.city" :required="true"  />
-                            <jet-input-error :message="form.error('city')" class="mt-2" />
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <jet-label for="city" value="City" />
+                                <jet-input id="city" type="text" class="mt-1 block w-full rounded-0" v-model="form.city" :required="true"  />
+                                <jet-input-error :message="form.error('city')" class="mt-2" />
+                            </div>
                         </div>
-                        <div class=" sm:col-span-12 md:col-span-7">
-                            <jet-label for="state" value="State" />
-                            <jet-input id="state" type="text" class="mt-1 block w-full" v-model="form.state" :required="true"  />
-                            <jet-input-error :message="form.error('state')" class="mt-2" />
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <jet-label for="state" value="State" />
+                                <jet-input id="state" type="text" class="mt-1 block w-full rounded-0" v-model="form.state" :required="true"  />
+                                <jet-input-error :message="form.error('state')" class="mt-2" />
+                            </div>
                         </div>
-                        <div class="sm:col-span-12 md:col-span-1">
-                            <jet-label for="postal_code" value="Zip Code" />
-                            <jet-input id="postal_code" type="text" class="mt-1 block w-full" v-model="form.postal_code" :required="true"  />
-                            <jet-input-error :message="form.error('postal_code')" class="mt-2" />
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <jet-label for="postal_code" value="Zip Code" />
+                                <jet-input id="postal_code" type="text" class="mt-1 block w-full rounded-0" v-model="form.postal_code" :required="true"  />
+                                <jet-input-error :message="form.error('postal_code')" class="mt-2" />
+                            </div>
                         </div>
-                    </template>
+                    </div>
 
-                    <template #actions>
-                        <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-                            Saved.
-                        </jet-action-message>
-
-                        <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Save
-                        </jet-button>
-                    </template>
-                </jet-form-section>
-            </div>
+                </div>
+                <div class="card-footer text-right">
+                    <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Submit
+                    </jet-button>
+                </div>
+            </form>
         </div>
     </app-layout>
 </template>
