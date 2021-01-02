@@ -61,6 +61,25 @@
                             <i class="ri-home-3-line"></i><span>Contact Us Messages</span>
                         </inertia-link>
                     </li>
+                    <li>
+                        <a href="#setting-menu" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+                            <i class="ri-menu-3-line"></i>
+                            <span>Setting</span>
+                            <i class="ri-arrow-right-s-line iq-arrow-right"></i>
+                        </a>
+                        <ul id="setting-menu" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li :class="route().current('admin.about_us.page')?'active': '' ">
+                                <inertia-link :href="route('admin.about_us.page')">
+                                    <i class="ri-home-3-line"></i><span>About Us</span>
+                                </inertia-link>
+                            </li>
+                            <li :class="route().current('admin.contact_us.page')?'active': '' ">
+                                <inertia-link :href="route('admin.contact_us.page')">
+                                    <i class="ri-home-3-line"></i><span>Contact Us</span>
+                                </inertia-link>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <div class="p-3"></div>

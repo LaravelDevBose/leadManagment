@@ -18,7 +18,7 @@
                                 <thead>
                                 <tr>
                                     <th>Service Title</th>
-                                    <th>Service Icon</th>
+                                    <th class="text-center">Service Icon</th>
                                     <th>Service Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -26,7 +26,7 @@
                                 <tbody v-if="services && services.length > 0">
                                 <tr v-for="(service, index) in services" :key="index">
                                     <td>{{ service.service_title}}</td>
-                                    <td><i class="far " :class="service.service_icon"></i></td>
+                                    <td class="text-center"><i :class="service.service_icon"></i></td>
                                     <td>{{ service.service_details}}</td>
                                     <td class="text-center">
                                         <div class="d-flex align-items-center text-right">

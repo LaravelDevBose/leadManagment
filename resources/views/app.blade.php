@@ -72,20 +72,20 @@
                 <div class="col-md-3 border_1">
                     <div class="address ">
                         <i class="fas fa-map-marker-alt"></i>
-                        <p>401-B East 2nd Ave Roselle NJ 07203</p>
+                        <p>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['address'] : '' }}</p>
                     </div>
                 </div>
                 <div class="col-md-3 border_1">
                     <div class="address ">
                         <i class="fas fa-envelope"></i>
-                        <p class="email_p">info@oncalltitleservices.com</p>
+                        <p class="email_p">{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['email'] : '' }}</p>
                     </div>
                 </div>
                 <div class="col-md-3 border_1">
                     <div class="address ">
                         <i class="fas fa-phone-alt"></i>
-                        <p>908.271.6668 <br>
-                            Fax #: 908.259.5299
+                        <p>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['phone_no'] : '' }} <br>
+                            Fax #: {{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['fax_no'] : '' }}
                         </p>
                     </div>
                 </div>
@@ -93,7 +93,8 @@
                     <div class="address">
                         <i class="fas fa-clock"></i>
                         <p>
-                            <strong>Tuesday - Friday </strong> <br>10 AM - 5 PM EST
+                            <strong>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['open_date'] : '' }}</strong>
+                            <br>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['open_time'] : '' }}
                         </p>
                     </div>
                 </div>
@@ -101,25 +102,26 @@
 
             <div class="row form_section">
                 <div class="col-md-12 mt-5 mt-lg-0">
-                    <form action="#" method="post" role="form" class="php-email-form">
+                    <form action="{{ route('contact_us.store') }}" method="post" role="form" class="php-email-form">
+                        @csrf
                         <div class="form-row">
                             <div class="col-md-6 form-group">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="First Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input type="text" name="first_name" required class="form-control" id="name" placeholder="First Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                                 <div class="validate"></div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Last Name" data-rule="email" data-msg="Please enter a valid email" />
+                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name"  />
                                 <div class="validate"></div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-md-6 form-group">
-                                <input type="email" name="name" class="form-control" id="name" placeholder="Email" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input type="email" name="email" class="form-control" id="email" required placeholder="Email" data-rule="email" data-msg="Please enter a valid email" />
                                 <div class="validate"></div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Phone" data-rule="email" data-msg="Please enter a valid email" />
+                                <input type="number" class="form-control" name="phone_no" required id="phone_no" placeholder="Phone" data-rule="minlen:10"  data-msg="Please enter a valid phone no" />
                                 <div class="validate"></div>
                             </div>
                         </div>
@@ -138,9 +140,6 @@
                     </form>
                 </div>
             </div>
-
-
-
         </div>
     </section><!-- End Contact Section -->
 
@@ -154,7 +153,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </main>

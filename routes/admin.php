@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\ContactUsMessageController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as'=>'admin.'],function (){
@@ -27,4 +28,9 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/schedule/store', [CalendarController::class, 'store'])->name('schedule.store');
     Route::put('/schedule/{id}/update', [CalendarController::class, 'update'])->name('schedule.update');
     Route::delete('/schedule/{id}', [CalendarController::class, 'destroy'])->name('schedule.destroy');
+
+    Route::get('/about_us', [SettingController::class, 'about_us_page'])->name('about_us.page');
+    Route::post('/about_us/update', [SettingController::class, 'about_us_update'])->name('about_us.update');
+    Route::get('/contact_us', [SettingController::class, 'contact_us_page'])->name('contact_us.page');
+    Route::post('/contact_us/update', [SettingController::class, 'contact_us_update'])->name('contact_us.update');
 });

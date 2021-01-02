@@ -31,12 +31,12 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
-    <!-- =======================================================
-    * Template Name: Butterfly - v2.2.0
-    * Template URL: https://bootstrapmade.com/butterfly-free-bootstrap-theme/
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF" crossorigin="anonymous">
+    <style>
+        .fal, .far, .fas {
+            font-family: "Font Awesome 5 Pro"!important;
+        }
+    </style>
 </head>
 
 <body>
@@ -99,7 +99,7 @@
 
                         <h1>About Us</h1>
                         <hr>
-                        <p>On Call Title Services is not your average Title and Tag agency! We are an experienced Title and Tag provider specialized in all motor vehicle needs for businesses and drivers. Our title clerks provide the highest quality customer service experience by providing an efficient experience that will save you time and the hassle with your motor vehicle needs on-site and in all 50 states.</p>
+                        <p>{{ !empty($aboutUs->data)? $aboutUs->data['details']: '' }}</p>
                         <h3>There is no task too small or too large!</h3>
                     </div>
                 </div>
@@ -110,6 +110,7 @@
 
 
 
+    @if(!empty($services) && count($services) > 0)
     <!-- ======= Services Section ======= -->
     <section id="services" class="services section-bg">
         <div class="container">
@@ -118,167 +119,25 @@
 
             </div>
             <div class="row">
+                @foreach($services as $service)
                 <div class="col-lg-4 col-md-6">
                     <div class="icon-box">
                         <div class="row">
                             <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/title.png') }}">
+                                <div class="icon" style="font-size: 3em; color: #F89635;">
+                                    <i class="{{ $service->service_icon }}"></i>
                                 </div>
                             </div>
                             <div class="col-lg-10">
                                 <div class="text_box">
-                                    <h4 class="title"><a href="">Title and Registration</a></h4>
-                                    <p class="description">We shorten the client's process in obtaining titles and registrations in the USA. </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/home.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Lien Corrections</a></h4>
-                                    <p class="description">Incorrect lien noted? <br>Show us the title and we can get it corrected. </p>
+                                    <h4 class="title"><a href="">{{ $service->service_title }}</a></h4>
+                                    <p class="description">{{ $service->service_details }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.1s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/online-voting.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Notary Services</a></h4>
-                                    <p class="description">We specialize in on-demand notary on all legal documents. (On site) </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.1s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/domain-registration.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Registration Renewal</a></h4>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/checkmark.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Title Corrections</a></h4>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/correction-pen.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Printing Services</a></h4>
-                                    <p class="description">On Site </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/duplicate.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Duplicate Registration</a></h4>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/duplicate.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Duplicate Title</a></h4>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
-                    <div class="icon-box">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/img/card.png') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-10">
-                                <div class="text_box">
-                                    <h4 class="title"><a href="">Passport Photos</a></h4>
-                                    <p class="description">On Site </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
 
             </div>
             <div class="row">
@@ -290,7 +149,7 @@
             </div>
         </div>
     </section><!-- End Services Section -->
-
+    @endif
 
     <section id="statement">
         <div class="content-box-lg">
@@ -306,6 +165,7 @@
         </div>
     </section>
 
+    @if(!empty($testimonials) && count($testimonials) > 0)
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
         <div class="container">
@@ -324,44 +184,17 @@
 
                     <div class="owl-carousel testimonials-carousel">
 
+                        @foreach($testimonials as $testimonial)
                         <div class="testimonial-item">
                             <img src="{{ asset('assets/img/left-quotes-sign.png') }}" class="testimonial-img" alt="">
-                            <p>
+                            <p class="text-capitalize">
                                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                This company provides great service, thet are efficient, very helpful and their prices are very competitive. We highly recommend them.
+                                {{ $testimonial->testimonial_details }}
                                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                             </p>
-                            <h3>Sanchez Motors LLC</h3>
+                            <h3 class="text-capitalize">{{ $testimonial->client_name }}</h3>
                         </div>
-
-                        <div class="testimonial-item">
-                            <img src="{{ asset('assets/img/left-quotes-sign.png') }}" class="testimonial-img" alt="">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Leesha and her team are excellent! They are very professional and their turn-around time for services is incredible, especially with COVID19 happening. I can't thank her and her team enough. Our dealership will continue to use her services
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <h3>Karen Germanov</h3>
-                        </div>
-
-                        <div class="testimonial-item">
-                            <img src="{{ asset('assets/img/left-quotes-sign.png') }}" class="testimonial-img" alt="">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                This company provides great service, thet are efficient, very helpful and their prices are very competitive. We highly recommend them.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <h3>Paul Winkowski</h3>
-                        </div>
-
-                        <div class="testimonial-item">
-                            <img src="{{ asset('assets/img/left-quotes-sign.png') }}" class="testimonial-img" alt="">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>It was a great business experience. I was out of town & on call was able to be very prompt on helping me with getting my duplicate title. Great communication I would recommend on call to anyone!!! thanks to be my agent leesha from on call
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <h3>Shaunda, Jordan</h3>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -370,7 +203,7 @@
         </div>
     </section><!-- End Testimonials Section -->
 
-
+    @endif
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
@@ -381,20 +214,20 @@
                 <div class="col-md-3 border_1">
                     <div class="address ">
                         <i class="fas fa-map-marker-alt"></i>
-                        <p>401-B East 2nd Ave Roselle NJ 07203</p>
+                        <p>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['address'] : '' }}</p>
                     </div>
                 </div>
                 <div class="col-md-3 border_1">
                     <div class="address ">
                         <i class="fas fa-envelope"></i>
-                        <p class="email_p">info@oncalltitleservices.com</p>
+                        <p class="email_p">{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['email'] : '' }}</p>
                     </div>
                 </div>
                 <div class="col-md-3 border_1">
                     <div class="address ">
                         <i class="fas fa-phone-alt"></i>
-                        <p>908.271.6668 <br>
-                            Fax #: 908.259.5299
+                        <p>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['phone_no'] : '' }} <br>
+                            Fax #: {{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['fax_no'] : '' }}
                         </p>
                     </div>
                 </div>
@@ -402,7 +235,8 @@
                     <div class="address">
                         <i class="fas fa-clock"></i>
                         <p>
-                            <strong>Tuesday - Friday </strong> <br>10 AM - 5 PM EST
+                            <strong>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['open_date'] : '' }}</strong>
+                            <br>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['open_time'] : '' }}
                         </p>
                     </div>
                 </div>
@@ -410,25 +244,26 @@
 
             <div class="row form_section">
                 <div class="col-md-12 mt-5 mt-lg-0">
-                    <form action="#" method="post" role="form" class="php-email-form">
+                    <form action="{{ route('contact_us.store') }}" method="post" role="form" class="php-email-form">
+                        @csrf
                         <div class="form-row">
                             <div class="col-md-6 form-group">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="First Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input type="text" name="first_name" required class="form-control" id="name" placeholder="First Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                                 <div class="validate"></div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Last Name" data-rule="email" data-msg="Please enter a valid email" />
+                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name"  />
                                 <div class="validate"></div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-md-6 form-group">
-                                <input type="email" name="name" class="form-control" id="name" placeholder="Email" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <input type="email" name="email" class="form-control" id="email" required placeholder="Email" data-rule="email" data-msg="Please enter a valid email" />
                                 <div class="validate"></div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Phone" data-rule="email" data-msg="Please enter a valid email" />
+                                <input type="number" class="form-control" name="phone_no" required id="phone_no" placeholder="Phone" data-rule="minlen:10"  data-msg="Please enter a valid phone no" />
                                 <div class="validate"></div>
                             </div>
                         </div>
@@ -447,9 +282,6 @@
                     </form>
                 </div>
             </div>
-
-
-
         </div>
     </section><!-- End Contact Section -->
 
@@ -463,7 +295,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </main><!-- End #main -->
