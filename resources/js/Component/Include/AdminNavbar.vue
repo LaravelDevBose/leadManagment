@@ -3,9 +3,9 @@
         <div class="iq-navbar-custom">
             <div class="iq-sidebar-logo">
                 <div class="top-logo">
-                    <a href="index.html" class="logo">
-                        <img src="images/logo.gif" class="img-fluid" alt="">
-                        <span>vito</span>
+                    <a :href="route('admin.dashboard')" class="logo">
+                        <img src="/logo.jpg" class="img-fluid" alt="">
+<!--                        <span>On Call</span>-->
                     </a>
                 </div>
             </div>
@@ -13,18 +13,50 @@
                 <div class="navbar-left">
                     <ul id="topbar-data-icon" class="d-flex p-0 topbar-menu-icon">
                         <li class="nav-item">
-                            <a :href="route('admin.dashboard')" class="nav-link font-weight-bold search-box-toggle"><i class="ri-home-4-line"></i></a>
+                            <inertia-link
+                                :href="route('admin.dashboard')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Dashboard" data-original-title="Dashboard"
+                                :class="route().current('admin.dashboard')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-home-4-line"></i>
+                            </inertia-link>
                         </li>
-                        <li><a href="chat.html" class="nav-link"><i class="ri-message-line"></i></a></li>
-                        <li><a href="e-commerce-product-list.html" class="nav-link"><i class="ri-file-list-line"></i></a></li>
-                        <li><a href="profile.html" class="nav-link"><i class="ri-question-answer-line"></i></a></li>
-                        <li><a href="todo.html" class="nav-link router-link-exact-active router-link-active"><i class="ri-chat-check-line"></i></a></li>
-                        <li><a href="app/index.html" class="nav-link"><i class="ri-inbox-line"></i></a></li>
+                        <li>
+                            <inertia-link
+                                :href="route('admin.lead.table')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Lead Table" data-original-title="Lead Table"
+                                :class="route().current('admin.lead.table')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-file-list-line"></i>
+                            </inertia-link>
+                        </li>
+                        <li>
+                            <inertia-link
+                                :href="route('admin.lead.index')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Lead Board" data-original-title="Lead Board"
+                                :class="route().current('admin.lead.index')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-stack-fill"></i>
+                            </inertia-link>
+                        </li>
+                        <li>
+                            <inertia-link
+                                :href="route('admin.calender.index')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Lead Board" data-original-title="Lead Board"
+                                :class="route().current('admin.calender.index')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-calendar-todo-fill"></i>
+                            </inertia-link>
+                        </li>
                     </ul>
                     <div class="iq-search-bar">
-                        <form action="#" class="searchbox">
-                            <input type="text" class="text search-input" placeholder="Type here to search...">
-                            <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+                        <form :action="route('admin.lead.table')"  method="get" class="searchbox">
+                            <input type="text" name="search_key" :value="searchKey" class="text search-input" placeholder="Type here to search...">
+                            <button type="submit" class="search-link"><i class="ri-search-line"></i></button>
                         </form>
                     </div>
                 </div>
@@ -74,12 +106,13 @@
 <script>
 export default {
     name: "AdminNavbar",
+    props:['searchKey'],
     methods:{
         logout() {
             axios.post(route('logout').url()).then(response => {
-                window.location = '/';
+                window.location = '/login';
             })
-        },
+        }
     }
 }
 </script>

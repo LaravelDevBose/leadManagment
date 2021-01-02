@@ -34,11 +34,25 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <div class="flex align-items-center list-user-action">
-                                                <inertia-link :href="route('admin.lead.show', lead.lead_id)"  class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="View">
-                                                    <i class="ri-eye-line"></i>
+                                            <div class="d-flex align-items-center text-right">
+                                                <inertia-link
+                                                    :href="route('admin.lead.show', lead.lead_id)"
+                                                    class="avatar-45 text-center ml-3 rounded-circle iq-bg-success font-size-18"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    title="" data-original-title="Edit"
+                                                >
+                                                    <i class="ri-pencil-fill font-size-16"></i>
                                                 </inertia-link>
-                                                <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
+<!--                                                <a class="avatar-45 rounded-circle text-center ml-3 iq-bg-danger font-size-18"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title=""
+                                                   data-original-title="Delete"
+                                                   href="#"
+                                                   @click.prevent="deleteItem(testimonial.id)"
+                                                >
+                                                    <i class="ri-delete-bin-line font-size-16"></i>
+                                                </a>-->
                                             </div>
                                         </td>
                                     </tr>

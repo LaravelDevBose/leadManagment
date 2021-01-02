@@ -48,6 +48,17 @@ class Lead extends Model
 
     public function scopeSearchBy($query, $request)
     {
+        if (!empty($request->search_key)){
+            $searchKey = $request->search_key;
+            $query = $query->where(function ($q) use ($searchKey){
+                return $q->orWhere('full_name', 'LIKE', '%'. $searchKey .'%')
+                    ->orWhere('phone_no', 'LIKE', '%'. $searchKey. '%')
+                    ->orWhere('email', 'LIKE', '%'. $searchKey. '%')
+                    ->orWhere('address', 'LIKE', '%'. $searchKey. '%')
+                    ->orWhere('city', 'LIKE', '%'. $searchKey. '%')
+                    ->orWhere('state', 'LIKE', '%'. $searchKey. '%');
+            });
+        }
         return $query;
     }
 }

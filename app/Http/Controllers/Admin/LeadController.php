@@ -30,7 +30,8 @@ class LeadController extends Controller
     public function table(Request $request)
     {
         $leads = Lead::searchBy($request)->orderBy('current_step', 'asc')->get();
-        return Inertia::render('Admin/Lead/Table', compact('leads'));
+        $searchKey = !empty($request->search_key)? $request->search_key : '';
+        return Inertia::render('Admin/Lead/Table', compact('leads', 'searchKey'));
     }
 
     /**

@@ -2,8 +2,8 @@
     <div class="iq-sidebar">
         <div class="iq-sidebar-logo d-flex justify-content-between">
             <a :href="route('admin.dashboard')">
-                <img src="images/logo.gif" class="img-fluid" alt="">
-                <span>Vito</span>
+                <img src="/logo.jpg" class="img-fluid" alt="">
+<!--                <span>On Call</span>-->
             </a>
             <div class="iq-menu-bt-sidebar">
                 <div class="iq-menu-bt align-self-center">
@@ -40,6 +40,26 @@
                                 </inertia-link>
                             </li>
                         </ul>
+                    </li>
+                    <li :class="route().current('admin.calender.index')?'active': '' ">
+                        <inertia-link :href="route('admin.calender.index')"  class="iq-waves-effect">
+                            <i class="ri-calendar-todo-fill"></i><span>Calender</span>
+                        </inertia-link>
+                    </li>
+                    <li :class="route().current('admin.services.index')?'active': '' ">
+                        <inertia-link :href="route('admin.services.index')"  class="iq-waves-effect">
+                            <i class="ri-home-3-line"></i><span>Service</span>
+                        </inertia-link>
+                    </li>
+                    <li :class="route().current('admin.testimonials.index')?'active': '' ">
+                        <inertia-link :href="route('admin.testimonials.index')"  class="iq-waves-effect">
+                            <i class="ri-home-3-line"></i><span>Testimonials</span>
+                        </inertia-link>
+                    </li>
+                    <li :class="route().current('admin.contact_us.message.index')?'active': '' ">
+                        <inertia-link :href="route('admin.contact_us.message.index')"  class="iq-waves-effect">
+                            <i class="ri-home-3-line"></i><span>Contact Us Messages</span>
+                        </inertia-link>
                     </li>
                 </ul>
             </nav>
