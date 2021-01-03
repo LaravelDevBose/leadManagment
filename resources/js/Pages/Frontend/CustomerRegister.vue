@@ -2,7 +2,7 @@
     <app-layout class="bg-gray-50">
         <template v-slot:header>
             <div class="section-title contact_head pt-3">
-                <h1>Apply For Service</h1>
+                <h1>Registration</h1>
             </div>
         </template>
         <div class="card" style="width: 100%">

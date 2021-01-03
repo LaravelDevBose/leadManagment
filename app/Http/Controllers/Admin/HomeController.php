@@ -10,6 +10,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Dashboard');
+        return redirect()->route('admin.lead.index');
     }
 }

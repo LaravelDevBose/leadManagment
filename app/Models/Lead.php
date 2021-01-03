@@ -10,6 +10,18 @@ class Lead extends Model
 {
     use HasFactory;
 
+    const Steps = [
+        'Documentation'=>1,
+        'Vehicle'=>2,
+        'Payment'=>3,
+        'Special'=>4
+    ];
+
+    const Status = [
+        'Open'=>1,
+        'Closed'=> 2
+    ];
+
     protected $table='leads';
     protected $primaryKey='lead_id';
 
@@ -31,7 +43,8 @@ class Lead extends Model
         'lein_holder_info',
         'trans_status',
         'payment_type',
-        'special_note'
+        'special_note',
+        'lead_status'
     ];
 
     protected $appends=['full_address'];
@@ -60,5 +73,15 @@ class Lead extends Model
             });
         }
         return $query;
+    }
+
+    public function scopeIsOpen($query)
+    {
+        return $query->where('lead_status', self::Status['Open']);
+    }
+
+    public function scopeIsClosed($query)
+    {
+        return $query->where('lead_status', self::Status['Closed']);
     }
 }

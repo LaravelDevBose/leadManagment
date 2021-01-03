@@ -4,6 +4,9 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+$(function (){
+    new WOW().init();
+});
 !(function($) {
   "use strict";
 

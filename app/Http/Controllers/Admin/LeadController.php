@@ -18,7 +18,7 @@ class LeadController extends Controller
      */
     public function index()
     {
-        $leadBoards = Lead::orderBy('current_step', 'asc')->get()->groupBy('current_step');
+        $leadBoards = Lead::isOpen()->orderBy('current_step', 'asc')->get()->groupBy('current_step');
         return Inertia::render('Admin/Lead/Index', compact('leadBoards'));
     }
 
@@ -29,30 +29,9 @@ class LeadController extends Controller
      */
     public function table(Request $request)
     {
-        $leads = Lead::searchBy($request)->orderBy('current_step', 'asc')->get();
+        $leads = Lead::isOpen()->searchBy($request)->orderBy('current_step', 'asc')->get();
         $searchKey = !empty($request->search_key)? $request->search_key : '';
         return Inertia::render('Admin/Lead/Table', compact('leads', 'searchKey'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -132,7 +111,7 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > 1 ? $lead->current_step : 2 ,
+                'current_step'=> $lead->current_step > Lead::Steps['Documentation'] ? $lead->current_step : Lead::Steps['Vehicle'] ,
                 'vin_no'=>$request->input('vin_no'),
                 'year'=>$request->input('year'),
                 'make'=>$request->input('make'),
@@ -170,7 +149,7 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > 2 ? $lead->current_step : 3 ,
+                'current_step'=> $lead->current_step > Lead::Steps['Vehicle'] ? $lead->current_step : Lead::Steps['Payment'] ,
                 'trans_status'=>$request->input('trans_status'),
                 'payment_type'=>$request->input('payment_type'),
             ]);
@@ -202,7 +181,7 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > 3 ? $lead->current_step : 4 ,
+                'current_step'=> $lead->current_step > Lead::Steps['Payment'] ? $lead->current_step : Lead::Steps['Special'] ,
                 'special_note'=>$request->input('special_note'),
             ]);
             if (!empty($leadU)){

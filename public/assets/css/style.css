@@ -24,98 +24,18 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left:30px;
 }
 
+
+
+
 .services{
 	padding-left:165px;
 	padding-right:165px;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .back-to-top {
@@ -514,6 +434,7 @@ section {
 --------------------------------------------------------------*/
 #about{
 	background:#F89635;
+	padding: 70px 0px;
 }
 .about-sec-1{
 	text-align:center;
@@ -533,7 +454,7 @@ section {
 
 .about-sec-1 hr{
 	width: 120px;
-    height: 3px;
+    height: 4px;
     background-color:#000;
     margin:0 auto;
     border:none;
@@ -543,8 +464,9 @@ section {
 .about-sec-1 p{
 	padding-top:15px;
 	color:#000;
-	font-weight:500;
-	font-family: 'Open Sans', sans-serif;
+	font-weight:600;
+	font-family: "Open Sans", sans-serif;
+	line-height:28px;
 }
 
 .about-sec-1 h3{
@@ -574,7 +496,7 @@ section {
 	padding: 14px 2px 14px 0px;  
 }
 .icon-box .icon img{
-	;
+	
 }
 .icon-box .col-lg-2{
 	padding: 0px;
@@ -653,7 +575,7 @@ section {
 }
 
  .testimonial-item{
-	 ;
+	 
 	margin: 0 auto;
  }
 
@@ -1015,6 +937,9 @@ textarea{
 
 .contact .php-email-form button[type="submit"]:hover {
   background: #1da2e0;
+}
+.sub_align{
+	text-align:center !important;
 }
 
 @-webkit-keyframes animate-loading {

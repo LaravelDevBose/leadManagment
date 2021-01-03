@@ -58,7 +58,7 @@
                     </li>
                     <li :class="route().current('admin.contact_us.message.index')?'active': '' ">
                         <inertia-link :href="route('admin.contact_us.message.index')"  class="iq-waves-effect">
-                            <i class="ri-home-3-line"></i><span>Contact Us Messages</span>
+                            <i class="ri-home-3-line"></i><span> Contact Form Leads</span>
                         </inertia-link>
                     </li>
                     <li>

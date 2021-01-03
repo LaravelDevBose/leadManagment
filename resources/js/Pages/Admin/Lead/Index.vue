@@ -4,21 +4,21 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-12 track" v-if="leadBoards">
+                        <div class="col-md-12 track">
                             <iq-card
                                 bodyClass="pro-bg-card"
                                 class="bg-transparent shadow-none mr-3 lead-card-block"
-                                v-for="(leadBoard, index) in leadBoards"
-                                :headerClass="colors[index-1]"
+                                v-for="(board, index) in boardTitles"
+                                :headerClass="colors[index]"
                                 :key="index">
                                 <template v-slot:headerTitle>
-                                    <h5 class="text-white">{{ boardTitles[index-1] }}</h5>
+                                    <h5 class="text-white">{{ board }}</h5>
                                 </template>
                                 <template v-slot:body>
-                                    <draggable :list="leadBoard" group="scrumboard" @change="log">
+                                    <draggable :list="leadBoards[index+1]" group="scrumboard" @change="log">
                                         <div
                                             class="shadow"
-                                            v-for="(element, index) in leadBoard"
+                                            v-for="(element, index) in leadBoards[index+1]"
                                             :key="element.full_name +'-'+ index"
                                         >
                                             <iq-card

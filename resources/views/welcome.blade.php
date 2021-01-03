@@ -25,11 +25,16 @@
     <link href="{{ asset('assets/vendor/icofont/icofont.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/venobox/venobox.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/animation/animate.css') }}">
+
+
     <link href="{{ asset('assets/vendor/line-awesome/css/line-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/owl.carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF" crossorigin="anonymous">
     <style>
@@ -42,48 +47,12 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header id="header" >
-    <div class="container-fluid d-flex align-items-center">
-
-        <a href="{{ route('homepage') }}" class="logo mr-auto"><img src="{{ asset('assets/img/logo.png') }}" alt="" class="img-fluid"></a>
-        <!-- Uncomment below if you prefer to use text as a logo -->
-        <!-- <h1 class="logo mr-auto"><a href="index.html">Butterfly</a></h1> -->
-        <div class="nav1">
-            <nav class="nav-menu d-none d-lg-block">
-                <ul>
-                    <li class="active"><a href="{{ route('homepage') }}">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#contact">Contact</a></li>
-
-                    <li class="call_btn"><a href="">Call Now</a></li>
-
-                </ul>
-            </nav><!-- .nav-menu -->
-
-        </div>
-
-    </div>
-</header><!-- End Header -->
+@include('includes.header')
+<!-- End Header -->
 
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex align-items-center">
-
-    <div class="container">
-        <!---
-          <div class="row">
-            <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-              <h1>Creating websites that make you stop & stare</h1>
-              <h2>Accusantium quam, aliquam ultricies eget tempor id, aliquam eget nibh et. Maecen aliquam, risus at semper. Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum.</h2>
-              <div><a href="#about" class="btn-get-started scrollto">Get Started</a></div>
-            </div>
-            <div class="col-lg-6 order-1 order-lg-2 hero-img">
-              <img src="assets/img/hero-img.png" class="img-fluid" alt="">
-            </div>
-          </div>-->
-    </div>
-
+    <div class="container"> </div>
 </section><!-- End Hero -->
 
 <main id="main">
@@ -91,12 +60,10 @@
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-2"></div>
-                <div class="col-lg-8 icon-boxes d-flex flex-column  py-5 px-lg-5 ">
+                <div class="col-lg-8 icon-boxes d-flex flex-column ">
                     <div class="about-sec-1">
-
                         <h1>About Us</h1>
                         <hr>
                         <p>{{ !empty($aboutUs->data)? $aboutUs->data['details']: '' }}</p>
@@ -106,39 +73,36 @@
                 <div class="col-lg-2"></div>
             </div>
         </div>
-    </section><!-- End About Section -->
-
-
+    </section>
+    <!-- End About Section -->
 
     @if(!empty($services) && count($services) > 0)
     <!-- ======= Services Section ======= -->
-    <section id="services" class="services section-bg">
+    <section id="services" class="services section-bg ">
         <div class="container">
             <div class="section-title">
                 <h2>Services</h2>
-
             </div>
             <div class="row">
                 @foreach($services as $service)
-                <div class="col-lg-4 col-md-6">
-                    <div class="icon-box">
+                <div class="col-lg-4 col-md-4">
+                    <div class="icon-box wow slideInLeft" data-wow-duration="2s" >
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-2 col-md-2 col-sm-12">
                                 <div class="icon" style="font-size: 3em; color: #F89635;">
                                     <i class="{{ $service->service_icon }}"></i>
                                 </div>
                             </div>
-                            <div class="col-lg-10">
+                            <div class="col-lg-10 col-md-10">
                                 <div class="text_box">
                                     <h4 class="title"><a href="">{{ $service->service_title }}</a></h4>
-                                    <p class="description">{{ $service->service_details }}</p>
+                                    <p class="description">{{ $service->service_details }} </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
-
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -148,7 +112,8 @@
                 </div>
             </div>
         </div>
-    </section><!-- End Services Section -->
+    </section>
+    <!-- End Services Section -->
     @endif
 
     <section id="statement">
@@ -179,14 +144,12 @@
 
             <div class="row">
                 <div class="col-md-1"></div>
-
                 <div class="col-md-10">
-
                     <div class="owl-carousel testimonials-carousel">
-
                         @foreach($testimonials as $testimonial)
                         <div class="testimonial-item">
                             <img src="{{ asset('assets/img/left-quotes-sign.png') }}" class="testimonial-img" alt="">
+
                             <p class="text-capitalize">
                                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                                 {{ $testimonial->testimonial_details }}
@@ -199,11 +162,10 @@
                 </div>
                 <div class="col-md-1"></div>
             </div>
-
         </div>
-    </section><!-- End Testimonials Section -->
-
+    </section>
     @endif
+    <!-- End Testimonials Section -->
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
@@ -217,7 +179,7 @@
                         <p>{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['address'] : '' }}</p>
                     </div>
                 </div>
-                <div class="col-md-3 border_1">
+                <div class="col-md-3 border_1 no-gutters">
                     <div class="address ">
                         <i class="fas fa-envelope"></i>
                         <p class="email_p">{{ (!empty($contactUs) && !empty($contactUs->data)) ? $contactUs->data['email'] : '' }}</p>
@@ -278,12 +240,13 @@
                             <div class="error-message"></div>
                             <div class="sent-message">Your message has been sent. Thank you!</div>
                         </div>
-                        <div class="text-center"><button type="submit">Submit</button></div>
+                        <div class="sub_align"><button type="submit">Submit</button></div>
                     </form>
                 </div>
             </div>
         </div>
-    </section><!-- End Contact Section -->
+    </section>
+    <!-- End Contact Section -->
 
     <div id="map_1">
 
@@ -318,6 +281,9 @@
 <script src="{{ asset('assets/vendor/jquery.easing/jquery.easing.min.js') }}"></script>
 <script src="https://kit.fontawesome.com/c36b26934c.js" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+
+<script src="{{ asset('assets/js/wow/wow.min.js') }}"></script>
+
 <script src="{{ asset('assets/vendor/venobox/venobox.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/waypoints/jquery.waypoints.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/counterup/counterup.min.js') }}"></script>
