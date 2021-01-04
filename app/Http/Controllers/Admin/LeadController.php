@@ -104,6 +104,7 @@ class LeadController extends Controller
             'model' => ['required', 'string', 'max:25'],
             'color' => ['required', 'string', 'max:25'],
             'mileage' => ['required', 'min:1', 'max:255'],
+            'payment_type' => ['required', 'min:1', 'max:255'],
             'lein_holder_info' => ['nullable', 'string'],
         ])->validateWithBag('vehicleForm');
 
@@ -119,6 +120,7 @@ class LeadController extends Controller
                 'color'=>$request->input('color'),
                 'mileage'=>$request->input('mileage'),
                 'lein_holder_info'=>$request->input('lein_holder_info'),
+                'payment_type'=>$request->input('payment_type'),
             ]);
             if (!empty($leadU)){
                 DB::commit();
@@ -141,17 +143,17 @@ class LeadController extends Controller
     public function updateTransactionInfo(Request $request, $id)
     {
         Validator::make($request->all(), [
-            'trans_status' => ['required', 'string', 'max:5'],
-            'payment_type' => ['required','min:4', 'max:20'],
+            'trans_status' => ['required', 'string', 'max:20'],
+            'trans_issue' => ['nullable','min:4', 'max:255'],
         ])->validateWithBag('transactionForm');
 
         try {
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > Lead::Steps['Vehicle'] ? $lead->current_step : Lead::Steps['Payment'] ,
+                'current_step'=> $lead->current_step > Lead::Steps['Special'] ? $lead->current_step : Lead::Steps['Payment'] ,
                 'trans_status'=>$request->input('trans_status'),
-                'payment_type'=>$request->input('payment_type'),
+                'trans_issue'=>$request->input('trans_issue'),
             ]);
             if (!empty($leadU)){
                 DB::commit();
@@ -181,7 +183,7 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > Lead::Steps['Payment'] ? $lead->current_step : Lead::Steps['Special'] ,
+                'current_step'=> $lead->current_step > Lead::Steps['Vehicle'] ? $lead->current_step : Lead::Steps['Special'] ,
                 'special_note'=>$request->input('special_note'),
             ]);
             if (!empty($leadU)){

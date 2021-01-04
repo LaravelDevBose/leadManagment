@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\ContactUsMessageController;
 use App\Http\Controllers\Admin\HomeController;
@@ -33,4 +34,6 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/about_us/update', [SettingController::class, 'about_us_update'])->name('about_us.update');
     Route::get('/contact_us', [SettingController::class, 'contact_us_page'])->name('contact_us.page');
     Route::post('/contact_us/update', [SettingController::class, 'contact_us_update'])->name('contact_us.update');
+
+    Route::resource('users', AdminController::class);
 });

@@ -706,7 +706,7 @@ Footer
 .nav.nav-pills.style-three a:last-child { margin-right: 0px; }
 .nav.nav-pills.style-three a { background: transparent; position: relative; margin-right: 30px; padding: 10px 0px; }
 .lead-card-block{
-    width: 25%;
+    width: 100%;
 }
 /*---------------------------------------------------------------------
 Map Profile

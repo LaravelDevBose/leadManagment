@@ -15,6 +15,7 @@ class AddLeadStatusLeadsTable extends Migration
     {
         Schema::table('leads', function (Blueprint $table) {
             $table->boolean('lead_status')->default(1)->after('special_note');
+            $table->text('trans_issue')->nullable()->after('special_note');
         });
     }
 
@@ -26,7 +27,7 @@ class AddLeadStatusLeadsTable extends Migration
     public function down()
     {
         Schema::table('leads', function (Blueprint $table) {
-            $table->dropColumn('lead_status');
+            $table->dropColumn(['lead_status', 'trans_issue']);
         });
     }
 }

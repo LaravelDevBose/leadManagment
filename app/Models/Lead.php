@@ -13,8 +13,8 @@ class Lead extends Model
     const Steps = [
         'Documentation'=>1,
         'Vehicle'=>2,
-        'Payment'=>3,
-        'Special'=>4
+        'Special'=>3,
+        'Payment'=>4,
     ];
 
     const Status = [
@@ -44,7 +44,8 @@ class Lead extends Model
         'trans_status',
         'payment_type',
         'special_note',
-        'lead_status'
+        'lead_status',
+        'trans_issue'
     ];
 
     protected $appends=['full_address'];

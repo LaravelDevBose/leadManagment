@@ -62,10 +62,29 @@
                                     <div class="col-3">Mileage:</div>
                                     <div class="col-9">{{ lead.mileage}}</div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-3">Payment Type:</div>
+                                    <div class="col-9">{{ lead.payment_type}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="iq-card" v-if="lead.current_step  >= 3">
+                        <div class="iq-card-header bg-success d-flex justify-content-between">
+                            <div class="iq-header-title ">
+                                <h4 class="card-title text-white">Special Request</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="about-info m-0 p-0">
+                                <div class="row">
+                                    <div class="col-3">Note:</div>
+                                    <div class="col-9">{{ lead.special_note }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="iq-card" v-if="lead.current_step  >= 4">
                         <div class="iq-card-header bg-info d-flex justify-content-between">
                             <div class="iq-header-title ">
                                 <h4 class="card-title text-white">Transaction/Payment information</h4>
@@ -77,24 +96,9 @@
                                     <div class="col-3">Transaction Status:</div>
                                     <div class="col-9">{{ lead.trans_status }}</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">Payment:</div>
-                                    <div class="col-9"> {{ lead.payment_type }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="iq-card" v-if="lead.current_step  >= 4">
-                        <div class="iq-card-header bg-success d-flex justify-content-between">
-                            <div class="iq-header-title ">
-                                <h4 class="card-title text-white">Special Request</h4>
-                            </div>
-                        </div>
-                        <div class="iq-card-body">
-                            <div class="about-info m-0 p-0">
-                                <div class="row">
-                                    <div class="col-3">Note:</div>
-                                    <div class="col-9">{{ lead.special_note }}</div>
+                                <div class="row" v-if="lead.trans_status === 'Issue'">
+                                    <div class="col-3">Issue Note:</div>
+                                    <div class="col-9"> {{ lead.trans_issue }}</div>
                                 </div>
                             </div>
                         </div>
@@ -117,14 +121,15 @@
                                                     Vehicle information
                                                 </a>
                                             </li>
+
                                             <li class="col-md-3 p-0">
-                                                <a class="nav-link Transaction" :class="lead.current_step === 2? 'active': '' " data-toggle="pill" href="#Transaction">
-                                                    Transaction information
+                                                <a class="nav-link Special" :class="lead.current_step === 2? 'active': '' " data-toggle="pill" href="#Special">
+                                                    Special Request
                                                 </a>
                                             </li>
                                             <li class="col-md-3 p-0">
-                                                <a class="nav-link Special" :class="lead.current_step === 3? 'active': '' " data-toggle="pill" href="#Special">
-                                                    Special Request
+                                                <a class="nav-link Transaction" :class="lead.current_step === 3? 'active': '' " data-toggle="pill" href="#Transaction">
+                                                    Transaction information
                                                 </a>
                                             </li>
                                         </ul>
@@ -264,7 +269,17 @@
                                                                 <jet-input id="mileage" type="number" class="mt-1 block w-full" v-model="vehicleForm.mileage"  :required="true" />
                                                                 <jet-input-error :message="vehicleForm.error('mileage')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <jet-label for="payment_type" value="Payment Info" />
+                                                                <select class="form-control mt-1 block w-full" v-model="vehicleForm.payment_type" id="payment_type">
+                                                                    <option value="Check">Check</option>
+                                                                    <option value="Zelle">Zelle</option>
+                                                                    <option value="Cash App">Cash App</option>
+                                                                    <option value="Cash">Cash</option>
+                                                                </select>
+                                                                <jet-input-error :message="vehicleForm.error('payment_type')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-6">
                                                                 <jet-label for="lein_holder_info" value="Lein Holder Info" />
                                                                 <textarea id="lein_holder_info" class="form-control mt-1 block w-full" v-model="vehicleForm.lein_holder_info"  rows="5" style="line-height: 22px;"> </textarea>
                                                                 <jet-input-error :message="vehicleForm.error('lein_holder_info')" class="mt-2" />
@@ -285,52 +300,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" :class="lead.current_step === 2? 'active show': '' "  id="Transaction" role="tabpanel">
-                                        <div class="iq-card">
-                                            <div class="iq-card-header bg-info d-flex justify-content-between">
-                                                <div class="iq-header-title">
-                                                    <h4 class="card-title text-white font-weight-bold">Transaction/Payment information</h4>
-                                                </div>
-                                            </div>
-                                            <div class="iq-card-body">
-                                                <form-area @submitted="updateTransactionInfo">
-                                                    <template #form>
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <jet-label for="trans_status" value="Transaction Status" />
-                                                                <select class="form-control mt-1 block w-full" v-model="transactionForm.trans_status" id="trans_status">
-                                                                    <option value="Yes">Yes</option>
-                                                                    <option value="No">No</option>
-                                                                </select>
-                                                                <jet-input-error :message="transactionForm.error('trans_status')" class="mt-2" />
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <jet-label for="payment_type" value="Payment Info" />
-                                                                <select class="form-control mt-1 block w-full" v-model="transactionForm.payment_type" id="payment_type">
-                                                                    <option value="Check">Check</option>
-                                                                    <option value="Zelle">Zelle</option>
-                                                                    <option value="Cash App">Cash App</option>
-                                                                    <option value="Cash">Cash</option>
-                                                                </select>
-                                                                <jet-input-error :message="transactionForm.error('payment_type')" class="mt-2" />
-                                                            </div>
-                                                        </div>
-                                                    </template>
-
-                                                    <template #actions>
-                                                        <jet-action-message :on="transactionForm.recentlySuccessful" class="mr-3">
-                                                            Saved.
-                                                        </jet-action-message>
-
-                                                        <jet-button :class="{ 'opacity-25': transactionForm.processing }" :disabled="transactionForm.processing">
-                                                            Save
-                                                        </jet-button>
-                                                    </template>
-                                                </form-area>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" :class="lead.current_step === 3? 'active show': '' "  id="Special" role="tabpanel">
+                                    <div class="tab-pane fade" :class="lead.current_step === 2? 'active show': '' "  id="Special" role="tabpanel">
                                         <div class="iq-card">
                                             <div class="iq-card-header bg-success d-flex justify-content-between">
                                                 <div class="iq-header-title">
@@ -355,6 +325,48 @@
                                                         </jet-action-message>
 
                                                         <jet-button :class="{ 'opacity-25': specialReqForm.processing }" :disabled="specialReqForm.processing">
+                                                            Save
+                                                        </jet-button>
+                                                    </template>
+                                                </form-area>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" :class="lead.current_step === 3? 'active show': '' "  id="Transaction" role="tabpanel">
+                                        <div class="iq-card">
+                                            <div class="iq-card-header bg-info d-flex justify-content-between">
+                                                <div class="iq-header-title">
+                                                    <h4 class="card-title text-white font-weight-bold">Transaction/Payment information</h4>
+                                                </div>
+                                            </div>
+                                            <div class="iq-card-body">
+                                                <form-area @submitted="updateTransactionInfo">
+                                                    <template #form>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <jet-label for="trans_status" value="Transaction Status" />
+                                                                <select class="form-control mt-1 block w-full" v-model="transactionForm.trans_status" id="trans_status">
+                                                                    <option value="In Office">In Office</option>
+                                                                    <option value="At DMV">At DMV</option>
+                                                                    <option value="Completed">Completed</option>
+                                                                    <option value="Issue">Issue</option>
+                                                                </select>
+                                                                <jet-input-error :message="transactionForm.error('trans_status')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-6" v-if="transactionForm.trans_status === 'Issue'">
+                                                                <jet-label for="Issue" value="Issue Note" />
+                                                                <textarea id="Issue" class="form-control mt-1 block w-full" v-model="transactionForm.trans_issue"  rows="5" style="line-height: 22px;"> </textarea>
+                                                                <jet-input-error :message="transactionForm.error('trans_issue')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                    </template>
+
+                                                    <template #actions>
+                                                        <jet-action-message :on="transactionForm.recentlySuccessful" class="mr-3">
+                                                            Saved.
+                                                        </jet-action-message>
+
+                                                        <jet-button :class="{ 'opacity-25': transactionForm.processing }" :disabled="transactionForm.processing">
                                                             Save
                                                         </jet-button>
                                                     </template>
@@ -417,22 +429,24 @@ export default {
                 model:'',
                 color:'',
                 mileage:'',
-                lein_holder_info:''
-            }, {
-                bag: 'vehicleForm',
-                resetOnSuccess: false,
-            }),
-            transactionForm: this.$inertia.form({
-                trans_status: 'Yes',
+                lein_holder_info:'',
                 payment_type: 'Cash',
             }, {
-                bag: 'transactionForm',
+                bag: 'vehicleForm',
                 resetOnSuccess: false,
             }),
             specialReqForm: this.$inertia.form({
                 special_note: '',
             }, {
                 bag: 'specialReqForm',
+                resetOnSuccess: false,
+            }),
+            transactionForm: this.$inertia.form({
+                trans_status: 'Completed',
+                trans_issue: '',
+
+            }, {
+                bag: 'transactionForm',
                 resetOnSuccess: false,
             }),
         }
@@ -442,14 +456,13 @@ export default {
 
         if (this.lead.current_step  >= 2){
             this.updateVehicleFormData();
-
             if (this.lead.current_step  >= 3){
-                this.updateTransactionFormData();
-
+                this.updateSpecialReqFormData();
                 if (this.lead.current_step  >= 4){
-                    this.updateSpecialReqFormData();
+                    this.updateTransactionFormData();
                 }
             }
+
 
         }
 
@@ -472,10 +485,12 @@ export default {
             this.vehicleForm.color = this.lead.color;
             this.vehicleForm.mileage = this.lead.mileage;
             this.vehicleForm.lein_holder_info = this.lead.lein_holder_info;
+            this.vehicleForm.payment_type = this.lead.payment_type;
         },
         updateTransactionFormData(){
             this.transactionForm.trans_status = this.lead.trans_status;
-            this.transactionForm.payment_type = this.lead.payment_type;
+            this.transactionForm.trans_issue = this.lead.trans_issue;
+
         },
         updateSpecialReqFormData(){
             this.specialReqForm.special_note = this.lead.special_note;

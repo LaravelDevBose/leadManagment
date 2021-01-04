@@ -80,6 +80,11 @@
                             </li>
                         </ul>
                     </li>
+                    <li :class="route().current('admin.users.index')?'active': '' ">
+                        <inertia-link :href="route('admin.users.index')"  class="iq-waves-effect">
+                            <i class="ri-user-line"></i><span>Employee & Admin</span>
+                        </inertia-link>
+                    </li>
                 </ul>
             </nav>
             <div class="p-3"></div>
