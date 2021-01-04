@@ -85,6 +85,11 @@
                             <i class="ri-user-line"></i><span>Employee & Admin</span>
                         </inertia-link>
                     </li>
+                    <li :class="route().current('admin.email.inbox')?'active': '' ">
+                        <inertia-link :href="route('admin.email.inbox')"  class="iq-waves-effect">
+                            <i class="ri-mail-line"></i><span>Inbox</span>
+                        </inertia-link>
+                    </li>
                 </ul>
             </nav>
             <div class="p-3"></div>

@@ -5,25 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7538a409-8881-49cf-ba85-ff11becd4e4f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/UserEventSubscriber.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/UserAttendance.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_01_04_083541_add_role_users_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_01_04_094342_create_user_attendances_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/User/CreateUpdate.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/User/Index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/User/Show.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/InboxController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Inbox.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_01_04_130557_create_inboxes_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Component/helper/Pagination.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Component/helper/TagSelect.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Email/ComposeMail.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Email/Inbox.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Email/Show.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/LeadController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/LeadController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Lead.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Lead.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_03_193842_add_lead_status_leads_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_01_03_193842_add_lead_status_leads_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Lead/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Lead/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Lead/Show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Lead/Show.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Component/Include/AlertMessages.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Component/Include/AlertMessages.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -182,7 +179,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/js/Pages/Admin/Employee" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/js/Component" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -192,11 +189,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\user_managment\resources\js\Component" />
       <recent name="D:\xampp\htdocs\user_managment\resources\js\Pages\Admin\Employee" />
       <recent name="D:\xampp\htdocs\user_managment\public" />
       <recent name="D:\xampp\htdocs\user_managment\resources\views" />
       <recent name="D:\xampp\htdocs\user_managment\resources\js\Pages\Admin\Calendar" />
-      <recent name="D:\xampp\htdocs\user_managment\resources\js\Pages\Admin\Calender" />
     </key>
   </component>
   <component name="RunManager" selected="npm.watch">
@@ -237,7 +234,7 @@
       <workItem from="1609649566115" duration="12000" />
       <workItem from="1609696978928" duration="6774000" />
       <workItem from="1609741389386" duration="21000" />
-      <workItem from="1609741604416" duration="12402000" />
+      <workItem from="1609741604416" duration="32901000" />
     </task>
     <servers />
   </component>

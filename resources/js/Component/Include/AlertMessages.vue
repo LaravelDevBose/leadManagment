@@ -4,16 +4,16 @@
             <jet-action-message :on="$page.flash.success && $page.flash.success != null">
                 <div class="alert alert-success">
                     {{ $page.flash.success}}
-                    <button type="button" class="close text-danger" aria-label="Close" @click.prevent="closeAlertMsg">
-                        <span aria-hidden="true" class="text-white font-weight-bold">&times;</span>
+                    <button type="button" class="close text-danger float-right" aria-label="Close" @click.prevent="closeAlertMsg">
+                        <span aria-hidden="true" class="font-weight-bold">&times;</span>
                     </button>
                 </div>
             </jet-action-message>
             <jet-action-message :on="$page.flash.error && $page.flash.error != null">
                 <div class="alert alert-danger">
                     {{ $page.flash.error}}
-                    <button type="button" class="close text-danger" data-dismiss="modal" @click.prevent="closeAlertMsg">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="close text-danger float-right" data-dismiss="modal" @click.prevent="closeAlertMsg">
+                        <span class="font-weight-bold " aria-hidden="true">&times;</span>
                     </button>
                 </div>
             </jet-action-message>
@@ -36,5 +36,8 @@ export default {
 </script>
 
 <style scoped>
-
+.alert .close{
+    margin-left: auto!important;
+    font-size: 1.5rem;
+}
 </style>

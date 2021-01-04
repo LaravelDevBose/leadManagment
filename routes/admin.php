@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\ContactUsMessageController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\InboxController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,8 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/contact_us/update', [SettingController::class, 'contact_us_update'])->name('contact_us.update');
 
     Route::resource('users', AdminController::class);
+
+    Route::get('/inbox', [InboxController::class, 'index'])->name('email.inbox');
+    Route::post('/send/mail', [InboxController::class, 'send_mail'])->name('email.send');
+    Route::post('/mail/delete', [InboxController::class, 'destroy'])->name('email.destroy');
 });
