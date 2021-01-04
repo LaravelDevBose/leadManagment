@@ -34,12 +34,11 @@
 
     <!-- Scripts -->
     @routes
-    <script src="{{ mix('js/app.js') }}" defer></script>
+
 </head>
-<body class="font-sans antialiased">
+<body>
 <div id="loading">
     <div id="loading-center">
-
     </div>
 </div>
 @inertia
@@ -86,5 +85,7 @@
 <script src="{{ asset('admin/js/chart-custom.js') }}"></script>
 <!-- Custom JavaScript -->
 <script src="{{ asset('admin/js/custom.js') }}"></script>
+
+<script src="{{ mix('js/app.js') }}" defer></script>
 </body>
 </html>

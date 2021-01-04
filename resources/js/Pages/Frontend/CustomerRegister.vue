@@ -31,9 +31,16 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
-                                <jet-label for="name" value="Name" />
-                                <jet-input id="name" type="text" class="mt-1 block w-full rounded-0" v-model="form.full_name" autocomplete="name" :required="true" />
-                                <jet-input-error :message="form.error('full_name')" class="mt-2" />
+                                <jet-label for="first_name" value="First Name" />
+                                <jet-input id="first_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.first_name" autocomplete="name" :required="true" />
+                                <jet-input-error :message="form.error('first_name')" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="last_name" value="Last Name" />
+                                <jet-input id="last_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.last_name" autocomplete="name" :required="true" />
+                                <jet-input-error :message="form.error('last_name')" class="mt-2" />
                             </div>
                         </div>
 
@@ -53,7 +60,7 @@
                                 <jet-input-error :message="form.error('phone_no')" class="mt-2" />
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <jet-label for="address" value="Address" />
                                 <jet-input id="address" type="text" class="mt-1 block w-full rounded-0" v-model="form.address"  :required="true" />
@@ -118,7 +125,8 @@ export default {
     data() {
         return {
             form: this.$inertia.form({
-                full_name: '',
+                first_name: '',
+                last_name:'',
                 email: '',
                 phone_no:'',
                 address:'',

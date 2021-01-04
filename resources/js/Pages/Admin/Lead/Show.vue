@@ -6,7 +6,12 @@
                     <div class="iq-card">
                         <div class="iq-card-header bg-primary d-flex justify-content-between">
                             <div class="iq-header-title ">
-                                <h4 class="card-title text-white">About User Documemtion</h4>
+                                <h4 class="card-title text-white">About User Documentation</h4>
+                            </div>
+                            <div class="iq-card-header-toolbar">
+                                <a :href="route('admin.lead.print', lead.lead_id)"  class="btn btn-sm btn-success">
+                                    <i class="ri-printer-fill"></i><span>Print</span>
+                                </a>
                             </div>
                         </div>
                         <div class="iq-card-body">
@@ -61,6 +66,10 @@
                                 <div class="row">
                                     <div class="col-3">Mileage:</div>
                                     <div class="col-9">{{ lead.mileage}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">Lein Holder Info:</div>
+                                    <div class="col-9">{{ lead.lein_holder_info}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-3">Payment Type:</div>
@@ -172,11 +181,15 @@
                                                     <template #form>
                                                         <div class="row">
                                                             <div class="col-sm-6">
-                                                                <jet-label for="name" value="Name" />
-                                                                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.full_name" autocomplete="name" :required="true" />
-                                                                <jet-input-error :message="personalInfoForm.error('full_name')" class="mt-2" />
+                                                                <jet-label for="first_name" value="First Name" />
+                                                                <jet-input id="first_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.first_name" autocomplete="name" :required="true" />
+                                                                <jet-input-error :message="personalInfoForm.error('first_name')" class="mt-2" />
                                                             </div>
-
+                                                            <div class="col-sm-6">
+                                                                <jet-label for="last_name" value="Last Name" />
+                                                                <jet-input id="last_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.last_name" autocomplete="name" :required="true" />
+                                                                <jet-input-error :message="personalInfoForm.error('last_name')" class="mt-2" />
+                                                            </div>
                                                             <!-- Email -->
                                                             <div class="col-sm-6">
                                                                 <jet-label for="email" value="Email" />
@@ -189,7 +202,7 @@
                                                                 <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="personalInfoForm.phone_no" :required="true" />
                                                                 <jet-input-error :message="personalInfoForm.error('phone_no')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-12">
                                                                 <jet-label for="address" value="Address" />
                                                                 <jet-input id="address" type="text" class="mt-1 block w-full" v-model="personalInfoForm.address"  :required="true" />
                                                                 <jet-input-error :message="personalInfoForm.error('address')" class="mt-2" />
@@ -411,7 +424,8 @@ export default {
     data() {
         return {
             personalInfoForm: this.$inertia.form({
-                full_name: '',
+                first_name: '',
+                last_name: '',
                 email: '',
                 phone_no:'',
                 address:'',
@@ -469,7 +483,8 @@ export default {
     },
     methods:{
         updatePersonalInfoFormData(){
-            this.personalInfoForm.full_name = this.lead.full_name;
+            this.personalInfoForm.first_name = this.lead.first_name;
+            this.personalInfoForm.last_name = this.lead.last_name;
             this.personalInfoForm.email = this.lead.email;
             this.personalInfoForm.phone_no = this.lead.phone_no;
             this.personalInfoForm.address = this.lead.address;
@@ -516,6 +531,9 @@ export default {
                 preserveScroll: true
             });
         },
+        leadPrint(){
+            window.open();
+        }
     }
 }
 </script>

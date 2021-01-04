@@ -71,6 +71,47 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-list">
+                        <li class="nav-item">
+                            <a href="#" class="search-toggle iq-waves-effect">
+                                <i class="fas fa-bell"></i>
+                                <span class="bg-danger dots"></span>
+                            </a>
+                            <div class="iq-sub-dropdown">
+                                <div class="iq-card shadow-none m-0">
+                                    <div class="iq-card-body p-0 ">
+                                        <div class="bg-primary p-3">
+                                            <h5 class="mb-0 text-white">All Notifications<small class="badge  badge-light float-right pt-1">{{ unRead }}</small></h5>
+                                        </div>
+                                        <div style="max-height: 50vh; overflow-y: scroll;">
+                                            <inertia-link
+                                                v-if="notifications"
+                                                v-for="notification in notifications"
+                                                :key="notification.id"
+                                                :href="route('admin.read.notification', notification.id)"
+                                                class="iq-sub-card"
+                                                :class="{'bg-gray-50': notification.read_at != null}"
+                                            >
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <h6
+                                                            class="mb-0 text-capitalize"
+                                                            :class="notification.read_at != null ? 'text-gray' : 'text-primary'"
+                                                        >
+                                                            {{ notification.data.first_name +' '+ notification.data.last_name}} Complete Registration
+                                                        </h6>
+                                                        <small class="float-right font-size-12">{{ notification.created_at | diffForHumans }}</small>
+                                                    </div>
+                                                </div>
+                                            </inertia-link>
+                                        </div>
+                                        <div class="border-top text-center py-2" style="border-radius: 0">
+                                            <a :href="route('admin.read.all.notifications')" class="font-size-14"> Read All</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <ul class="navbar-list">
@@ -104,16 +145,61 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 export default {
     name: "AdminNavbar",
     props:['searchKey'],
+    data(){
+        return{
+            notifications: [],
+            unRead: 0,
+            intervalId: '',
+        }
+    },
+    created() {
+        dayjs.extend(relativeTime);
+    },
+    mounted() {
+        this.notificationRequest();
+        this.getNotifications();
+    },
     methods:{
         logout() {
             axios.post(route('logout').url()).then(response => {
                 window.location = '/login';
             })
+        },
+        getNotifications(){
+            this.intervalId = setInterval(() =>{
+                this.notificationRequest();
+            }, 30000);
+        },
+        notificationRequest(){
+            axios.get(route('admin.notifications').url())
+                .then(response => {
+                    console.log(response.data.data.notification);
+                    if (response.status === 200){
+                        this.notifications = response.data.data.notification;
+                        this.unRead = response.data.data.unread;
+                    }
+                });
         }
-    }
+    },
+    beforeDestroy() {
+        clearInterval(this.intervalId);
+    },
+
+    filters: {
+        diffForHumans: (date) => {
+            if (!date){
+                return null;
+            }
+
+            return dayjs(date).fromNow();
+        }
+    },
 }
 </script>
 

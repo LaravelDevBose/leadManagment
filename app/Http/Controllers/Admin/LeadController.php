@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\FrontendData;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +47,16 @@ class LeadController extends Controller
         return Inertia::render('Admin/Lead/Show', compact('lead'));
     }
 
+    public function print($id)
+    {
+        $lead = Lead::findOrFail($id);
+        $contactUs = FrontendData::where('key', FrontendData::DataKeys['Contact us'])->first();
+        return view('print.lead_print', [
+            'lead'=>$lead,
+            'contactUs'=>$contactUs
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -56,7 +67,8 @@ class LeadController extends Controller
     public function updatePersonalInfo(Request $request, $id)
     {
         Validator::make($request->all(), [
-            'full_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'phone_no' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
@@ -69,7 +81,8 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'full_name'=>$request->input('full_name'),
+                'first_name'=>$request->input('first_name'),
+                'last_name'=>$request->input('last_name'),
                 'phone_no'=>$request->input('phone_no'),
                 'email'=>$request->input('email'),
                 'address'=>$request->input('address'),

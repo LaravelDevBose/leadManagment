@@ -27,7 +27,8 @@ class Lead extends Model
 
     protected $fillable = [
         'current_step',
-        'full_name',
+        'first_name',
+        'last_name',
         'phone_no',
         'email',
         'address',
@@ -48,11 +49,16 @@ class Lead extends Model
         'trans_issue'
     ];
 
-    protected $appends=['full_address'];
+    protected $appends=['full_address', 'full_name'];
 
     public function getFullAddressAttribute()
     {
         return $this->attributes['address'].','.$this->attributes['city']. ','. $this->attributes['state'].'-'.$this->attributes['postal_code'];
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['first_name'].' '.$this->attributes['last_name'];
     }
 
     public function getCreatedAtAttribute()
