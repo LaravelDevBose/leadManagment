@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7538a409-8881-49cf-ba85-ff11becd4e4f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +257,7 @@
       <workItem from="1609741389386" duration="21000" />
       <workItem from="1609741604416" duration="43537000" />
       <workItem from="1609830457275" duration="25000" />
-      <workItem from="1609860953100" duration="5370000" />
+      <workItem from="1609860953100" duration="5916000" />
     </task>
     <servers />
   </component>
