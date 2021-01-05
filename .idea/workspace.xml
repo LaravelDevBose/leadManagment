@@ -5,48 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7538a409-8881-49cf-ba85-ff11becd4e4f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/NotFound/NoResults.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/breadcrumbs/BreadCrumb.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/charts/AmChart.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/charts/ApexChart.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/charts/HighChart.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/counter/Counter.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/dragdrop/nested-draggable.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/footer/MiniFooter.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/loader/Loader.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/lottie/Lottie.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/menus/CollapseMenu.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/menus/HoverMenu.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/navbars/DefaultNavBar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/navbars/MenuNavBar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/progressbar/Progressbar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/rightsidebar/RightSideBar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/search/GlobalSearch.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/sidebars/Sidebar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/sidebars/SmallSidebar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/slider/Swiper.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/slider/SwiperNav.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/slider/SwiperSlide.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/tab/tab-content-item.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/tab/tab-content.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/tab/tab-nav-items.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/tab/tab-nav.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/timeline/TimeLine.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Component/core/treeview/TreeView.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout_old.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Calendar/CreateUpdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Calendar/CreateUpdate.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Calendar/Index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Lead/Table.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Lead/Table.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Service/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Service/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/Testimonial/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/Testimonial/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Admin/User/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Admin/User/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +257,7 @@
       <workItem from="1609741389386" duration="21000" />
       <workItem from="1609741604416" duration="43537000" />
       <workItem from="1609830457275" duration="25000" />
-      <workItem from="1609860953100" duration="5231000" />
+      <workItem from="1609860953100" duration="5370000" />
     </task>
     <servers />
   </component>

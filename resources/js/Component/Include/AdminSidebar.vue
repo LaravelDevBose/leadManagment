@@ -41,6 +41,11 @@
                             </li>
                         </ul>
                     </li>
+                    <li :class="route().current('admin.email.inbox')?'active': '' ">
+                        <inertia-link :href="route('admin.email.inbox')"  class="iq-waves-effect">
+                            <i class="ri-mail-line"></i><span>Inbox</span>
+                        </inertia-link>
+                    </li>
                     <li :class="route().current('admin.calender.index')?'active': '' ">
                         <inertia-link :href="route('admin.calender.index')"  class="iq-waves-effect">
                             <i class="ri-calendar-todo-fill"></i><span>Calender</span>
@@ -51,14 +56,19 @@
                             <i class="ri-home-3-line"></i><span>Service</span>
                         </inertia-link>
                     </li>
-                    <li :class="route().current('admin.testimonials.index')?'active': '' ">
-                        <inertia-link :href="route('admin.testimonials.index')"  class="iq-waves-effect">
-                            <i class="ri-home-3-line"></i><span>Testimonials</span>
+                    <li :class="route().current('admin.users.index')?'active': '' ">
+                        <inertia-link :href="route('admin.users.index')"  class="iq-waves-effect">
+                            <i class="ri-user-line"></i><span>Employee & Admin</span>
                         </inertia-link>
                     </li>
                     <li :class="route().current('admin.contact_us.message.index')?'active': '' ">
                         <inertia-link :href="route('admin.contact_us.message.index')"  class="iq-waves-effect">
                             <i class="ri-home-3-line"></i><span> Contact Form Leads</span>
+                        </inertia-link>
+                    </li>
+                    <li :class="route().current('admin.testimonials.index')?'active': '' ">
+                        <inertia-link :href="route('admin.testimonials.index')"  class="iq-waves-effect">
+                            <i class="ri-home-3-line"></i><span>Testimonials</span>
                         </inertia-link>
                     </li>
                     <li>
@@ -80,16 +90,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li :class="route().current('admin.users.index')?'active': '' ">
-                        <inertia-link :href="route('admin.users.index')"  class="iq-waves-effect">
-                            <i class="ri-user-line"></i><span>Employee & Admin</span>
-                        </inertia-link>
-                    </li>
-                    <li :class="route().current('admin.email.inbox')?'active': '' ">
-                        <inertia-link :href="route('admin.email.inbox')"  class="iq-waves-effect">
-                            <i class="ri-mail-line"></i><span>Inbox</span>
-                        </inertia-link>
-                    </li>
+
                 </ul>
             </nav>
             <div class="p-3"></div>
