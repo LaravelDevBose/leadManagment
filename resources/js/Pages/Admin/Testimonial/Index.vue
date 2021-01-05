@@ -63,8 +63,6 @@
 import AppAdminLayout from "../../../Layouts/AppAdminLayout";
 import IqCard from "../../../Component/core/cards/iq-card";
 import AlertMessages from "../../../Component/Include/AlertMessages";
-
-
 export default {
     name: "Index",
     props:['testimonials'],

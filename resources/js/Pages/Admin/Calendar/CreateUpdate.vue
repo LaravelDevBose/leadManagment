@@ -9,14 +9,6 @@
             <form-area @submitted="submitServiceForm">
                 <template #form>
                     <div class="row">
-<!--                        <div class="col-sm-12">
-                            <jet-label for="trans_status" value="Transaction Status" />
-                            <select class="form-control mt-1 block w-full" v-model="form.trans_status" id="trans_status">
-                                <option value="Yes">Busy</option>
-                                <option value="No">Free</option>
-                            </select>
-                            <jet-input-error :message="form.error('trans_status')" class="mt-2" />
-                        </div>-->
                         <div class="col-sm-12 mt-1">
                             <jet-input id="title" type="text" class="mt-1 block w-full" v-model="form.title"  :required="true" :placeholder="'Schedule Title'" />
                             <jet-input-error :message="form.error('title')" class="mt-2" />

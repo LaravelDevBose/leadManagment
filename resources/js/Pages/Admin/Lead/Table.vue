@@ -68,11 +68,6 @@
 
 <script>
 import AppAdminLayout from "../../../Layouts/AppAdminLayout";
-import 'ag-grid-community/dist/styles/ag-grid.min.css'
-import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { AllCommunityModules } from '@ag-grid-enterprise/all-modules';
-import { AgGridVue } from 'ag-grid-vue'
-import ActionUser from './Components/ActionUser';
 import IqCard from "../../../Component/core/cards/iq-card";
 
 export default {
@@ -80,31 +75,7 @@ export default {
     props:['leads'],
     components: {
         AppAdminLayout,
-        AgGridVue,
-        ActionUser,
         IqCard,
-    },
-    data () {
-        return {
-            columnDefs: null,
-            rowData: this.leads,
-            modules: AllCommunityModules
-        }
-    },
-    beforeMount () {
-        this.columnDefs = Object.freeze([
-            {  headerName: 'Name', field: 'full_name', sortable: true, },
-            { headerName: 'Phone', field: 'phone_no', sortable: true, filter: true },
-            { headerName: 'Email', field: 'email', sortable: true, filter: true },
-            { headerName: 'Address', field: 'full_address', sortable: true, filter: true },
-        ]);
-
-    },
-    computed: {
-       /* rowDataList(){
-            return Object.freeze(this.leads);
-        }*/
-
     }
 }
 </script>
