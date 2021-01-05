@@ -29,14 +29,19 @@
                             <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                         </a>
                         <ul id="menu-design" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li :class="route().current('admin.lead.create')?'active': '' ">
+                                <inertia-link :href="route('admin.lead.create')">
+                                    <i class="ri-add-box-line"></i><span>New Lead</span>
+                                </inertia-link>
+                            </li>
                             <li :class="route().current('admin.lead.index')?'active': '' ">
                                 <inertia-link :href="route('admin.lead.index')">
-                                    <i class="ri-home-3-line"></i><span>Lead Board</span>
+                                    <i class="ri-keyboard-line"></i><span>Lead Board</span>
                                 </inertia-link>
                             </li>
                             <li :class="route().current('admin.lead.table')?'active': '' ">
                                 <inertia-link :href="route('admin.lead.table')">
-                                    <i class="ri-home-3-line"></i><span>Lead Table</span>
+                                    <i class="ri-table-line"></i><span>Lead Table</span>
                                 </inertia-link>
                             </li>
                         </ul>
@@ -53,7 +58,7 @@
                     </li>
                     <li :class="route().current('admin.services.index')?'active': '' ">
                         <inertia-link :href="route('admin.services.index')"  class="iq-waves-effect">
-                            <i class="ri-home-3-line"></i><span>Service</span>
+                            <i class="ri-list-settings-fill"></i><span>Service</span>
                         </inertia-link>
                     </li>
                     <li :class="route().current('admin.users.index')?'active': '' ">
@@ -63,29 +68,29 @@
                     </li>
                     <li :class="route().current('admin.contact_us.message.index')?'active': '' ">
                         <inertia-link :href="route('admin.contact_us.message.index')"  class="iq-waves-effect">
-                            <i class="ri-home-3-line"></i><span> Contact Form Leads</span>
+                            <i class="ri-discuss-fill"></i><span> Contact Form Leads</span>
                         </inertia-link>
                     </li>
                     <li :class="route().current('admin.testimonials.index')?'active': '' ">
                         <inertia-link :href="route('admin.testimonials.index')"  class="iq-waves-effect">
-                            <i class="ri-home-3-line"></i><span>Testimonials</span>
+                            <i class="ri-double-quotes-l"></i><span>Testimonials</span>
                         </inertia-link>
                     </li>
                     <li>
                         <a href="#setting-menu" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
-                            <i class="ri-menu-3-line"></i>
+                            <i class="ri-settings-5-fill"></i>
                             <span>Setting</span>
                             <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                         </a>
                         <ul id="setting-menu" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                             <li :class="route().current('admin.about_us.page')?'active': '' ">
                                 <inertia-link :href="route('admin.about_us.page')">
-                                    <i class="ri-home-3-line"></i><span>About Us</span>
+                                    <i class="ri-file-text-line"></i><span>About Us</span>
                                 </inertia-link>
                             </li>
                             <li :class="route().current('admin.contact_us.page')?'active': '' ">
                                 <inertia-link :href="route('admin.contact_us.page')">
-                                    <i class="ri-home-3-line"></i><span>Contact Us</span>
+                                    <i class="ri-contacts-book-line"></i><span>Contact Us</span>
                                 </inertia-link>
                             </li>
                         </ul>

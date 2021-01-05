@@ -16,6 +16,7 @@ class Inbox extends Model
         'mail_subject',
         'mail_body',
         'sender_id',
+        'mail_attachments'
     ];
 
     protected $appends=['send_at'];
@@ -28,6 +29,11 @@ class Inbox extends Model
     public function getMailTosAttribute()
     {
         return json_decode($this->attributes['mail_tos']);
+    }
+
+    public function getMailAttachmentsAttribute()
+    {
+        return json_decode($this->attributes['mail_attachments'], true);
     }
 
     public function getMailCcsAttribute()

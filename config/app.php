@@ -27,6 +27,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'logo' => env('APP_URL', 'http://localhost').'/'.env('APP_LOGO', 'logo.jpg') ,
 
     /*
     |--------------------------------------------------------------------------

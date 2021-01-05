@@ -24,6 +24,60 @@ class LeadController extends Controller
     }
 
     /**
+     * Display a Lead Board of the resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function create()
+    {
+        return Inertia::render('Admin/Lead/Create');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone_no' => ['required', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'string', 'max:255'],
+            'postal_code' => ['required', 'max:10'],
+        ])->validateWithBag('leadForm');
+
+        try {
+            DB::beginTransaction();
+            $lead = Lead::create([
+                'current_step'=> Lead::Steps['Documentation'],
+                'first_name'=>$request->input('first_name'),
+                'last_name'=>$request->input('last_name'),
+                'phone_no'=>$request->input('phone_no'),
+                'email'=>$request->input('email'),
+                'address'=>$request->input('address'),
+                'city'=>$request->input('city'),
+                'state'=>$request->input('state'),
+                'postal_code'=>$request->input('postal_code'),
+            ]);
+            if (!empty($lead)){
+                DB::commit();
+                return redirect()->route('admin.lead.show', $lead->lead_id)->with('success', 'New Lead Created Successfully');
+            }
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', $exception->getMessage());
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Inertia\Response

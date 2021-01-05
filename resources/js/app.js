@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 require('moment');
-Vue.config.productionTip = true;
+Vue.config.productionTip = false;
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 

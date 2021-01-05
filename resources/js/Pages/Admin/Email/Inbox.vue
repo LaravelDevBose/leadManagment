@@ -73,8 +73,10 @@
                                                             <label class="custom-control-label" :for="'inbox_'+inbox.id"></label>
                                                         </div>
                                                     </div>
-                                                    <a href="javascript: void(0);" class="d-flex flex-wrap align-items-center px-1">
-                                                        <span v-for="rec in inbox.mail_tos" class="mr-1">{{ rec }},</span>
+                                                    <a href="javascript: void(0);"st
+                                                       class="px-1"
+                                                       style="display: inline-block">
+                                                        <span v-for="rec in inbox.mail_tos" class="mr-1 d-block">{{ rec }},</span>
                                                     </a>
                                                 </div>
                                                 <div class="iq-email-content">

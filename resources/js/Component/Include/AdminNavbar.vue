@@ -174,7 +174,7 @@ export default {
         getNotifications(){
             this.intervalId = setInterval(() =>{
                 this.notificationRequest();
-            }, 30000);
+            }, 100000);
         },
         notificationRequest(){
             axios.get(route('admin.notifications').url())

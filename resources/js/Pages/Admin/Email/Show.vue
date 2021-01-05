@@ -64,6 +64,23 @@
                             </div>
                             <div class="iq-inbox-body mt-5">
                                 <p>{{ details.mail_body }}</p>
+                                <hr>
+                                <div class="row my-3" v-if="details.mail_attachments">
+                                    <div class="col-4">
+                                        <ul class="list-group" v-if="details.mail_attachments">
+                                            <a
+                                                class="list-group-item"
+                                                v-for="(attachment, index) in details.mail_attachments" :key="index"
+                                                :href="'/storage/'+attachment.path" download target="_blank">
+                                                <li>
+                                                    {{ attachment.file_name}}
+                                                    <i class="ri-download-2-fill float-right text-primary"></i>
+                                                </li>
+                                            </a>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
                                 <p class="mt-5 mb-0">Regards,<span class="d-inline-block w-100">On Call Service</span></p>
                             </div>
                         </div>

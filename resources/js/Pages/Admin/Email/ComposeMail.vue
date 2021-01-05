@@ -60,17 +60,26 @@
                             <jet-input-error :message="form.error('mail_body')" class="mt-2" />
                         </div>
                     </div>
+                    <div class="form-group row align-items-center compose-bottom pt-4 m-0 pb-2" v-if="form.mail_attachments && form.mail_attachments.length > 0">
+                        <div class="d-flex flex-grow-1 align-items-center" >
+                            <ul>
+                                <li v-for="file in form.mail_attachments">
+                                    {{ file.name }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="form-group row align-items-center compose-bottom pt-4 m-0 pb-2">
                         <div class="d-flex flex-grow-1 align-items-center">
                             <div class="send-btn">
                                 <button type="submit" class="btn btn-md btn-primary" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Send Mail</button>
                             </div>
-<!--                            <div class="send-panel">
+                            <div class="send-panel">
                                 <label class="ml-2 mb-0 iq-bg-primary rounded" for="file">
-                                    <input type="file" id="file" style="display: none">
+                                    <input type="file" @change="addFiles" ref="files" multiple id="file" style="display: none">
                                     <a><i class="ri-attachment-line"></i> </a>
                                 </label>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -117,6 +126,7 @@ export default {
                 mail_ccs: [],
                 mail_subject:'',
                 mail_body:'',
+                mail_attachments:[],
             }, {
                 bag: 'sendMailBag',
                 resetOnSuccess: true,
@@ -142,6 +152,16 @@ export default {
         },
         close(){
             this.$emit('closeModal', false);
+        },
+        addFiles(event){
+            for (let file of event.target.files) {
+                try {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file); // Not sure if this will work in this context.
+                    this.form.mail_attachments.push(file);
+                    console.log(this.form.mail_attachments);
+                } catch {}
+            }
         }
     }
 }

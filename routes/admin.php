@@ -16,6 +16,8 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::get('/read/all/notifications', [HomeController::class ,'read_all_notification'])->name('read.all.notifications');
 
     Route::get('/lead/index', [LeadController::class ,'index'])->name('lead.index');
+    Route::get('/lead/create', [LeadController::class ,'create'])->name('lead.create');
+    Route::post('/lead/store', [LeadController::class ,'store'])->name('lead.store');
     Route::get('/lead/table', [LeadController::class ,'table'])->name('lead.table');
     Route::get('/lead/{lead_id}', [LeadController::class ,'show'])->name('lead.show');
     Route::get('/lead/{lead_id}/print', [LeadController::class ,'print'])->name('lead.print');

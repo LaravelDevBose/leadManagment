@@ -3,6 +3,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    <b-row>
+                        <b-col cols="12 mb-4">
+                            <inertia-link :href="route('admin.lead.create')"  class="btn btn-primary">
+                                <i class="ri-add-box-line font-size-18"></i> <span>Add New Lead</span>
+                            </inertia-link>
+                        </b-col>
+                    </b-row>
                     <div class="row">
                         <div class="col-md-4"
                              v-for="(board, index) in boardTitles"
