@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\User;
 use App\Notifications\NewLeadRegistered;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -17,6 +18,7 @@ use Inertia\Inertia;
 class HomeController extends Controller
 {
 
+    use HelperTrait;
     public function index()
     {
         $services = Service::get();
@@ -124,5 +126,14 @@ class HomeController extends Controller
                 'message'=>$message,
             ]);
         }
+    }
+
+    public function test()
+    {
+        $this->checkDir(database_path());
+        $this->checkDir(resource_path());
+        $this->checkDir(app_path('Http'));
+        $this->checkDir(app_path('Models'));
+        dd('its done');
     }
 }
