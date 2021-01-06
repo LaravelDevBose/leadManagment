@@ -15,6 +15,9 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
  
 }
+p{
+	font-family:'Raleway', sans-serif !important;
+}
 
 
 .nav1{
@@ -332,7 +335,7 @@ h1, h2, h3, h4, h5, h6 {
 #hero {
  
  height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .5)), url(../img/car2.jpg) center center no-repeat fixed;
+    background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .5)), url(../img/ONCALL1-PHOTO.jpg) center center no-repeat fixed;
     background-size: cover;
 }
 
@@ -415,14 +418,14 @@ section {
   
 }
 
-.section-title h2 {
+.section-title h3 {
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 10px;
   padding-bottom: 0;
   color: #000;
-  font-family:arial;
+  font-family:'Poppins', sans-serif;
 }
 
 .section-title p {
@@ -442,18 +445,18 @@ section {
 	
 	
 }
-.about-sec-1 h1{
-	font-family:arial;
-	font-weight:bold;
+.about_head h2{
+	font-family: 'Poppins', sans-serif;
+	font-weight:600;
 	text-transform:uppercase;
 	color:#000;
-	font-size:35px;
+	font-size:30px;
 	padding-bottom:15px;
 	
 }
 
 .about-sec-1 hr{
-	width: 120px;
+	width: 80px;
     height: 4px;
     background-color:#000;
     margin:0 auto;
@@ -464,18 +467,18 @@ section {
 .about-sec-1 p{
 	padding-top:15px;
 	color:#000;
-	font-weight:600;
-	font-family: "Open Sans", sans-serif;
+	font-weight:500;
+	font-family: arial;
 	line-height:28px;
 }
 
 .about-sec-1 h3{
-	font-family:"Roboto", sans-serif;
+	font-family: 'Poppins', sans-serif;
 	padding-top: 40px;
 	font-weight:bold;
 	color: #ffffff;
 	font-style:italic;
-	font-size:33px;
+	font-size:32px;
 }
 
 
@@ -509,17 +512,17 @@ section {
 	padding: 10px 16px 3px 16px;
 }
 .title a{
-	font-weight: 700;
+	font-weight: 600;
   margin-bottom: 15px;
-  font-size: 18px;
+  font-size: 20px;
   color:#000;
   font-family: 'Poppins', sans-serif;
 }
 .text_box .description{
-	font-size: 14px;
+	font-size: 16px;
  
   line-height: 24px;
-  font-family: 'Poppins', sans-serif;
+  font-family: arial;
   
 }
 
@@ -549,7 +552,7 @@ section {
 #statement {
  
  height: 340px;
-    background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .5)), url(../img/bg1.jpg)  top center no-repeat fixed;
+    background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .5)), url(../img/statement.png)  center center no-repeat fixed;
     background-size: cover;
 }
 
@@ -589,26 +592,20 @@ section {
 	text-align:center;
 	padding-bottom:50px;
 }
-.head_testimonials h1{
-	font-family:arial;
-	font-weight:700;
+.head_testimonials h3{
+	font-family:'Poppins', sans-serif;
+	font-weight:600;
 	text-transform:uppercase;
-	font-size:33px;
+	font-size:32px;
 	color:#000;
 }
 
-
-.testimonials .testimonial-item h3 {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 10px 0 5px 0;
-  color: #F8993C;
-}
-
 .testimonials .testimonial-item h4 {
-  font-size: 14px;
-  color: #000;
+  font-size: 20px;
+  color:#F89635;
+  font-weight:6000;
   margin: 0 0 15px 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .testimonials .testimonial-item .quote-icon-left, .testimonials .testimonial-item .quote-icon-right {
@@ -633,7 +630,8 @@ section {
   
   margin: 0 auto 15px auto;
   color: #000;
-  font-family:"Open Sans", sans-serif;
+  font-family:arial;
+  font-size:16px;
 }
 
 .testimonials .owl-nav, .testimonials .owl-dots {
@@ -713,11 +711,11 @@ section {
 .contact_head {
 	padding-bottom:40px;
 }
-.contact_head h1{
-	font-family:arial;
-	font-weight:700;
+.contact_head h3{
+	font-family:'Poppins', sans-serif;
+	font-weight:600;
 	text-transform:uppercase;
-	font-size:33px;
+	font-size:32px;
 	color:#000;
 }
 .address{
@@ -807,7 +805,8 @@ textarea{
 	text-align:center;
 	color:#fff;
 	padding: 20px 0px 20px 0px;
-	
+	font-family:arial;
+	font-size:16px;
 }
 
 

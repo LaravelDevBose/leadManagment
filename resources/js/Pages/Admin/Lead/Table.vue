@@ -5,13 +5,13 @@
                 <b-col sm="12">
                     <iq-card>
                         <template v-slot:headerTitle>
-                            <h4 class="card-title">User List</h4>
+                            <h4 class="card-title">Client List</h4>
                         </template>
                         <template v-slot:body>
                             <table class="table table-hover table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
                                         <th>Address</th>

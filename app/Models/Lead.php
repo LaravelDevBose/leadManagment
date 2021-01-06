@@ -91,4 +91,9 @@ class Lead extends Model
     {
         return $query->where('lead_status', self::Status['Closed']);
     }
+
+    public function logs()
+    {
+        return $this->hasMany(LeadLog::class, 'lead_id', 'lead_id')->latest();
+    }
 }

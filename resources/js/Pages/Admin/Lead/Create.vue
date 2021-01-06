@@ -6,7 +6,7 @@
                     <div class="iq-card">
                         <div class="iq-card-header bg-info d-flex justify-content-between">
                             <div class="iq-header-title">
-                                <h4 class="card-title text-white font-weight-bold">Create Lead</h4>
+                                <h4 class="card-title text-white font-weight-bold">Create Client</h4>
                             </div>
                         </div>
                         <div class="iq-card-body">

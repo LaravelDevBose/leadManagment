@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Inbox::class, 'sender_id', 'id');
     }
+
+    public function lead_logs()
+    {
+        return $this->hasMany(LeadLog::class, 'user_id', 'id');
+    }
 }

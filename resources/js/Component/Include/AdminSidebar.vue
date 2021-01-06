@@ -25,23 +25,23 @@
                     <li>
                         <a href="#menu-design" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
                             <i class="ri-menu-3-line"></i>
-                            <span>Lead</span>
+                            <span>Clients</span>
                             <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                         </a>
                         <ul id="menu-design" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                             <li :class="route().current('admin.lead.create')?'active': '' ">
                                 <inertia-link :href="route('admin.lead.create')">
-                                    <i class="ri-add-box-line"></i><span>New Lead</span>
+                                    <i class="ri-add-box-line"></i><span>New Client</span>
                                 </inertia-link>
                             </li>
                             <li :class="route().current('admin.lead.index')?'active': '' ">
                                 <inertia-link :href="route('admin.lead.index')">
-                                    <i class="ri-keyboard-line"></i><span>Lead Board</span>
+                                    <i class="ri-keyboard-line"></i><span>Clients Board</span>
                                 </inertia-link>
                             </li>
                             <li :class="route().current('admin.lead.table')?'active': '' ">
                                 <inertia-link :href="route('admin.lead.table')">
-                                    <i class="ri-table-line"></i><span>Lead Table</span>
+                                    <i class="ri-table-line"></i><span>Clients Table</span>
                                 </inertia-link>
                             </li>
                         </ul>
@@ -53,7 +53,7 @@
                     </li>
                     <li :class="route().current('admin.calender.index')?'active': '' ">
                         <inertia-link :href="route('admin.calender.index')"  class="iq-waves-effect">
-                            <i class="ri-calendar-todo-fill"></i><span>Calender</span>
+                            <i class="ri-calendar-todo-fill"></i><span>Calendar</span>
                         </inertia-link>
                     </li>
                     <li :class="route().current('admin.services.index')?'active': '' ">

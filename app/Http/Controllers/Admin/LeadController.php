@@ -67,6 +67,11 @@ class LeadController extends Controller
                 'postal_code'=>$request->input('postal_code'),
             ]);
             if (!empty($lead)){
+                $lead->logs()->create([
+                    'user_id'=> auth()->id(),
+                    'lead_step'=> Lead::Steps['Documentation'],
+                    'log_message'=> 'Client Documentation Added By '. auth()->user()->name,
+                ]);
                 DB::commit();
                 return redirect()->route('admin.lead.show', $lead->lead_id)->with('success', 'New Lead Created Successfully');
             }
@@ -97,7 +102,7 @@ class LeadController extends Controller
      */
     public function show($id)
     {
-        $lead = Lead::findOrFail($id);
+        $lead = Lead::with('logs')->where('lead_id', $id)->firstOrFail();
         return Inertia::render('Admin/Lead/Show', compact('lead'));
     }
 
@@ -145,6 +150,11 @@ class LeadController extends Controller
                 'postal_code'=>$request->input('postal_code'),
             ]);
             if (!empty($leadU)){
+                $lead->logs()->create([
+                    'user_id'=> auth()->id(),
+                    'lead_step'=> Lead::Steps['Documentation'],
+                    'log_message'=> 'Client Documentation Updated By '. auth()->user()->name,
+                ]);
                 DB::commit();
                 return redirect()->back()->with('success', 'Personal Information Updated Successfully');
             }
@@ -190,6 +200,11 @@ class LeadController extends Controller
                 'payment_type'=>$request->input('payment_type'),
             ]);
             if (!empty($leadU)){
+                $lead->logs()->create([
+                    'user_id'=> auth()->id(),
+                    'lead_step'=> Lead::Steps['Vehicle'],
+                    'log_message'=> 'Client Vehicle Info Updated By '. auth()->user()->name,
+                ]);
                 DB::commit();
                 return redirect()->back()->with('success', 'Vehicle Information Updated Successfully');
             }
@@ -223,6 +238,11 @@ class LeadController extends Controller
                 'trans_issue'=>$request->input('trans_issue'),
             ]);
             if (!empty($leadU)){
+                $lead->logs()->create([
+                    'user_id'=> auth()->id(),
+                    'lead_step'=> Lead::Steps['Payment'],
+                    'log_message'=> 'Client Payment Info Updated By '. auth()->user()->name,
+                ]);
                 DB::commit();
                 return redirect()->back()->with('success', 'Transaction Information Updated Successfully');
             }
@@ -254,6 +274,11 @@ class LeadController extends Controller
                 'special_note'=>$request->input('special_note'),
             ]);
             if (!empty($leadU)){
+                $lead->logs()->create([
+                    'user_id'=> auth()->id(),
+                    'lead_step'=> Lead::Steps['Special'],
+                    'log_message'=> 'Client Special Request Info Updated By '. auth()->user()->name,
+                ]);
                 DB::commit();
                 return redirect()->back()->with('success', 'Special Request Updated Successfully');
             }

@@ -6,7 +6,7 @@
                     <div class="iq-card">
                         <div class="iq-card-header bg-primary d-flex justify-content-between">
                             <div class="iq-header-title ">
-                                <h4 class="card-title text-white">About User Documentation</h4>
+                                <h4 class="card-title text-white">About Client Documentation</h4>
                             </div>
                             <div class="iq-card-header-toolbar">
                                 <a :href="route('admin.lead.print', lead.lead_id)"  class="btn btn-sm btn-success">
@@ -17,7 +17,7 @@
                         <div class="iq-card-body">
                             <div class="about-info m-0 p-0">
                                 <div class="row">
-                                    <div class="col-3">Name:</div>
+                                    <div class="col-3">Full Name:</div>
                                     <div class="col-9">{{ lead.full_name }}</div>
                                 </div>
                                 <div class="row">
@@ -108,6 +108,27 @@
                                 <div class="row" v-if="lead.trans_status === 'Issue'">
                                     <div class="col-3">Issue Note:</div>
                                     <div class="col-9"> {{ lead.trans_issue }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="iq-card" v-if="lead.logs">
+                        <div class="iq-card-header bg-blue-700 d-flex justify-content-between">
+                            <div class="iq-header-title ">
+                                <h4 class="card-title text-white">Activity Logs</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="about-info m-0 p-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="list-group">
+                                            <li v-for="log in lead.logs" :key="log.log_message"  class="list-group-item list-group-item-action p-1">
+                                                <p class="mb-0">{{ log.log_message }}</p>
+                                                <small>{{ log.created_at | diffForHumans}}</small>
+                                            </li>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -407,6 +428,9 @@ import JetInputError from '@/Jetstream/InputError';
 import JetLabel from '@/Jetstream/Label';
 import JetActionMessage from '@/Jetstream/ActionMessage';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 export default {
     name: "Show",
     props: ['lead'],
@@ -464,6 +488,9 @@ export default {
                 resetOnSuccess: false,
             }),
         }
+    },
+    created() {
+        dayjs.extend(relativeTime);
     },
     mounted() {
         this.updatePersonalInfoFormData();
@@ -534,7 +561,16 @@ export default {
         leadPrint(){
             window.open();
         }
-    }
+    },
+    filters: {
+        diffForHumans: (date) => {
+            if (!date){
+                return null;
+            }
+
+            return dayjs(date).fromNow();
+        }
+    },
 }
 </script>
 

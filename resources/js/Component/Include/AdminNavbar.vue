@@ -52,6 +52,16 @@
                                 <i class="ri-calendar-todo-fill"></i>
                             </inertia-link>
                         </li>
+                        <li>
+                            <inertia-link
+                                :href="route('admin.email.inbox')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Lead Board" data-original-title="Lead Board"
+                                :class="route().current('admin.email.inbox')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-mail-line"></i>
+                            </inertia-link>
+                        </li>
                     </ul>
                     <div class="iq-search-bar">
                         <form :action="route('admin.lead.table')"  method="get" class="searchbox">

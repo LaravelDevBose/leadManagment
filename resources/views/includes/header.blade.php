@@ -1,5 +1,6 @@
 <header id="header" >
-    <div class="container-fluid d-flex align-items-center">
+    <div class="container-fluid d-flex align-items-center header-pa">
+
         <a href="{{ route('homepage') }}" class="logo mr-auto"><img src="{{ asset('assets/img/logo.png') }}" alt="" class="img-fluid"></a>
         <!-- Uncomment below if you prefer to use text as a logo -->
         <!-- <h1 class="logo mr-auto"><a href="index.html">Butterfly</a></h1> -->

@@ -6,18 +6,19 @@
                     <b-row>
                         <b-col cols="12 mb-4">
                             <inertia-link :href="route('admin.lead.create')"  class="btn btn-primary">
-                                <i class="ri-add-box-line font-size-18"></i> <span>Add New Lead</span>
+                                <i class="ri-add-box-line font-size-18"></i> <span>Add New Client</span>
                             </inertia-link>
                         </b-col>
                     </b-row>
                     <div class="row">
-                        <div class="col-md-4"
+                        <div class="col-sm-12 col-md-6 col-lg-4"
                              v-for="(board, index) in boardTitles"
                              :key="index"
                         >
                             <iq-card
                                 bodyClass="pro-bg-card"
                                 class="bg-transparent shadow-none mr-3 lead-card-block"
+                                style="width: 100%"
                                 :headerClass="colors[index]"
                                 >
                                 <template v-slot:headerTitle>
