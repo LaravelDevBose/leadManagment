@@ -15,18 +15,18 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <jet-label for="first_name" value="First Name" />
-                                            <jet-input id="first_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.first_name" autocomplete="name" :required="true" />
+                                            <jet-input id="first_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.first_name" autocomplete="name" :required="false" />
                                             <jet-input-error :message="personalInfoForm.error('first_name')" class="mt-2" />
                                         </div>
                                         <div class="col-sm-6">
                                             <jet-label for="last_name" value="Last Name" />
-                                            <jet-input id="last_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.last_name" autocomplete="name" :required="true" />
+                                            <jet-input id="last_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.last_name" autocomplete="name" :required="false" />
                                             <jet-input-error :message="personalInfoForm.error('last_name')" class="mt-2" />
                                         </div>
                                         <!-- Email -->
                                         <div class="col-sm-6">
                                             <jet-label for="email" value="Email" />
-                                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="personalInfoForm.email"  :required="true" />
+                                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="personalInfoForm.email"  :required="false" />
                                             <jet-input-error :message="personalInfoForm.error('email')" class="mt-2" />
                                         </div>
 

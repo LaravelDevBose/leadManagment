@@ -43,16 +43,16 @@
                                                 >
                                                     <i class="ri-pencil-fill font-size-16"></i>
                                                 </inertia-link>
-<!--                                                <a class="avatar-45 rounded-circle text-center ml-3 iq-bg-danger font-size-18"
+                                                <a class="avatar-45 rounded-circle text-center ml-3 iq-bg-danger font-size-18"
                                                    data-toggle="tooltip"
                                                    data-placement="top"
                                                    title=""
                                                    data-original-title="Delete"
                                                    href="#"
-                                                   @click.prevent="deleteItem(testimonial.id)"
+                                                   @click.prevent="deleteItem(lead.lead_id)"
                                                 >
                                                     <i class="ri-delete-bin-line font-size-16"></i>
-                                                </a>-->
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -76,6 +76,23 @@ export default {
     components: {
         AppAdminLayout,
         IqCard,
+    },
+    data(){
+        return{
+            form: this.$inertia.form({
+                '_method': 'DELETE',
+            }, {
+                bag: 'serviceForm',
+                resetOnSuccess: false,
+            }),
+        }
+    },
+    methods:{
+        deleteItem(id){
+            this.form.post(route('admin.lead.destroy', id), {
+                preserveScroll: true
+            });
+        }
     }
 }
 </script>

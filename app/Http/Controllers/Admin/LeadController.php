@@ -43,10 +43,10 @@ class LeadController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
             'phone_no' => ['required', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255'],
@@ -57,10 +57,10 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::create([
                 'current_step'=> Lead::Steps['Documentation'],
-                'first_name'=>$request->input('first_name'),
-                'last_name'=>$request->input('last_name'),
+                'first_name'=>!empty($request->input('first_name'))? $request->input('first_name') :'',
+                'last_name'=>!empty($request->input('last_name'))? $request->input('last_name') : '',
                 'phone_no'=>$request->input('phone_no'),
-                'email'=>$request->input('email'),
+                'email'=>!empty($request->input('email'))? $request->input('email') :'',
                 'address'=>$request->input('address'),
                 'city'=>$request->input('city'),
                 'state'=>$request->input('state'),
@@ -126,10 +126,10 @@ class LeadController extends Controller
     public function updatePersonalInfo(Request $request, $id)
     {
         Validator::make($request->all(), [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
             'phone_no' => ['required', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255'],
@@ -140,10 +140,10 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'first_name'=>$request->input('first_name'),
-                'last_name'=>$request->input('last_name'),
+                'first_name'=>!empty($request->input('first_name'))? $request->input('first_name') : '',
+                'last_name'=>!empty($request->input('last_name'))? $request->input('last_name') : '',
                 'phone_no'=>$request->input('phone_no'),
-                'email'=>$request->input('email'),
+                'email'=>!empty($request->input('email'))? $request->input('email'): '',
                 'address'=>$request->input('address'),
                 'city'=>$request->input('city'),
                 'state'=>$request->input('state'),
@@ -293,10 +293,21 @@ class LeadController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $lead = Lead::findOrFail($id);
+            if (!empty($lead) && $lead->delete()){
+                DB::commit();
+                return redirect()->back()->with('success', 'Lead Deleted Successfully');
+            }
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', $exception->getMessage());
+        }
     }
 }

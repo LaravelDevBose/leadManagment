@@ -20,6 +20,7 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/lead/store', [LeadController::class ,'store'])->name('lead.store');
     Route::get('/lead/table', [LeadController::class ,'table'])->name('lead.table');
     Route::get('/lead/{lead_id}', [LeadController::class ,'show'])->name('lead.show');
+    Route::delete('/lead/{lead_id}', [LeadController::class ,'destroy'])->name('lead.destroy');
     Route::get('/lead/{lead_id}/print', [LeadController::class ,'print'])->name('lead.print');
 
     Route::post('/personal_info/{lead_id}/update',      [LeadController::class, 'updatePersonalInfo'])->name('personal.update');
