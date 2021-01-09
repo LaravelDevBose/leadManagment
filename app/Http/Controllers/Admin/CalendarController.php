@@ -33,6 +33,7 @@ class CalendarController extends Controller
                 'start'=>date('Y-m-d h:i:s', strtotime($request->input('start'))) ,
                 'end'=>Carbon::parse($request->input('start'))->addHours(1)->format('Y-m-d h:i:s'),
                 'body'=>$request->input('body'),
+                'isAllday'=>1
             ]);
             if (!empty($schedule)){
                 DB::commit();
