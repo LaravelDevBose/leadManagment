@@ -58,6 +58,13 @@
                 </b-col>
             </b-row>
         </b-container>
+        <show 
+        :event="showEventDetails" 
+        :showEvent="showEvent"
+        @editEvent="onBeforeUpdateSchedule($event)"
+        @deleteEvent="onBeforeDeleteSchedule($event)"
+        @closeModal="closeShow()"
+        ></show>
     </app-admin-layout>
 </template>
 <script>
@@ -69,6 +76,7 @@ import AppAdminLayout from "../../../Layouts/AppAdminLayout";
 import CreateUpdate from "./CreateUpdate";
 import Event from './Event'
 import AlertMessages from "../../../Component/Include/AlertMessages";
+import Show from './Show.vue'
 export default {
     name: 'Calendar',
     props:['schedules'],
@@ -76,7 +84,8 @@ export default {
         AlertMessages,
         CreateUpdate,
         AppAdminLayout,
-        calendar: Calendar
+        calendar: Calendar,
+        Show
     },
     data () {
         return {
@@ -121,7 +130,7 @@ export default {
             },
             taskView: true,
             scheduleView: true,
-            useDetailPopup: true,
+            useDetailPopup: false,
             disableDblClick: true,
             useCreationPopup: false,
             isReadOnly: false,
@@ -132,23 +141,12 @@ export default {
                 bag: 'deleteEventForm',
                 resetOnSuccess: false,
             }),
+            showEvent: false,
+            showEventDetails: {},
+            clickedEvent: {},
         }
     },
-    watch: {
-        selectedView (newValue) {
-            this.$refs.tuiCal.invoke('changeView', newValue, true)
-            this.setRenderRangeText()
-        },
-        checkSchedulesData:{
-            handler(newValue, oldValue){
-                if(oldValue !== newValue){
-                    console.log('ererer');
-                    this.updateScheduleList();
-                }
-            },
-            deep:true,
-        },
-    },
+    
     methods: {
         init () {
             this.setRenderRangeText()
@@ -196,11 +194,15 @@ export default {
             }
         },
         onClickSchedule (res) {
-             console.group('onClickSchedule')
-            console.log('MouseEvent : ', res.event)
-            console.log('Calendar Info : ', res.calendar)
-            console.log('Schedule Info : ', res.schedule)
-            console.groupEnd()
+            this.showEvent = true;
+            this.clickedEvent = {...res};
+            this.showEventDetails = {...res.schedule};
+            $('#DetaileModal').modal('show');
+        },
+        closeShow(){
+            this.showEvent = false;
+            this.showEventDetails = {};
+            $('#DetaileModal').modal('hide');
         },
         onClickDayname (res) {
             console.log('onClickDayname');
@@ -209,17 +211,18 @@ export default {
             console.log(res.date)
             console.groupEnd() */
         },
-        onBeforeUpdateSchedule (res) {
-           this.scheduleList.findIndex(item => {
-                if (item.id === res.schedule.id){
+        onBeforeUpdateSchedule (id) {
+            this.closeShow();
+            this.scheduleList.findIndex(item => {
+                if (item.id === id){
                     this.schedule = item;
                 }
             });
         },
-        onBeforeDeleteSchedule (res) {
-            console.log('onBeforeDeleteSchedule');
-            const idx = this.scheduleList.findIndex(item => item.id === res.schedule.id)
-            this.deleteEventForm.post(route('admin.schedule.destroy', this.scheduleList[idx].id),{
+        onBeforeDeleteSchedule (id) {
+            this.closeShow();
+            const idx = this.scheduleList.findIndex(item => item.id === id)
+            this.deleteEventForm.post(route('admin.schedule.destroy', id),{
                 preserveScroll: true,
                 onSuccess: () => {
                     this.scheduleList.splice(idx, 1);
@@ -231,6 +234,7 @@ export default {
 
         },
         updateScheduleList(){
+            this.scheduleList.length = 0;
             this.schedules.filter(value =>{
                 const schedule = new Event(value);
                 this.scheduleList.push(schedule);
@@ -241,6 +245,21 @@ export default {
         checkSchedulesData(){
             return JSON.parse(JSON.stringify(this.schedules))
         }
+    },
+    watch: {
+        selectedView (newValue) {
+            this.$refs.tuiCal.invoke('changeView', newValue, true)
+            this.setRenderRangeText()
+        },
+        checkSchedulesData:{
+            handler(newValue, oldValue){
+                if(oldValue !== newValue){
+                    this.updateScheduleList();
+                    this.setRenderRangeText();
+                }
+            },
+            deep:true,
+        },
     },
     mounted () {
         this.init()

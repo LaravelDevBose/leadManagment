@@ -59,9 +59,23 @@
                                 <jet-input-error :message="form.error('last_name')" class="mt-2" />
                             </div>
                         </div>
-
-                        <!-- Email -->
                         <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="sec_client_first_name" :value="lang.sec_client_first_name" />
+                                <jet-input id="sec_client_first_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.sec_client_first_name" autocomplete="sec_client_first_name" :required="false" />
+                                <jet-input-error :message="form.error('sec_client_first_name')" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <jet-label for="sec_client_last_name" :value="lang.sec_client_last_name" />
+                                <jet-input id="sec_client_last_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.sec_client_last_name" autocomplete="sec_client_last_name" :required="true" />
+                                <jet-input-error :message="form.error('sec_client_last_name')" class="mt-2" />
+                            </div>
+                        </div>
+                        <!-- Email -->
+                    
+                        <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 <jet-label for="email" :value="lang.email" />
                                 <jet-input id="email" type="email" class="mt-1 block w-full rounded-0" v-model="form.email"  :required="false" />
@@ -69,11 +83,18 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 <jet-label for="phone" :value="lang.phone" />
                                 <jet-input id="phone" type="text" class="mt-1 block w-full rounded-0" v-model="form.phone_no" :required="true" />
                                 <jet-input-error :message="form.error('phone_no')" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="form-group">
+                                <jet-label for="dealer_name" :value="lang.dealer_name" />
+                                <jet-input id="dealer_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.dealer_name"  :required="false" />
+                                <jet-input-error :message="form.error('dealer_name')" class="mt-2" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12">
@@ -143,6 +164,9 @@ export default {
             form: this.$inertia.form({
                 first_name: '',
                 last_name:'',
+                sec_client_first_name: '',
+                sec_client_last_name: '',
+                dealer_name: '',
                 email: '',
                 phone_no:'',
                 address:'',
@@ -157,6 +181,9 @@ export default {
                 title: 'Registration',
                 first_name: 'First Name',
                 last_name: 'Last Name',
+                sec_client_first_name: 'Second Cleint First Name',
+                sec_client_last_name: 'Second Cleint Last Name',
+                dealer_name: 'Dealer Name',
                 email: 'Email',
                 phone: 'Phone No',
                 address: 'Address',
@@ -169,6 +196,9 @@ export default {
                 title: 'Registro',
                 first_name: 'Primer nombre',
                 last_name: 'Apellido',
+                sec_client_first_name: 'Second Cleint First Name',
+                sec_client_last_name: 'Second Cleint Last Name',
+                dealer_name: 'Nombre del comerciante',
                 email: 'Email',
                 phone: 'Telefono no',
                 address: 'Habla a',

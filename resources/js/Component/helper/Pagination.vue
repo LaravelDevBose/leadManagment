@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-between" v-if="showPagination">
+    <div class="d-flex justify-content-between px-3" v-if="showPagination">
         <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing {{ meta.from }} to {{ meta.to }} of
             {{ meta.total }} entries
         </div>
@@ -36,11 +36,15 @@ export default {
 </script>
 
 <style scoped>
+.pagination{
+    border-color: var(--iq-primary-dark);
+}
 .page-link{
-    color: #3d9970;
+    color: var(--iq-primary-light);
+    border-color: var(--iq-primary-dark);
 }
 .page-item.active .page-link{
-    background-color: #39cccc;
-    border-color: #39cccc;
+    background-color:var(--iq-primary);
+    border-color: var(--iq-primary-dark);
 }
 </style>

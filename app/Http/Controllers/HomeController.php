@@ -7,6 +7,7 @@ use App\Models\Lead;
 use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\User;
+use App\Notifications\NewContactUsMessage;
 use App\Notifications\NewLeadRegistered;
 use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
@@ -97,6 +98,8 @@ class HomeController extends Controller
                 ]);
                 if (!empty($message)){
                     DB::commit();
+                    $admins = User::all();
+                    Notification::send($admins, new NewContactUsMessage($message->fresh()));
                     return response()->json([
                         'status'=>200,
                         'statusText'=>'Success',

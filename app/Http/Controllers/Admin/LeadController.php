@@ -89,7 +89,8 @@ class LeadController extends Controller
      */
     public function table(Request $request)
     {
-        $leads = Lead::isOpen()->searchBy($request)->orderBy('current_step', 'asc')->get();
+        $leads = Lead::isOpen()->searchBy($request)->orderBy('current_step', 'asc')->orderBy('first_name', 'asc')->paginate(30);
+    
         $searchKey = !empty($request->search_key)? $request->search_key : '';
         return Inertia::render('Admin/Lead/Table', compact('leads', 'searchKey'));
     }
@@ -181,7 +182,6 @@ class LeadController extends Controller
             'model' => ['required', 'string', 'max:25'],
             'color' => ['required', 'string', 'max:25'],
             'mileage' => ['required', 'min:1', 'max:255'],
-            'payment_type' => ['required', 'min:1', 'max:255'],
             'lein_holder_info' => ['nullable', 'string'],
         ])->validateWithBag('vehicleForm');
 
@@ -197,7 +197,6 @@ class LeadController extends Controller
                 'color'=>$request->input('color'),
                 'mileage'=>$request->input('mileage'),
                 'lein_holder_info'=>$request->input('lein_holder_info'),
-                'payment_type'=>$request->input('payment_type'),
             ]);
             if (!empty($leadU)){
                 $lead->logs()->create([
@@ -224,10 +223,32 @@ class LeadController extends Controller
      */
     public function updateTransactionInfo(Request $request, $id)
     {
-        Validator::make($request->all(), [
+        $validation = Validator::make($request->all(), [
             'trans_status' => ['required', 'string', 'max:20'],
-            'trans_issue' => ['nullable','min:4', 'max:255'],
-        ])->validateWithBag('transactionForm');
+            'payment_type' => ['required', 'min:1', 'max:255'],
+            'trans_type' => ['required','min:4', 'max:255'],
+        ]);
+        $validation->sometimes([
+            'trans_status_extra',
+            'trans_status_extra.dmv_date', 
+            'trans_status_extra.dmv_tracking'],
+            [
+                'required', 'string'
+            ],
+            function($input){
+                    return $input->trans_issue == 'At DMV';
+        });
+        $validation->sometimes([
+            'trans_status_extra',
+            'trans_status_extra.complete_plate', 
+            ], [ 'required', 'string' ], function($input){  return $input->trans_issue == 'Completed'; });
+
+        $validation->sometimes([
+            'trans_status_extra',
+            'trans_status_extra.issue_note', 
+            ], [ 'required', 'string' ], function($input){  return $input->trans_issue == 'Issue'; });
+            
+        $validation->validateWithBag('transactionForm');
 
         try {
             DB::beginTransaction();
@@ -235,7 +256,10 @@ class LeadController extends Controller
             $leadU =$lead->update([
                 'current_step'=> $lead->current_step > Lead::Steps['Special'] ? $lead->current_step : Lead::Steps['Payment'] ,
                 'trans_status'=>$request->input('trans_status'),
-                'trans_issue'=>$request->input('trans_issue'),
+                'payment_type'=>$request->input('payment_type'),
+                'trans_type'=>$request->input('trans_type'),
+                'trans_status_extra'=> json_encode($request->input('trans_status_extra')),
+                'payment_type_extra'=> json_encode($request->input('payment_type_extra'))
             ]);
             if (!empty($leadU)){
                 $lead->logs()->create([

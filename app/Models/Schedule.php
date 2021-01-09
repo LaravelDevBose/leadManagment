@@ -16,7 +16,7 @@ class Schedule extends Model
         'title',
         'start',
         'end',
-        'state',
+        'body',
         'isAllday',
     ];
 

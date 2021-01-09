@@ -13,8 +13,8 @@ class Lead extends Model
     const Steps = [
         'Documentation'=>1,
         'Vehicle'=>2,
-        'Special'=>3,
-        'Payment'=>4,
+        'Payment'=>3,
+        'Special'=>4,
     ];
 
     const Status = [
@@ -29,6 +29,9 @@ class Lead extends Model
         'current_step',
         'first_name',
         'last_name',
+        'sec_client_first_name',
+        'sec_client_last_name',
+        'dealer_name',
         'phone_no',
         'email',
         'address',
@@ -43,13 +46,22 @@ class Lead extends Model
         'mileage',
         'lein_holder_info',
         'trans_status',
+        'trans_type',
+        'trans_status_extra',
         'payment_type',
         'special_note',
         'lead_status',
-        'trans_issue'
+        
+        'payment_type_extra',
     ];
 
     protected $appends=['full_address', 'full_name'];
+    protected static function booted()
+    {
+        static::deleted(function ($lead){
+            $lead->logs()->delete();
+        });
+    }
 
     public function getFullAddressAttribute()
     {
@@ -65,20 +77,27 @@ class Lead extends Model
     {
         return Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i A');
     }
+    public function getTransStatusExtraAttribute()
+    {
+        return json_decode($this->attributes['trans_status_extra'], true);
+    }
+
+    public function getPaymentStatusExtraAttribute()
+    {
+        return json_decode($this->attributes['payment_type_extra'], true);
+    }
 
     public function scopeSearchBy($query, $request)
     {
         if (!empty($request->search_key)){
             $searchKey = $request->search_key;
-            $query = $query->where(function ($q) use ($searchKey){
-                return $q->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
-                    ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('phone_no', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('email', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('address', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('city', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('state', 'LIKE', '%'. $searchKey. '%');
-            });
+            $query = $query->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
+            ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%')
+            ->orWhere('phone_no', 'LIKE', '%'. $searchKey. '%')
+            ->orWhere('email', 'LIKE', '%'. $searchKey. '%')
+            ->orWhere('address', 'LIKE', '%'. $searchKey. '%')
+            ->orWhere('city', 'LIKE', '%'. $searchKey. '%')
+            ->orWhere('state', 'LIKE', '%'. $searchKey. '%');
         }
         return $query;
     }
@@ -91,13 +110,6 @@ class Lead extends Model
     public function scopeIsClosed($query)
     {
         return $query->where('lead_status', self::Status['Closed']);
-    }
-
-    protected static function booted()
-    {
-        static::deleted(function ($lead){
-            $lead->logs()->delete();
-        });
     }
 
     public function logs()

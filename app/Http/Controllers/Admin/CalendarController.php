@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Carbon;
 
 class CalendarController extends Controller
 {
@@ -22,8 +23,7 @@ class CalendarController extends Controller
         Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:255'],
             'start' => ['required','string', 'max:255'],
-            'end' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string'],
         ])->validateWithBag('scheduleForm');
 
         try {
@@ -31,9 +31,8 @@ class CalendarController extends Controller
             $schedule = Schedule::create([
                 'title'=>$request->input('title'),
                 'start'=>date('Y-m-d h:i:s', strtotime($request->input('start'))) ,
-                'end'=>date('Y-m-d h:i:s', strtotime($request->input('end'))) ,
-                'state'=>$request->input('state'),
-                'isAllday'=>!empty($request->input('isAllday')) ? $request->input('isAllday') : 0,
+                'end'=>Carbon::parse($request->input('start'))->addHours(1)->format('Y-m-d h:i:s'),
+                'body'=>$request->input('body'),
             ]);
             if (!empty($schedule)){
                 DB::commit();
@@ -52,8 +51,7 @@ class CalendarController extends Controller
         Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:255'],
             'start' => ['required','string', 'max:255'],
-            'end' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string'],
         ])->validateWithBag('scheduleForm');
 
         try {
@@ -62,9 +60,8 @@ class CalendarController extends Controller
             $schedule = $schedule->update([
                 'title'=>$request->input('title'),
                 'start'=>date('Y-m-d h:i:s', strtotime($request->input('start'))),
-                'end'=>date('Y-m-d h:i:s', strtotime($request->input('end'))) ,
-                'state'=>$request->input('state'),
-                'isAllday'=>!empty($request->input('isAllday')) ? $request->input('isAllday') : 0,
+                'end'=>Carbon::parse($request->input('start'))->addHours(1)->format('Y-m-d h:i:s'),
+                'body'=>$request->input('body'),
             ]);
             if (!empty($schedule)){
                 DB::commit();

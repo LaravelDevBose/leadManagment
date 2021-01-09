@@ -18,21 +18,8 @@
                             <jet-input-error :message="form.error('start')" class="mt-2" />
                         </div>
                         <div class="col-sm-12 mt-1">
-                            <flat-pickr id="end" v-model="form.end" class="mt-1 block w-full form-input rounded-md shadow-sm"  :config="basicTimeConfig" placeholder="Select DateTime"></flat-pickr>
-                            <jet-input-error :message="form.error('end')" class="mt-2" />
-                        </div>
-                        <div class="col-sm-6 mt-1">
-                            <select class="form-control mt-1 block w-full" v-model="form.state" id="state">
-                                <option value="Busy">Busy</option>
-                                <option value="Free">Free</option>
-                            </select>
-                            <jet-input-error :message="form.error('state')" class="mt-2" />
-                        </div>
-                        <div class="col-sm-6 mt-1">
-                            <b-checkbox class="custom-switch-color" color="" v-model="form.isAllday"  name="check-button" inline >
-                                All Day
-                            </b-checkbox>
-                            <jet-input-error :message="form.error('payment_type')" class="mt-2" />
+                            <textarea id="mail_body" class="mt-1 block w-full form-input rounded-md shadow-sm" v-model="form.body" placeholder="Schedule Details" rows="3" style="line-height: 22px;"> </textarea>
+                            <jet-input-error :message="form.error('body')" class="mt-2" />
                         </div>
                     </div>
                 </template>
@@ -81,10 +68,8 @@ export default {
             form: this.$inertia.form({
                 '_method': 'POST',
                 title: '',
-                isAllday: 1,
                 start: '',
-                end: '',
-                state: 'Busy',
+                body: '',
             }, {
                 bag: 'scheduleForm',
                 resetOnSuccess: true,
@@ -95,9 +80,6 @@ export default {
                 dateFormat: 'Y-m-d H:i'
             }
         }
-    },
-    mounted() {
-
     },
     methods:{
         submitServiceForm() {
@@ -130,13 +112,11 @@ export default {
         checkScheduleData:{
             handler(newValue, oldValue){
                 if(oldValue !== newValue){
-                    console.log(this.schedule);
+                    console.log('update '+this.schedule);
                     this.isEdit = true;
                     this.form.title = this.schedule.title;
-                    this.form.isAllday = this.schedule.isAllday;
                     this.form.start = this.schedule.start;
-                    this.form.end = this.schedule.end;
-                    this.form.state = this.schedule.state;
+                    this.form.body = this.schedule.body;
                 }
             },
             deep:true,

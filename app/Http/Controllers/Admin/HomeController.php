@@ -30,10 +30,16 @@ class HomeController extends Controller
     {
         $notification = auth()->user()->notifications()->where('id', $id)->first();
         if (!empty($notification)){
-            $leadId = $notification->data['lead_id'];
             $notification->update(['read_at'=> now()]);
-
-            return redirect()->route('admin.lead.show', $leadId);
+            if($notification->type == 'App\Notifications\NewContactUsMessage'){
+                return redirect()->route('admin.contact_us.message.index');
+            }else if($notification->type == 'App\Notifications\NewLeadRegistered'){
+                $leadId = $notification->data['lead_id'];
+                return redirect()->route('admin.lead.show', $leadId);
+            }else{
+                return redirect()->back();
+            }
+            
         }else{
             return redirect()->back()->with('error', 'Invalid Lead Information');
         }

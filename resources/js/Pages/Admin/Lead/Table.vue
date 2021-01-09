@@ -3,14 +3,20 @@
         <b-container fluid>
             <b-row>
                 <b-col sm="12">
-                    <iq-card>
+                    <iq-card class="pb-3">
                         <template v-slot:headerTitle>
                             <h4 class="card-title">Client List</h4>
+                        </template>
+                        <template v-slot:headerAction>
+                            <inertia-link :href="route('admin.lead.create')"  class="btn btn-primary">
+                                <i class="ri-add-box-line font-size-18"></i> <span>Add New Client</span>
+                            </inertia-link>
                         </template>
                         <template v-slot:body>
                             <table class="table table-hover table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Created At</th>
                                         <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
@@ -19,14 +25,21 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody v-if="leads && leads.length > 0">
-                                    <tr v-for="(lead, index) in leads" :key="index">
+                                <tbody v-if="leads">
+                                    <tr v-for="(lead, index) in leads.data" :key="index">
+                                        <td>{{ lead.created_at}}</td>
                                         <td>{{ lead.full_name}}</td>
                                         <td>{{ lead.email}}</td>
                                         <td>{{ lead.phone_no}}</td>
                                         <td>{{ lead.full_address}}</td>
                                         <td style="max-width: 7rem">
-                                            <div class="progress">
+                                            <div class="progress" v-if="lead.trans_status === 'Issue' && lead.current_step  >= 3">
+                                                <div class="progress-bar bg-danger" style="width:100%"> </div>
+                                            </div>
+                                            <div class="progress" v-else-if="lead.trans_status === 'Completed' && lead.current_step  >= 3">
+                                                <div class="progress-bar bg-success" style="width:100%"></div>
+                                            </div>
+                                            <div class="progress" v-else>
                                                 <div class="progress-bar bg-primary" v-if="lead.current_step  >= 1" style="width:25%"> </div>
                                                 <div class="progress-bar bg-warning" v-if="lead.current_step  >= 2" style="width:25%"></div>
                                                 <div class="progress-bar bg-info" v-if="lead.current_step  >= 3" style="width:25%"></div>
@@ -59,6 +72,7 @@
                                 </tbody>
                             </table>
                         </template>
+                        <pagination :meta="leads"></pagination>
                     </iq-card>
                 </b-col>
             </b-row>
@@ -69,6 +83,9 @@
 <script>
 import AppAdminLayout from "../../../Layouts/AppAdminLayout";
 import IqCard from "../../../Component/core/cards/iq-card";
+import Pagination from '../../../Component/helper/Pagination.vue';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 export default {
     name: "Table",
@@ -76,6 +93,7 @@ export default {
     components: {
         AppAdminLayout,
         IqCard,
+        Pagination,
     },
     data(){
         return{
@@ -85,6 +103,7 @@ export default {
                 bag: 'serviceForm',
                 resetOnSuccess: false,
             }),
+            paginates: {},
         }
     },
     methods:{
@@ -93,7 +112,35 @@ export default {
                 preserveScroll: true
             });
         }
-    }
+    },
+    computed:{
+        checkLeadsData(){
+            console.log
+            return JSON.parse(JSON.stringify(this.leads))
+        }
+    },
+    watch:{
+        leads:{
+            handler(newValue, oldValue){
+                const leadDate = {...this.leads};
+                console.log(leadDate);
+                    delete leadDate.data;
+                    
+                    this.paginates = {...leadDate};
+            },
+            deep:true,
+        },
+    },
+    filters: {
+    
+        formated: (date, format) => {
+            if (!date){
+                return null;
+            }
+
+            return dayjs(date).format(format);
+        }
+    },
 }
 </script>
 

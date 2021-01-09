@@ -48,7 +48,7 @@
                     </li>
                     <li :class="route().current('admin.email.inbox')?'active': '' ">
                         <inertia-link :href="route('admin.email.inbox')"  class="iq-waves-effect">
-                            <i class="ri-mail-line"></i><span>Inbox</span>
+                            <i class="ri-mail-line"></i><span>Mail</span>
                         </inertia-link>
                     </li>
                     <li :class="route().current('admin.calender.index')?'active': '' ">
@@ -56,11 +56,7 @@
                             <i class="ri-calendar-todo-fill"></i><span>Calendar</span>
                         </inertia-link>
                     </li>
-                    <li :class="route().current('admin.services.index')?'active': '' ">
-                        <inertia-link :href="route('admin.services.index')"  class="iq-waves-effect">
-                            <i class="ri-list-settings-fill"></i><span>Service</span>
-                        </inertia-link>
-                    </li>
+                    
                     <li :class="route().current('admin.users.index')?'active': '' ">
                         <inertia-link :href="route('admin.users.index')"  class="iq-waves-effect">
                             <i class="ri-user-line"></i><span>Employee & Admin</span>
@@ -71,11 +67,6 @@
                             <i class="ri-discuss-fill"></i><span> Contact Form Leads</span>
                         </inertia-link>
                     </li>
-                    <li :class="route().current('admin.testimonials.index')?'active': '' ">
-                        <inertia-link :href="route('admin.testimonials.index')"  class="iq-waves-effect">
-                            <i class="ri-double-quotes-l"></i><span>Testimonials</span>
-                        </inertia-link>
-                    </li>
                     <li>
                         <a href="#setting-menu" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
                             <i class="ri-settings-5-fill"></i>
@@ -83,6 +74,16 @@
                             <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                         </a>
                         <ul id="setting-menu" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li :class="route().current('admin.services.index')?'active': '' ">
+                                <inertia-link :href="route('admin.services.index')">
+                                    <i class="ri-list-settings-fill"></i><span>Add Services</span>
+                                </inertia-link>
+                            </li>
+                            <li :class="route().current('admin.testimonials.index')?'active': '' ">
+                                <inertia-link :href="route('admin.testimonials.index')">
+                                    <i class="ri-double-quotes-l"></i><span>Add Testimonials</span>
+                                </inertia-link>
+                            </li>
                             <li :class="route().current('admin.about_us.page')?'active': '' ">
                                 <inertia-link :href="route('admin.about_us.page')">
                                     <i class="ri-file-text-line"></i><span>About Us</span>

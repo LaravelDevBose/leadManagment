@@ -207,6 +207,7 @@
             <div class="row form_section">
                 <div class="col-md-12 mt-5 mt-lg-0">
                     <form action="{{ route('contact_us.store') }}" method="post" role="form" class="php-email-form">
+                        {{ csrf_field() }}
                         <div class="form-row">
                             <div class="col-md-6 form-group">
                                 <input type="text" name="first_name" required class="form-control" id="name" placeholder="First Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />

@@ -71,14 +71,51 @@
                                     <div class="col-3">Lein Holder Info:</div>
                                     <div class="col-9">{{ lead.lein_holder_info}}</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">Payment Type:</div>
-                                    <div class="col-9">{{ lead.payment_type}}</div>
-                                </div>
+                            
                             </div>
                         </div>
                     </div>
                     <div class="iq-card" v-if="lead.current_step  >= 3">
+                        <div class="iq-card-header d-flex justify-content-between" :class="lead.trans_status === 'Issue'?'bg-danger': 'bg-info'">
+                            <div class="iq-header-title ">
+                                <h4 class="card-title text-white">Transaction/Payment information</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="about-info m-0 p-0">
+                                <div class="row">
+                                    <div class="col-5">Transaction Status:</div>
+                                    <div class="col-7">{{ lead.trans_status }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">Transaction Type:</div>
+                                    <div class="col-7">{{ lead.trans_type }}</div>
+                                </div>
+                                <div class="row" v-if="lead.trans_status === 'At DMV'">
+                                    <div class="col-5">Date:</div>
+                                    <div class="col-7"> {{ lead.trans_status_extra.dmv_date | formated('DD-MMM-YYYY')  }}</div>
+                                </div>
+                                <div class="row" v-if="lead.trans_status === 'At DMV'">
+                                    <div class="col-5">Tracking:</div>
+                                    <div class="col-7"> {{ lead.trans_status_extra.dmv_tracking }}</div>
+                                </div>
+                                <div class="row" v-if="lead.trans_status === 'Completed'">
+                                    <div class="col-5">Plate:</div>
+                                    <div class="col-7"> {{ lead.trans_status_extra.complete_plate }}</div>
+                                </div>
+                                <div class="row" v-if="lead.trans_status === 'Issue'">
+                                    <div class="col-5">Issue Note:</div>
+                                    <div class="col-7"> {{ lead.trans_status_extra.issue_note }}</div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-5">Payment Type:</div>
+                                    <div class="col-7">{{ lead.payment_type}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="iq-card" v-if="lead.current_step  >= 4">
                         <div class="iq-card-header bg-success d-flex justify-content-between">
                             <div class="iq-header-title ">
                                 <h4 class="card-title text-white">Special Request</h4>
@@ -93,25 +130,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="iq-card" v-if="lead.current_step  >= 4">
-                        <div class="iq-card-header bg-info d-flex justify-content-between">
-                            <div class="iq-header-title ">
-                                <h4 class="card-title text-white">Transaction/Payment information</h4>
-                            </div>
-                        </div>
-                        <div class="iq-card-body">
-                            <div class="about-info m-0 p-0">
-                                <div class="row">
-                                    <div class="col-3">Transaction Status:</div>
-                                    <div class="col-9">{{ lead.trans_status }}</div>
-                                </div>
-                                <div class="row" v-if="lead.trans_status === 'Issue'">
-                                    <div class="col-3">Issue Note:</div>
-                                    <div class="col-9"> {{ lead.trans_issue }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="iq-card" v-if="lead.logs">
                         <div class="iq-card-header bg-blue-700 d-flex justify-content-between">
                             <div class="iq-header-title ">
@@ -123,7 +142,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="list-group">
-                                            <li v-for="log in lead.logs" :key="log.log_message"  class="list-group-item list-group-item-action p-1">
+                                            <li v-for="log in lead.logs" :key="log.created_at"  class="list-group-item list-group-item-action p-1">
                                                 <p class="mb-0">{{ log.log_message }}</p>
                                                 <small>{{ log.created_at | diffForHumans}}</small>
                                             </li>
@@ -151,15 +170,14 @@
                                                     Vehicle information
                                                 </a>
                                             </li>
-
                                             <li class="col-md-3 p-0">
-                                                <a class="nav-link Special" :class="lead.current_step === 2? 'active': '' " data-toggle="pill" href="#Special">
-                                                    Special Request
+                                                <a class="nav-link Transaction" :class="lead.current_step === 2? 'active': '' " data-toggle="pill" href="#Transaction">
+                                                    Transaction information
                                                 </a>
                                             </li>
                                             <li class="col-md-3 p-0">
-                                                <a class="nav-link Transaction" :class="lead.current_step === 3? 'active': '' " data-toggle="pill" href="#Transaction">
-                                                    Transaction information
+                                                <a class="nav-link Special" :class="lead.current_step === 3? 'active': '' " data-toggle="pill" href="#Special">
+                                                    Special Request
                                                 </a>
                                             </li>
                                         </ul>
@@ -201,44 +219,59 @@
                                                 <form-area @submitted="updatePersonalInfo">
                                                     <template #form>
                                                         <div class="row">
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-6 form-group">
                                                                 <jet-label for="first_name" value="First Name" />
-                                                                <jet-input id="first_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.first_name" autocomplete="name" :required="true" />
+                                                                <jet-input id="first_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.first_name" autocomplete="name" :required="false" />
                                                                 <jet-input-error :message="personalInfoForm.error('first_name')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-6 form-group">
                                                                 <jet-label for="last_name" value="Last Name" />
-                                                                <jet-input id="last_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.last_name" autocomplete="name" :required="true" />
+                                                                <jet-input id="last_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.last_name" autocomplete="name" :required="false" />
                                                                 <jet-input-error :message="personalInfoForm.error('last_name')" class="mt-2" />
                                                             </div>
+                                                            <div class="col-sm-6 form-group">
+                                                                <jet-label for="sec_client_first_name" value="Second Buyer First Name" />
+                                                                <jet-input id="sec_client_first_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.sec_client_first_name" autocomplete="name" :required="false" />
+                                                                <jet-input-error :message="personalInfoForm.error('sec_client_first_name')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-6 form-group">
+                                                                <jet-label for="sec_client_last_name" value="Second Buyer Last Name" />
+                                                                <jet-input id="sec_client_last_name" type="text" class="mt-1 block w-full" v-model="personalInfoForm.sec_client_last_name" autocomplete="name" :required="false" />
+                                                                <jet-input-error :message="personalInfoForm.error('sec_client_last_name')" class="mt-2" />
+                                                            </div>
                                                             <!-- Email -->
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-4 form-group">
                                                                 <jet-label for="email" value="Email" />
-                                                                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="personalInfoForm.email"  :required="true" />
+                                                                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="personalInfoForm.email"  :required="false" />
                                                                 <jet-input-error :message="personalInfoForm.error('email')" class="mt-2" />
                                                             </div>
 
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-4 form-group">
                                                                 <jet-label for="phone" value="Phone No." />
                                                                 <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="personalInfoForm.phone_no" :required="true" />
                                                                 <jet-input-error :message="personalInfoForm.error('phone_no')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-4 form-group">
+                                                                <jet-label for="phone" value="Dealer Name" />
+                                                                <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="personalInfoForm.dealer_name" :required="false" />
+                                                                <jet-input-error :message="personalInfoForm.error('dealer_name')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-12 form-group">
                                                                 <jet-label for="address" value="Address" />
                                                                 <jet-input id="address" type="text" class="mt-1 block w-full" v-model="personalInfoForm.address"  :required="true" />
                                                                 <jet-input-error :message="personalInfoForm.error('address')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-4 form-group">
                                                                 <jet-label for="city" value="City" />
                                                                 <jet-input id="city" type="text" class="mt-1 block w-full" v-model="personalInfoForm.city" :required="true"  />
                                                                 <jet-input-error :message="personalInfoForm.error('city')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-4 form-group">
                                                                 <jet-label for="state" value="State" />
                                                                 <jet-input id="state" type="text" class="mt-1 block w-full" v-model="personalInfoForm.state" :required="true"  />
                                                                 <jet-input-error :message="personalInfoForm.error('state')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-4 form-group">
                                                                 <jet-label for="postal_code" value="Zip Code" />
                                                                 <jet-input id="postal_code" type="text" class="mt-1 block w-full" v-model="personalInfoForm.postal_code" :required="true"  />
                                                                 <jet-input-error :message="personalInfoForm.error('postal_code')" class="mt-2" />
@@ -248,11 +281,11 @@
 
                                                     <template #actions>
                                                         <jet-action-message :on="personalInfoForm.recentlySuccessful" class="mr-3">
-                                                            Saved.
+                                                            Updated.
                                                         </jet-action-message>
 
                                                         <jet-button :class="{ 'opacity-25': personalInfoForm.processing }" :disabled="personalInfoForm.processing">
-                                                            Save
+                                                            Update
                                                         </jet-button>
                                                     </template>
                                                 </form-area>
@@ -303,19 +336,9 @@
                                                                 <jet-input id="mileage" type="number" class="mt-1 block w-full" v-model="vehicleForm.mileage"  :required="true" />
                                                                 <jet-input-error :message="vehicleForm.error('mileage')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-6">
-                                                                <jet-label for="payment_type" value="Payment Info" />
-                                                                <select class="form-control mt-1 block w-full" v-model="vehicleForm.payment_type" id="payment_type">
-                                                                    <option value="Check">Check</option>
-                                                                    <option value="Zelle">Zelle</option>
-                                                                    <option value="Cash App">Cash App</option>
-                                                                    <option value="Cash">Cash</option>
-                                                                </select>
-                                                                <jet-input-error :message="vehicleForm.error('payment_type')" class="mt-2" />
-                                                            </div>
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-12">
                                                                 <jet-label for="lein_holder_info" value="Lein Holder Info" />
-                                                                <textarea id="lein_holder_info" class="form-control mt-1 block w-full" v-model="vehicleForm.lein_holder_info"  rows="5" style="line-height: 22px;"> </textarea>
+                                                                <textarea id="lein_holder_info" class="form-control mt-1 block w-full" v-model="vehicleForm.lein_holder_info"  rows="3" style="line-height: 22px;"> </textarea>
                                                                 <jet-input-error :message="vehicleForm.error('lein_holder_info')" class="mt-2" />
                                                             </div>
                                                         </div>
@@ -334,7 +357,108 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" :class="lead.current_step === 2? 'active show': '' "  id="Special" role="tabpanel">
+                                    <div class="tab-pane fade" :class="lead.current_step === 2? 'active show': '' "  id="Transaction" role="tabpanel">
+                                        <div class="iq-card">
+                                            <div class="iq-card-header bg-info d-flex justify-content-between">
+                                                <div class="iq-header-title">
+                                                    <h4 class="card-title text-white font-weight-bold">Transaction/Payment information</h4>
+                                                </div>
+                                            </div>
+                                            <div class="iq-card-body">
+                                                <form-area @submitted="updateTransactionInfo">
+                                                    <template #form>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <jet-label for="trans_status" value="Transaction Status" />
+                                                                <select class="form-control mt-1 block w-full" v-model="transactionForm.trans_status" id="trans_status">
+                                                                    <option value="In Office">In Office</option>
+                                                                    <option value="At DMV">At DMV</option>
+                                                                    <option value="Completed">Completed</option>
+                                                                    <option value="Issue">Issue</option>
+                                                                </select>
+                                                                <jet-input-error :message="transactionForm.error('trans_status')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <jet-label for="trans_type" value="Transaction Type" />
+                                                                <jet-input id="trans_type" type="text" class="mt-1 block w-full" v-model="transactionForm.trans_type"  :required="true" />
+                                                                <jet-input-error :message="transactionForm.error('trans_type')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'At DMV'">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <jet-label for="date" value="Date" />
+                                                                        <flat-pickr 
+                                                                        id="date" 
+                                                                        v-model="transactionForm.trans_status_extra.dmv_date" 
+                                                                        class="mt-1 block w-full form-input rounded-md shadow-sm"  
+                                                                        :config="basicTimeConfig" 
+                                                                        placeholder="Select Date"
+                                                                        ></flat-pickr>
+                                                                        <jet-input-error :message="transactionForm.error('trans_status_extra.dmv_date')" class="mt-2" />
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <jet-label for="tracking" value="Tracking No" />
+                                                                        <jet-input 
+                                                                        id="tracking" 
+                                                                        type="text" 
+                                                                        class="mt-1 block w-full" 
+                                                                        v-model="transactionForm.trans_status_extra.dmv_tracking"  
+                                                                        :required="true" />
+                                                                        <jet-input-error :message="transactionForm.error('trans_status_extra.dmv_tracking')" class="mt-2" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'Completed'">
+                                                                <jet-label for="plate" value="plate" />
+                                                                <jet-input 
+                                                                id="plate" 
+                                                                type="text" 
+                                                                class="mt-1 block w-full" 
+                                                                v-model="transactionForm.trans_status_extra.complete_plate"
+                                                                :required="true" />
+                                                                <jet-input-error :message="transactionForm.error('trans_status_extra.complete_plate')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'Issue'">
+                                                                <jet-label for="Issue" value="Issue Note" />
+                                                                <textarea id="Issue" class="form-control mt-1 block w-full" required v-model="transactionForm.trans_status_extra.issue_note"  rows="3" style="line-height: 22px;"> </textarea>
+                                                                <jet-input-error :message="transactionForm.error('trans_status_extra.issue_note')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <jet-label for="payment_type" value="Payment Info" />
+                                                                <select class="form-control mt-1 block w-full" v-model="transactionForm.payment_type" id="payment_type">
+                                                                    <option value="Cash">Cash</option>
+                                                                    <option value="Cash App">Cash App</option>
+                                                                    <option value="Check">Check</option>
+                                                                    <option value="Paypal">Paypal</option>
+                                                                    <option value="Venmo">Venmo</option>
+                                                                    <option value="Zelle">Zelle</option>
+                                                                </select>
+                                                                <jet-input-error :message="transactionForm.error('Check')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-6" v-if="transactionForm.payment_type === 'Check'">
+                                                                <jet-label for="check_no" value="Check No" />
+                                                                <jet-input id="check_no" type="text" class="mt-1 block w-full" v-model="transactionForm.check_no"  :required="true" />
+                                                                <jet-input-error :message="transactionForm.error('check_no')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+                                                    </template>
+
+                                                    <template #actions>
+                                                        <jet-action-message :on="transactionForm.recentlySuccessful" class="mr-3">
+                                                            Saved.
+                                                        </jet-action-message>
+
+                                                        <jet-button :class="{ 'opacity-25': transactionForm.processing }" :disabled="transactionForm.processing">
+                                                            Save
+                                                        </jet-button>
+                                                    </template>
+                                                </form-area>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" :class="lead.current_step === 3? 'active show': '' "  id="Special" role="tabpanel">
                                         <div class="iq-card">
                                             <div class="iq-card-header bg-success d-flex justify-content-between">
                                                 <div class="iq-header-title">
@@ -366,48 +490,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" :class="lead.current_step === 3? 'active show': '' "  id="Transaction" role="tabpanel">
-                                        <div class="iq-card">
-                                            <div class="iq-card-header bg-info d-flex justify-content-between">
-                                                <div class="iq-header-title">
-                                                    <h4 class="card-title text-white font-weight-bold">Transaction/Payment information</h4>
-                                                </div>
-                                            </div>
-                                            <div class="iq-card-body">
-                                                <form-area @submitted="updateTransactionInfo">
-                                                    <template #form>
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <jet-label for="trans_status" value="Transaction Status" />
-                                                                <select class="form-control mt-1 block w-full" v-model="transactionForm.trans_status" id="trans_status">
-                                                                    <option value="In Office">In Office</option>
-                                                                    <option value="At DMV">At DMV</option>
-                                                                    <option value="Completed">Completed</option>
-                                                                    <option value="Issue">Issue</option>
-                                                                </select>
-                                                                <jet-input-error :message="transactionForm.error('trans_status')" class="mt-2" />
-                                                            </div>
-                                                            <div class="col-sm-6" v-if="transactionForm.trans_status === 'Issue'">
-                                                                <jet-label for="Issue" value="Issue Note" />
-                                                                <textarea id="Issue" class="form-control mt-1 block w-full" v-model="transactionForm.trans_issue"  rows="5" style="line-height: 22px;"> </textarea>
-                                                                <jet-input-error :message="transactionForm.error('trans_issue')" class="mt-2" />
-                                                            </div>
-                                                        </div>
-                                                    </template>
-
-                                                    <template #actions>
-                                                        <jet-action-message :on="transactionForm.recentlySuccessful" class="mr-3">
-                                                            Saved.
-                                                        </jet-action-message>
-
-                                                        <jet-button :class="{ 'opacity-25': transactionForm.processing }" :disabled="transactionForm.processing">
-                                                            Save
-                                                        </jet-button>
-                                                    </template>
-                                                </form-area>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -430,6 +513,8 @@ import JetActionMessage from '@/Jetstream/ActionMessage';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import VueFlatPicker from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
 export default {
     name: "Show",
@@ -444,12 +529,20 @@ export default {
         JetInputError,
         JetLabel,
         JetSecondaryButton,
+        'flat-pickr':VueFlatPicker
     },
     data() {
         return {
+            basicTimeConfig: {
+                enableTime: false,
+                dateFormat: 'Y-m-d'
+            },
             personalInfoForm: this.$inertia.form({
                 first_name: '',
                 last_name: '',
+                sec_client_first_name:'',
+                sec_client_last_name: '',
+                dealer_name: '',
                 email: '',
                 phone_no:'',
                 address:'',
@@ -468,7 +561,6 @@ export default {
                 color:'',
                 mileage:'',
                 lein_holder_info:'',
-                payment_type: 'Cash',
             }, {
                 bag: 'vehicleForm',
                 resetOnSuccess: false,
@@ -480,9 +572,17 @@ export default {
                 resetOnSuccess: false,
             }),
             transactionForm: this.$inertia.form({
-                trans_status: 'Completed',
+                trans_status: 'In Office',
                 trans_issue: '',
-
+                trans_type: '',
+                payment_type: 'Cash',
+                trans_status_extra: {
+                    dmv_date: '',
+                    dmv_tracking: '',
+                    complete_plate: '',
+                    issue_note: '',
+                },
+                
             }, {
                 bag: 'transactionForm',
                 resetOnSuccess: false,
@@ -498,9 +598,10 @@ export default {
         if (this.lead.current_step  >= 2){
             this.updateVehicleFormData();
             if (this.lead.current_step  >= 3){
-                this.updateSpecialReqFormData();
+                this.updateTransactionFormData();
                 if (this.lead.current_step  >= 4){
-                    this.updateTransactionFormData();
+                    this.updateSpecialReqFormData();
+                    
                 }
             }
 
@@ -512,6 +613,9 @@ export default {
         updatePersonalInfoFormData(){
             this.personalInfoForm.first_name = this.lead.first_name;
             this.personalInfoForm.last_name = this.lead.last_name;
+            this.personalInfoForm.sec_client_first_name = this.lead.sec_client_first_name;
+            this.personalInfoForm.sec_client_last_name = this.lead.sec_client_last_name;
+            this.personalInfoForm.dealer_name = this.lead.dealer_name;
             this.personalInfoForm.email = this.lead.email;
             this.personalInfoForm.phone_no = this.lead.phone_no;
             this.personalInfoForm.address = this.lead.address;
@@ -527,11 +631,12 @@ export default {
             this.vehicleForm.color = this.lead.color;
             this.vehicleForm.mileage = this.lead.mileage;
             this.vehicleForm.lein_holder_info = this.lead.lein_holder_info;
-            this.vehicleForm.payment_type = this.lead.payment_type;
         },
         updateTransactionFormData(){
             this.transactionForm.trans_status = this.lead.trans_status;
-            this.transactionForm.trans_issue = this.lead.trans_issue;
+            this.transactionForm.trans_type = this.lead.trans_type;
+            this.transactionForm.trans_status_extra = this.lead.trans_status_extra;
+            this.transactionForm.payment_type = this.lead.payment_type;
 
         },
         updateSpecialReqFormData(){
@@ -569,6 +674,13 @@ export default {
             }
 
             return dayjs(date).fromNow();
+        },
+        formated: (date, format) => {
+            if (!date){
+                return null;
+            }
+
+            return dayjs(date).format(format);
         }
     },
 }

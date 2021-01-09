@@ -109,14 +109,14 @@ jQuery(document).ready(function($) {
       type: "POST",
       url: action,
       data: str,
-      success: function(msg) {
-        if (msg == 'OK') {
+      success: function(response) {
+        if (response.status === 200) {
           this_form.find('.loading').slideUp();
           this_form.find('.sent-message').slideDown();
           this_form.find("input:not(input[type=submit]), textarea").val('');
         } else {
           this_form.find('.loading').slideUp();
-          this_form.find('.error-message').slideDown().html(msg);
+          this_form.find('.error-message').slideDown().html(response.message);
         }
       }
     });

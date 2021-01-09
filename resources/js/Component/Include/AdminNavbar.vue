@@ -24,10 +24,21 @@
                         </li>
                         <li>
                             <inertia-link
+                                :href="route('admin.lead.create')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Add Client" data-original-title="Add Client"
+                                :class="route().current('admin.lead.create')?'font-weight-bold search-box-toggle': '' ">
+                               <i class="ri-user-add-fill"></i>
+                            </inertia-link>
+                        </li>
+
+                        <li>
+                            <inertia-link
                                 :href="route('admin.lead.table')"
                                 class="nav-link"
                                 data-toggle="tooltip" data-placement="top"
-                                title="Lead Table" data-original-title="Lead Table"
+                                title="Clients Table" data-original-title="Clients Table"
                                 :class="route().current('admin.lead.table')?'font-weight-bold search-box-toggle': '' ">
                                 <i class="ri-file-list-line"></i>
                             </inertia-link>
@@ -37,7 +48,7 @@
                                 :href="route('admin.lead.index')"
                                 class="nav-link"
                                 data-toggle="tooltip" data-placement="top"
-                                title="Lead Board" data-original-title="Lead Board"
+                                title="Clients Board" data-original-title="Clients Board"
                                 :class="route().current('admin.lead.index')?'font-weight-bold search-box-toggle': '' ">
                                 <i class="ri-stack-fill"></i>
                             </inertia-link>
@@ -47,7 +58,7 @@
                                 :href="route('admin.calender.index')"
                                 class="nav-link"
                                 data-toggle="tooltip" data-placement="top"
-                                title="Lead Board" data-original-title="Lead Board"
+                                title="Calender" data-original-title="Calender"
                                 :class="route().current('admin.calender.index')?'font-weight-bold search-box-toggle': '' ">
                                 <i class="ri-calendar-todo-fill"></i>
                             </inertia-link>
@@ -57,9 +68,29 @@
                                 :href="route('admin.email.inbox')"
                                 class="nav-link"
                                 data-toggle="tooltip" data-placement="top"
-                                title="Lead Board" data-original-title="Lead Board"
+                                title="Mail Inbox" data-original-title="Mail Inbox"
                                 :class="route().current('admin.email.inbox')?'font-weight-bold search-box-toggle': '' ">
                                 <i class="ri-mail-line"></i>
+                            </inertia-link>
+                        </li>
+                        <li>
+                            <inertia-link
+                                :href="route('admin.contact_us.message.index')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title=" Contact Form Leads" data-original-title=" Contact Form Leads"
+                                :class="route().current('admin.contact_us.message.index')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-discuss-fill"></i>
+                            </inertia-link>
+                        </li>
+                        <li>
+                            <inertia-link
+                                :href="route('admin.users.index')"
+                                class="nav-link"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Employee & Admin" data-original-title="Employee & Admin"
+                                :class="route().current('admin.users.index')?'font-weight-bold search-box-toggle': '' ">
+                                <i class="ri-user-line"></i>
                             </inertia-link>
                         </li>
                     </ul>
@@ -98,20 +129,11 @@
                                                 v-for="notification in notifications"
                                                 :key="notification.id"
                                                 :href="route('admin.read.notification', notification.id)"
-                                                class="iq-sub-card"
+                                                class="iq-sub-card px-1"
                                                 :class="{'bg-gray-50': notification.read_at != null}"
                                             >
-                                                <div class="media align-items-center">
-                                                    <div class="media-body">
-                                                        <h6
-                                                            class="mb-0 text-capitalize"
-                                                            :class="notification.read_at != null ? 'text-gray' : 'text-primary'"
-                                                        >
-                                                            {{ notification.data.first_name +' '+ notification.data.last_name}} Complete Registration
-                                                        </h6>
-                                                        <small class="float-right font-size-12">{{ notification.created_at | diffForHumans }}</small>
-                                                    </div>
-                                                </div>
+                                                <new-lead-notification :notification="notification" v-if="notification.type.includes('NewLeadRegistered')"></new-lead-notification>
+                                                <new-contact-message-notification :notification="notification" v-if="notification.type.includes('Message')"></new-contact-message-notification>
                                             </inertia-link>
                                         </div>
                                         <div class="border-top text-center py-2" style="border-radius: 0">
@@ -155,10 +177,12 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+
+import NewLeadNotification from '../notification/NewLeadNotification.vue';
+import NewContactMessageNotification from '../notification/NewContactMessageNotification.vue';
 
 export default {
+  components: { NewLeadNotification, NewContactMessageNotification },
     name: "AdminNavbar",
     props:['searchKey'],
     data(){
@@ -168,9 +192,7 @@ export default {
             intervalId: '',
         }
     },
-    created() {
-        dayjs.extend(relativeTime);
-    },
+    
     mounted() {
         this.notificationRequest();
         this.getNotifications();
@@ -199,16 +221,6 @@ export default {
     },
     beforeDestroy() {
         clearInterval(this.intervalId);
-    },
-
-    filters: {
-        diffForHumans: (date) => {
-            if (!date){
-                return null;
-            }
-
-            return dayjs(date).fromNow();
-        }
     },
 }
 </script>
