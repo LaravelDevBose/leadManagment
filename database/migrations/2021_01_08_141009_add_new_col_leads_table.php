@@ -15,8 +15,8 @@ class AddNewColLeadsTable extends Migration
     {
         Schema::table('leads', function (Blueprint $table) {
         
-            $table->string('op_client_first_name')->nullable()->after('last_name');
-            $table->string('op_client_last_name')->nullable()->after('op_client_first_name');
+            $table->string('sec_client_first_name')->nullable()->after('last_name');
+            $table->string('sec_client_last_name')->nullable()->after('sec_client_first_name');
             $table->string('dealer_name')->nullable()->after('email');
             $table->string('trans_type')->nullable()->after('trans_status');
             $table->longText('trans_status_extra')->nullable()->after('trans_type');
@@ -26,7 +26,7 @@ class AddNewColLeadsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations. 
      *
      * @return void
      */
@@ -34,8 +34,8 @@ class AddNewColLeadsTable extends Migration
     {
         Schema::table('leads', function (Blueprint $table) {
             $table->dropColumn([
-                'op_client_first_name',
-                'op_client_last_name',
+                'sec_client_first_name',
+                'sec_client_last_name',
                 'dealer_name',
                 'payment_type_extra',
                 'trans_status_extra',

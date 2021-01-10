@@ -55,7 +55,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <jet-label for="last_name" :value="lang.last_name" />
-                                <jet-input id="last_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.last_name" autocomplete="last_name" :required="true" />
+                                <jet-input id="last_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.last_name" autocomplete="last_name" :required="false" />
                                 <jet-input-error :message="form.error('last_name')" class="mt-2" />
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <jet-label for="sec_client_last_name" :value="lang.sec_client_last_name" />
-                                <jet-input id="sec_client_last_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.sec_client_last_name" autocomplete="sec_client_last_name" :required="true" />
+                                <jet-input id="sec_client_last_name" type="text" class="mt-1 block w-full rounded-0" v-model="form.sec_client_last_name" autocomplete="sec_client_last_name" :required="false" />
                                 <jet-input-error :message="form.error('sec_client_last_name')" class="mt-2" />
                             </div>
                         </div>
@@ -130,7 +130,8 @@
                 </div>
                 <div class="card-footer text-right">
                     <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        {{ lang.submit }}
+                        <span v-if="form.processing"><i class="fas fa-spinner fa-spin"></i> Please Wait .....</span>
+                        <span v-else>{{ lang.submit }}</span>
                     </jet-button>
                 </div>
             </form>

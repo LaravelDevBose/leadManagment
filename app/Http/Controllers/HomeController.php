@@ -42,7 +42,7 @@ class HomeController extends Controller
     {
         Validator::make($request->all(), [
             'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
             'phone_no' => ['required', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
@@ -56,7 +56,10 @@ class HomeController extends Controller
             $lead = Lead::create([
                 'current_step'=>1,
                 'first_name'=>$request->input('first_name'),
-                'last_name'=>$request->input('last_name'),
+                'last_name'=>!empty($request->input('last_name'))? $request->input('last_name') : '',
+                'sec_client_first_name'=>!empty($request->input('sec_client_first_name'))? $request->input('sec_client_first_name') : '',
+                'sec_client_last_name'=>!empty($request->input('sec_client_last_name'))? $request->input('sec_client_last_name') : '',
+                'dealer_name'=>!empty($request->input('dealer_name'))? $request->input('dealer_name') : '',
                 'phone_no'=>$request->input('phone_no'),
                 'email'=>!empty($request->input('email'))? $request->input('email') : '',
                 'address'=>$request->input('address'),
