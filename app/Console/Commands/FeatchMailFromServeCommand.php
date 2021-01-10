@@ -38,8 +38,6 @@ class FeatchMailFromServeCommand extends Command
     public function __construct()
     {
         parent::__construct();
-
-        Log::info(now().': Start Fetching Mail ...');
     }
 
     /**
@@ -61,6 +59,7 @@ class FeatchMailFromServeCommand extends Command
         /** @var Folder $folder */
         try {
             $folderName = MailFolder::whereTime('last_fetch','<=', Carbon::now()->subMinutes(10))->first();
+            Log::info($folderName->name);
             if(!empty($folderName)){
                 $folder = $client->getFolder($folderName->name);
             }
@@ -75,6 +74,7 @@ class FeatchMailFromServeCommand extends Command
 
         try {
             if(!empty($folder)){
+                Log::info('Fetching Mail....');
                 echo 'Featching.....';
                 $messages = $folder->messages()->all()->get();
                 foreach($messages as $oMessage){
@@ -96,6 +96,7 @@ class FeatchMailFromServeCommand extends Command
                 $folderName->update([
                     'last_fetch'=> now()
                 ]);
+                Log::info('Fetching Mail Done....');
                 echo '\t Done';
             }else{
                 Log::error('Folder Not Found');

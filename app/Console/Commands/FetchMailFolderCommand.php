@@ -35,7 +35,6 @@ class FetchMailFolderCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        Log::info(now().': Start Fetching Folder ...');
     }
 
     /**
@@ -66,7 +65,7 @@ class FetchMailFolderCommand extends Command
         }
 
         try {
-            
+            Log::info(now().': Start Fetching Folder ...');
             foreach($folders[0]->children as $folder){
                 MailFolder::firstOrCreate([
                     'name'=>$folder->name

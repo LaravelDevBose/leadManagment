@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('fetch:folder')->hourly();
-        $schedule->command('fetch:mail')->everyFiveMinutes();
+        $schedule->command('fetch:folder')->hourly()->withoutOverlapping();
+        $schedule->command('fetch:mail')->everyFiveMinutes()->withoutOverlapping();
         // $schedule->command('inspire')->hourly();
     }
 
