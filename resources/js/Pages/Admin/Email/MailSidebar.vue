@@ -10,6 +10,7 @@
                             v-for="folder in folders"
                             :key="folder.name"
                             :class="current === folder.name ?'active': '' "
+                            @click.prevent="changeFolder()"
                         >
                             <inertia-link :href="route('admin.email.inbox', folder.name)">
                                 <span>{{ folder.name }}</span>
@@ -17,6 +18,7 @@
                         </li>
                         <li class="nav-link"
                             :class="current === 'All Mail'?'active': '' "
+                            @click.prevent="changeFolder()"
                         >
                             <inertia-link :href="route('admin.email.inbox', 'All Mail')">
                                 <span>All Mail</span>
@@ -37,6 +39,10 @@ export default {
     methods:{
         newMail(){
             this.$emit('openCompose');
+        },
+        changeFolder(){
+            console.log('his');
+            this.$emit('changeRoute');
         }
     }
 }
