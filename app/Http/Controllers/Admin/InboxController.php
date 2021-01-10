@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Webklex\IMAP\Facades\Client;
+use Carbon\Carbon;
 
 class InboxController extends Controller
 {
@@ -26,7 +27,33 @@ class InboxController extends Controller
         if($folderName == 'All Mail'){
             $inboxes = ModelsMail::paginate(20);
         }else{
-            $folder = MailFolder::where('name', $folderName)->firstOrFail();
+            $ufolder = MailFolder::where('name', $folderName)->whereTime('last_fetch','<=', Carbon::now()->subMinutes(10))->firstOrFail();
+            if(!empty($ufolder)){
+                $client = Client::account("default");
+                $client->connect();
+                $folder = $client->getFolder($ufolder->name);
+                if(!empty($folder)){
+                    $messages = $folder->messages()->all()->get();
+                    foreach($messages as $oMessage){
+                        $mail = Mail::firstOrCreate([
+                            'message_id'=> $oMessage->message_id
+                        ], [
+                            'message_no'=> $oMessage->message_no,
+                            'uuid'=> $oMessage->uid,
+                            'subject'=> $oMessage->subject,
+                            'to'=> $oMessage->to,
+                            'from'=> $oMessage->from,
+                            'text_body'=> json_encode($oMessage->getTextBody()),
+                            'date'=> $oMessage->date,
+                            'folder_id'=> $folderName->id,
+                        ]);
+                    }
+                    $folderName->update([
+                        'last_fetch'=> now()
+                    ]);
+                    
+                }
+            }
             $inboxes = ModelsMail::where('folder_id', $folder->id)->paginate(20);
         }
         return Inertia::render('Admin/Email/Inbox', compact('inboxes', 'folders', 'folderName'));
