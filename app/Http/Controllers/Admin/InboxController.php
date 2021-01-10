@@ -54,7 +54,7 @@ class InboxController extends Controller
                     
                 }
             }
-            $inboxes = ModelsMail::where('folder_id', $folder->id)->paginate(20);
+            $inboxes = ModelsMail::where('folder_id', $ufolder->id)->paginate(20);
         }
         return Inertia::render('Admin/Email/Inbox', compact('inboxes', 'folders', 'folderName'));
     }
