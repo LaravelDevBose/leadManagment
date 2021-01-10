@@ -14,8 +14,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\FetchMailFolderCommand',
-        'App\Console\FetchMailFromServerCommand'
+        'App\Console\Commands\FetchMailFolderCommand',
+        'App\Console\Commands\FetchMailFromServerCommand'
     ];
 
     /**
