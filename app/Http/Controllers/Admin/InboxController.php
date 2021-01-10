@@ -35,7 +35,7 @@ class InboxController extends Controller
                 if(!empty($folder)){
                     $messages = $folder->messages()->all()->get();
                     foreach($messages as $oMessage){
-                        $mail = Mail::firstOrCreate([
+                        $mail = ModelsMail::firstOrCreate([
                             'message_id'=> $oMessage->message_id
                         ], [
                             'message_no'=> $oMessage->message_no,
