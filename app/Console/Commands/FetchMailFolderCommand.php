@@ -35,6 +35,7 @@ class FetchMailFolderCommand extends Command
     public function __construct()
     {
         parent::__construct();
+        Log::log(now().': Start Fetching Folder ...');
     }
 
     /**
