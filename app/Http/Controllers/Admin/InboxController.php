@@ -27,7 +27,7 @@ class InboxController extends Controller
         if($folderName == 'All Mail'){
             $inboxes = ModelsMail::paginate(20);
         }else{
-            $ufolder = MailFolder::where('name', $folderName)->whereTime('last_fetch','<=', Carbon::now()->subMinutes(10))->firstOrFail();
+            $ufolder = MailFolder::where('name', $folderName)->whereTime('last_fetch','<=', Carbon::now()->subMinutes(10))->first();
             if(!empty($ufolder)){
                 $client = Client::account("default");
                 $client->connect();
@@ -45,10 +45,10 @@ class InboxController extends Controller
                             'from'=> $oMessage->from,
                             'text_body'=> json_encode($oMessage->getTextBody()),
                             'date'=> $oMessage->date,
-                            'folder_id'=> $folderName->id,
+                            'folder_id'=> $ufolder->id,
                         ]);
                     }
-                    $folderName->update([
+                    $ufolder->update([
                         'last_fetch'=> now()
                     ]);
                     
