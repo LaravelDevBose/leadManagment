@@ -39,7 +39,7 @@ class FeatchMailFromServeCommand extends Command
     {
         parent::__construct();
 
-        Log::log(now().': Start Fetching Mail ...');
+        Log::info(now().': Start Fetching Mail ...');
     }
 
     /**
