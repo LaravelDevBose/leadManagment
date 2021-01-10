@@ -65,7 +65,7 @@
                         </li>
                         <li>
                             <inertia-link
-                                :href="route('admin.email.inbox')"
+                                :href="route('admin.email.inbox', 'INBOX')"
                                 class="nav-link"
                                 data-toggle="tooltip" data-placement="top"
                                 title="Mail Inbox" data-original-title="Mail Inbox"

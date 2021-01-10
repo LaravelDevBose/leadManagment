@@ -46,7 +46,9 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
 
     Route::resource('users', AdminController::class);
 
-    Route::get('/inbox', [InboxController::class, 'index'])->name('email.inbox');
+    Route::get('/inbox/{folder}', [InboxController::class, 'index'])->name('email.inbox');
+    Route::get('/show/{folder}/{id}', [InboxController::class, 'details'])->name('email.show');
+    Route::get('/trash/{folder}/{id}', [InboxController::class, 'moveToTrash'])->name('email.trash');
+    Route::get('/delete/{folder}/{id}', [InboxController::class, 'destroy'])->name('email.destroy');
     Route::post('/send/mail', [InboxController::class, 'send_mail'])->name('email.send');
-    Route::post('/mail/delete', [InboxController::class, 'destroy'])->name('email.destroy');
 });

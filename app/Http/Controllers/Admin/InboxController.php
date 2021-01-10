@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\SendAdminMail;
 use App\Models\Inbox;
+use App\Models\Mail as ModelsMail;
+use App\Models\MailFolder;
 use App\Models\Service;
 use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
@@ -12,16 +14,78 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Webklex\IMAP\Facades\Client;
 
 class InboxController extends Controller
 {
 
     use HelperTrait;
-
-    public function index(Request $request)
+    public function index(Request $request, $folderName)
     {
-        $inboxes = Inbox::searchBy($request)->with('user')->latest()->paginate(30);
-        return Inertia::render('Admin/Email/Inbox', compact('inboxes'));
+        $folders = MailFolder::get();
+        if($folderName == 'All Mail'){
+            $inboxes = ModelsMail::paginate(20);
+        }else{
+            $folder = MailFolder::where('name', $folderName)->firstOrFail();
+            $inboxes = ModelsMail::where('folder_id', $folder->id)->paginate(20);
+        }
+        return Inertia::render('Admin/Email/Inbox', compact('inboxes', 'folders', 'folderName'));
+    }
+
+    public function details($folderName, $id){
+        $mail = ModelsMail::where('message_id', $id)->firstOrFail();
+        $oClient = Client::account('default');
+        $oClient->connect();
+        $oFolder = $oClient->getFolder($folderName);
+        $messages = $oFolder->query()
+        ->markAsRead()
+        ->whereMessageId('<'.$id.'>')
+        ->get();
+        $sMail = [];
+        foreach($messages as $message){
+            $sMail = [
+                'to'=> $mail->to,
+                'subject'=> $mail->subject,
+                'from'=> $mail->from,
+                'text_body'=> $message->getTextBody(),
+                'html_body'=>$message->getHTMLBody(true) ,
+                'date'=> $mail->date,
+            ];
+        };
+        return response()->json(
+            [
+                'status'=> 200,
+                'data'=> $sMail,
+            ]
+        );
+    }
+
+    public function moveToTrash($folderName, $id)
+    {
+        $mail = ModelsMail::where('message_id', $id)->firstOrFail();
+        $oClient = Client::account('default');
+        $oClient->connect();
+        $oFolder = $oClient->getFolder($folderName);
+        $messages = $oFolder->query()
+        ->markAsRead()
+        ->whereMessageId('<'.$id.'>')
+        ->get();
+        
+        foreach($messages as $message){
+            //  imap_mail_move($oClient->getConnection(), $message->uid, 'Trash', CP_UID);
+            if($message->move('[Gmail]/Trash') == true){
+                sleep(5);
+                $oClient->expunge();
+                $folderi = MailFolder::where('name', 'Trash')->first();
+                $mail->update([
+                    'folder_id'=>$folderi->id
+                ]);
+                return redirect()->route('admin.email.inbox', $folderName)->with('success', 'Mail Deleted Successfully');
+            }else{
+                return redirect()->route('admin.email.inbox', $folderName)->with('error',  'Message could not be moved'); ;
+            }
+            break;
+        };
     }
 
     public function send_mail(Request $request)
@@ -55,7 +119,7 @@ class InboxController extends Controller
             if (!empty($inbox)){
                 DB::commit();
                 Mail::send(new SendAdminMail($inbox->fresh()));
-                return redirect()->route('admin.email.inbox')->with('success', 'Email Send Successfully');
+                return redirect()->route('admin.email.inbox', 'INBOX')->with('success', 'Email Send Successfully');
             }
         }catch (\Exception $exception){
             DB::rollBack();
@@ -64,20 +128,29 @@ class InboxController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    public function destroy($folderName, $id)
     {
-        try {
-            DB::beginTransaction();
-            $inboxes = Inbox::whereIn('id', $request->ids)->get();
-            if (!empty($inboxes) && Inbox::whereIn('id', $request->ids)->delete()){
-                DB::commit();
-                return redirect()->route('admin.email.inbox')->with('success', 'Mail Deleted Successfully');
+        $mail = ModelsMail::where('message_id', $id)->firstOrFail();
+        $oClient = Client::account('default');
+        $oClient->connect();
+        $oFolder = $oClient->getFolder($folderName);
+        $messages = $oFolder->query()
+        ->markAsRead()
+        ->whereMessageId('<'.$id.'>')
+        ->get();
+        
+        foreach($messages as $message){
+            //  imap_mail_move($oClient->getConnection(), $message->uid, 'Trash', CP_UID);
+            if($message->delete() == true){
+                sleep(5);
+                $oClient->expunge();
+                $mail->delete();
+                return redirect()->route('admin.email.inbox', $folderName)->with('success', 'Mail Restored Successfully');
+            }else{
+                return redirect()->route('admin.email.inbox', $folderName)->with('error',  'Message could not be Restored'); ;
             }
-        }catch (\Exception $exception){
-            DB::rollBack();
-            return redirect()->back()
-                ->with('error', $exception->getMessage());
-        }
+            break;
+        };
     }
 }
 

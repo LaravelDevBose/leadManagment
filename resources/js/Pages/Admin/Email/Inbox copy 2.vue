@@ -2,16 +2,30 @@
     <app-admin-layout>
         <div class="container-fluid relative">
             <div class="row">
-               <mail-sidebar :folders="folders" :current="folderName" @openCompose="composeMail()"></mail-sidebar>
-               <div class="col-lg-9 mail-box-detail">
+               <mail-sidebar></mail-sidebar>
+               <div class="col-lg-12 mail-box-detail">
                     <div class="iq-card">
                         <div class="iq-card-body p-0">
                             <div class="">
                                 <div class="iq-email-to-list p-3">
                                     <div class="d-flex justify-content-between">
                                         <ul>
-                                        
-                        
+                                            <li>
+                                                <button
+                                                    type="button"
+                                                    :class="{ 'opacity-25': deleteForm.processing }"
+                                                    :disabled="deleteForm.ids.length<=0 || deleteForm.processing"
+                                                    class="btn btn-danger btn-lg btn-block mb-0 font-size-16"
+                                                    @click.prevent="deleteSelectedMail()"
+                                                >
+                                                    <i class="ri-delete-bin-2-line"></i>
+                                                    Delete
+                                                </button>
+                                            </li>
+
+                                            <li data-toggle="tooltip" data-placement="top" title="Compose New Mail">
+                                                <button class="btn btn-primary btn-lg btn-block mb-0 font-size-16" @click.prevent="composeMail()"><i class="ri-send-plane-line mr-2"></i>New Message</button>
+                                            </li>
                                         </ul>
                                         <div class="iq-email-search d-flex" @submit.prevent="search">
                                             <form class="mr-3 position-relative">
@@ -20,7 +34,7 @@
                                                     <button type="submit" class="search-link"><i class="ri-search-line"></i></button>
                                                 </div>
                                             </form>
-                                            <ul>
+                                            <!-- <ul>
                                                 <li class="mr-3">
                                                     <a class="font-size-14" href="#">
                                                         {{ inboxes.from !== null ? inboxes.from : '0' }} - {{ inboxes.to !== null ? inboxes.to : '0' }} of {{ inboxes.total}}
@@ -44,43 +58,48 @@
                                                         <i class="ri-arrow-right-s-line"></i>
                                                     </inertia-link>
                                                 </li>
-                                            </ul>
+                                            </ul> -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="iq-email-listbox">
-                                    <ul class="iq-email-sender-list" v-if="inboxes.data && inboxes.data.length > 0">
-                                        <li class="iq-unread" v-for="(inbox, index) in inboxes.data" :key="index">
+                                <!-- <div class="iq-email-listbox">
+                                    <ul class="iq-email-sender-list" v-if="mesaages && mesaages.length > 0">
+                                        <li class="iq-unread" v-for="(inbox, index) in mesaages" :key="index">
                                             <div class="d-flex align-self-center">
                                                 <div class="iq-email-sender-info">
-                                                    
+                                                    <div class="iq-checkbox-mail">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" v-model="deleteForm.ids" :value="inbox.id" :id="'inbox_'+inbox.id">
+                                                            <label class="custom-control-label" :for="'inbox_'+inbox.id"></label>
+                                                        </div>
+                                                    </div>
                                                     <a href="javascript: void(0);"
                                                        class="px-1"
                                                        style="display: inline-block">
-                                                        {{ inbox.from.substring(0, inbox.from.indexOf("<")) }}
+                                                        <span v-for="rec in inbox.mail_tos" class="mr-1 d-block">{{ rec }},</span>
                                                     </a>
                                                 </div>
                                                 <div class="iq-email-content">
                                                     <a href="javascript: void(0);" class="iq-email-subject">
-                                                        {{ inbox.subject }}
+                                                        {{ inbox.mail_subject }}&nbsp;–&nbsp;
+                                                        <span>{{ inbox.mail_body }}</span>
                                                     </a>
-                                                    <div class="iq-email-date">{{ inbox.date | diffForHumans }}</div>
+                                                    <div class="iq-email-date">{{ inbox.send_at }}</div>
                                                 </div>
                                                 <ul class="iq-social-media">
-                                                    <li><a href="#" v-if="folderName === 'Trash'" @click.prevent="deleteMail(inbox.message_id)"><i class="ri-delete-bin-2-line"></i></a></li>
-                                                    <li><a href="#" v-if="folderName !== 'Trash'" @click.prevent="deleteItem(inbox.message_id)"><i class="ri-delete-bin-2-line"></i></a></li>
-                                                    <li><a href="#" @click.prevent="showMailDetails(inbox.message_id)"><i class="ri-file-list-2-line"></i></a></li>
+                                                    <li><a href="#" @click.prevent="deleteItem(inbox.id)"><i class="ri-delete-bin-2-line"></i></a></li>
+                                                    <li><a href="#" @click.prevent="showMailDetails(inbox)"><i class="ri-file-list-2-line"></i></a></li>
                                                 </ul>
                                             </div>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 <compose-mail :open="open" @closeModal="open = $event"></compose-mail>
-                <show :show-details="showDetails" :loadding="loadding" :details="inboxDetails" @closeDetails="closeDetailModal($event)"></show>
+                <show :show-details="showDetails" :details="inboxDetails" @closeDetails="closeDetailModal($event)"></show>
             </div>
          </div>
     </app-admin-layout>
@@ -92,18 +111,15 @@ import ComposeMail from "./ComposeMail";
 import Show from "./Show";
 import AlertMessages from "../../../Component/Include/AlertMessages";
 import MailSidebar from './MailSidebar.vue';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 export default {
     name: "Inbox",
-    props:['folders', 'inboxes', 'folderName'],
+    props:['messages', 'folders', 'inboxes'],
     components: {AlertMessages, Show, ComposeMail, AppAdminLayout, MailSidebar},
     data(){
         return{
             open: false,
             showDetails: false,
             inboxDetails: {},
-            loadding: false,
             searchForm: this.$inertia.form({
                 '_method': 'GET',
                 search_key: '',
@@ -111,32 +127,13 @@ export default {
                 resetOnSuccess: false,
             }),
             deleteForm: this.$inertia.form({
-                '_method': 'GET',
-                ids: [],
-            }, {
-                bag: 'mailDeleteBag',
-                resetOnSuccess: false,
-            }),
-            deleteForeverForm: this.$inertia.form({
-                '_method': 'GET',
+                '_method': 'POST',
                 ids: [],
             }, {
                 bag: 'mailDeleteBag',
                 resetOnSuccess: false,
             }),
         }
-    },
-    filters: {
-        diffForHumans: (date) => {
-            if (!date){
-                return null;
-            }
-
-            return dayjs(date).fromNow();
-        }
-    },
-    created() {
-        dayjs.extend(relativeTime);
     },
     mounted(){
         console.log(this.messages);
@@ -147,12 +144,11 @@ export default {
             this.open = true;
         },
         deleteItem(id){
-            this.deleteForm.post(route('admin.email.trash',{folder: this.folderName, id: id}), {
-                preserveScroll: true
-            });
+            this.deleteForm.ids.push(id);
+            this.deleteSelectedMail();
         },
-        deleteMail(id){
-            this.deleteForeverForm.post(route('admin.email.destroy',{folder: this.folderName, id: id}), {
+        deleteSelectedMail(){
+            this.deleteForm.post(route('admin.email.destroy'), {
                 preserveScroll: true
             });
         },
@@ -161,21 +157,14 @@ export default {
                 preserveScroll: true,
             });
         },
-        showMailDetails(id){
+        showMailDetails(inboxData){
+            this.inboxDetails = inboxData;
+            console.log(this.inboxDetails);
             this.showDetails = true;
-            this.loadding = true;
-            axios.get(route('admin.email.show', {folder: this.folderName, id: id})).then(response => {
-                if(response.status === 200){
-                    this.inboxDetails = response.data.data;
-                    console.log(this.inboxDetails);
-                    this.loadding = false;
-                }
-            });
         },
         closeDetailModal(){
             this.inboxDetails = {};
             this.showDetails = false;
-            this.loadding = false;
         }
     }
 }

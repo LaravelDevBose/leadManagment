@@ -46,8 +46,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li :class="route().current('admin.email.inbox')?'active': '' ">
-                        <inertia-link :href="route('admin.email.inbox')"  class="iq-waves-effect">
+                    <li :class="route().current('admin.email.inbox', 'INBOX')?'active': '' ">
+                        <inertia-link :href="route('admin.email.inbox', 'INBOX')"  class="iq-waves-effect">
                             <i class="ri-mail-line"></i><span>Mail</span>
                         </inertia-link>
                     </li>
