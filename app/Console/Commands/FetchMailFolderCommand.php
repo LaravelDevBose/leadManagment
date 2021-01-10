@@ -65,18 +65,15 @@ class FetchMailFolderCommand extends Command
         }
 
         try {
-            foreach($folders[1]->children as $folder){
-                if($folder->name !== 'All Mail'){
-                    MailFolder::firstOrCreate([
-                        'name'=>$folder->name
-                    ]);
-                }else{
-                    MailFolder::firstOrCreate([
-                        'name'=>"INBOX"
-                    ]);
-                }
-                
+            
+            foreach($folders[0]->children as $folder){
+                MailFolder::firstOrCreate([
+                    'name'=>$folder->name
+                ]);
             }
+            MailFolder::firstOrCreate([
+                'name'=>"INBOX"
+            ]);
         } catch (ConnectionFailedException $e) {
             Log::error($e->getMessage());
             return 1;
