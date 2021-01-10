@@ -27,7 +27,7 @@ class InboxController extends Controller
         if($folderName == 'All Mail'){
             $inboxes = ModelsMail::paginate(20);
         }else{
-            $ufolder = MailFolder::where('name', $folderName)->whereTime('last_fetch','<=', Carbon::now()->subMinutes(10))->firstOrFail();
+            $ufolder = MailFolder::where('name', $folderName)->whereTime('last_fetch','<=', Carbon::now()->subMinutes(10))->first();
             if(!empty($ufolder)){
                 $client = Client::account("default");
                 $client->connect();
@@ -54,7 +54,8 @@ class InboxController extends Controller
                     
                 }
             }
-            $inboxes = ModelsMail::where('folder_id', $ufolder->id)->paginate(20);
+            $f =  MailFolder::where('name', $folderName)->first();
+            $inboxes = ModelsMail::where('folder_id', $f->id)->paginate(20);
         }
         return Inertia::render('Admin/Email/Inbox', compact('inboxes', 'folders', 'folderName'));
     }
