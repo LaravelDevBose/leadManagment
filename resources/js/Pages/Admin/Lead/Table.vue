@@ -20,7 +20,7 @@
                                         <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Address</th>
+                                        <th>VIN No.</th>
                                         <th>Progress</th>
                                         <th>Action</th>
                                     </tr>
@@ -31,7 +31,7 @@
                                         <td>{{ lead.full_name}}</td>
                                         <td>{{ lead.email}}</td>
                                         <td>{{ lead.phone_no}}</td>
-                                        <td>{{ lead.full_address}}</td>
+                                        <td>{{ lead.vin_no !== null ? lead.vin_no : ''}}</td>
                                         <td style="max-width: 7rem">
                                             <div class="progress" v-if="lead.trans_status === 'Issue' && lead.current_step  >= 3">
                                                 <div class="progress-bar bg-danger" style="width:100%"> </div>

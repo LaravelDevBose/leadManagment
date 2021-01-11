@@ -93,24 +93,43 @@
                                 </div>
                                 <div class="row" v-if="lead.trans_status === 'At DMV'">
                                     <div class="col-5">Date:</div>
-                                    <div class="col-7"> {{ lead.trans_status_extra.dmv_date | formated('DD-MMM-YYYY')  }}</div>
+                                    <div class="col-7" v-if="lead.trans_status_extra !== null "> {{ lead.trans_status_extra.dmv_date | formated('DD-MMM-YYYY') }}</div>
                                 </div>
                                 <div class="row" v-if="lead.trans_status === 'At DMV'">
                                     <div class="col-5">Tracking:</div>
-                                    <div class="col-7"> {{ lead.trans_status_extra.dmv_tracking }}</div>
+                                    <div class="col-7" v-if="lead.trans_status_extra !== null"> {{ lead.trans_status_extra.dmv_tracking ? lead.trans_status_extra.dmv_tracking : ''  }}</div>
                                 </div>
                                 <div class="row" v-if="lead.trans_status === 'Completed'">
                                     <div class="col-5">Plate:</div>
-                                    <div class="col-7"> {{ lead.trans_status_extra.complete_plate }}</div>
+                                    <div class="col-7" v-if="lead.trans_status_extra !== null" > {{ lead.trans_status_extra.complete_plate ? lead.trans_status_extra.complete_plate : '' }}</div>
                                 </div>
                                 <div class="row" v-if="lead.trans_status === 'Issue'">
                                     <div class="col-5">Issue Note:</div>
-                                    <div class="col-7"> {{ lead.trans_status_extra.issue_note }}</div>
+                                    <div class="col-7" v-if="lead.trans_status_extra !== null"> {{ lead.trans_status_extra.issue_note? lead.trans_status_extra.issue_note : '' }}</div>
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-5">Payment Type:</div>
-                                    <div class="col-7">{{ lead.payment_type}}</div>
+                                    <div class="col-12 py-2"><h4>Payment Details:</h4></div>
+                                    <div class="col-12 py-2" v-if="lead.payment_type_extra">
+                                        <table class="table table-sm table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Method</th>
+                                                    <th>Track No</th>
+                                                    <th>Amount</th>
+                                                    <th>Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(payment, index) in lead.payment_type_extra" :key="index">
+                                                    <td>{{ payment.payment_type }}</td>
+                                                    <td>{{ payment.track_no }}</td>
+                                                    <td>{{ payment.amount }}</td>
+                                                    <td>{{ payment.type }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -428,6 +447,7 @@
                                                             <div class="col-sm-6">
                                                                 <jet-label for="payment_type" value="Payment Info" />
                                                                 <select class="form-control mt-1 block w-full" v-model="transactionForm.payment_type" id="payment_type">
+                                                                    <option value="">Select a payment type</option>
                                                                     <option value="Cash">Cash</option>
                                                                     <option value="Cash App">Cash App</option>
                                                                     <option value="Check">Check</option>
@@ -435,13 +455,31 @@
                                                                     <option value="Venmo">Venmo</option>
                                                                     <option value="Zelle">Zelle</option>
                                                                 </select>
-                                                                <jet-input-error :message="transactionForm.error('Check')" class="mt-2" />
+                                                                <jet-input-error :message="transactionForm.error('payment_type')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-6" v-if="transactionForm.payment_type === 'Check'">
-                                                                <jet-label for="check_no" value="Check No" />
-                                                                <jet-input id="check_no" type="text" class="mt-1 block w-full" v-model="transactionForm.check_no"  :required="true" />
-                                                                <jet-input-error :message="transactionForm.error('check_no')" class="mt-2" />
+                                                            <div class="col-md-12"  v-if="transactionForm.payment_type">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4">
+                                                                        <jet-label for="check_no" value="Track No" />
+                                                                        <jet-input id="check_no" type="text" class="mt-1 block w-full" v-model="transactionForm.payment_type_extra.track_no"  :required="false" />
+                                                                        <jet-input-error :message="transactionForm.error('payment_type_extra.track_no')" class="mt-2" />
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <jet-label for="amount" value="Amount" />
+                                                                        <jet-input id="amount" type="number" step="0.0" class="mt-1 block w-full" v-model="transactionForm.payment_type_extra.amount"  :required="true" />
+                                                                        <jet-input-error :message="transactionForm.error('payment_type_extra.amount')" class="mt-2" />
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <jet-label for="amount_type" value="Amount Type" />
+                                                                        <select class="form-control mt-1 block w-full" required v-model="transactionForm.payment_type_extra.type" id="amount_type">
+                                                                            <option value="Full Payment">Full Payment</option>
+                                                                            <option value="Partial payment">Partial payment</option>
+                                                                        </select>
+                                                                        <jet-input-error :message="transactionForm.error('payment_type_extra.type')" class="mt-2" />
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            
                                                         </div>
                                                     </template>
 
@@ -573,16 +611,19 @@ export default {
             }),
             transactionForm: this.$inertia.form({
                 trans_status: 'In Office',
-                trans_issue: '',
                 trans_type: '',
-                payment_type: 'Cash',
+                payment_type: '',
                 trans_status_extra: {
                     dmv_date: '',
                     dmv_tracking: '',
                     complete_plate: '',
                     issue_note: '',
                 },
-                
+                payment_type_extra: {
+                        track_no:'',
+                        amount: 0,
+                        type: 'Full Payment',
+                    },
             }, {
                 bag: 'transactionForm',
                 resetOnSuccess: false,
@@ -601,7 +642,6 @@ export default {
                 this.updateTransactionFormData();
                 if (this.lead.current_step  >= 4){
                     this.updateSpecialReqFormData();
-                    
                 }
             }
 
@@ -635,9 +675,9 @@ export default {
         updateTransactionFormData(){
             this.transactionForm.trans_status = this.lead.trans_status;
             this.transactionForm.trans_type = this.lead.trans_type;
-            this.transactionForm.trans_status_extra = this.lead.trans_status_extra;
-            this.transactionForm.payment_type = this.lead.payment_type;
-
+            if(this.lead.trans_status_extra !== null){
+                this.transactionForm.trans_status_extra = this.lead.trans_status_extra;
+            }
         },
         updateSpecialReqFormData(){
             this.specialReqForm.special_note = this.lead.special_note;

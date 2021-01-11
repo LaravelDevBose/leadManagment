@@ -82,22 +82,20 @@ class Lead extends Model
         return json_decode($this->attributes['trans_status_extra'], true);
     }
 
-    public function getPaymentStatusExtraAttribute()
+    public function getPaymentTypeExtraAttribute()
     {
         return json_decode($this->attributes['payment_type_extra'], true);
     }
 
     public function scopeSearchBy($query, $request)
     {
+        
         if (!empty($request->search_key)){
+            
             $searchKey = $request->search_key;
-            $query = $query->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
-            ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%')
-            ->orWhere('phone_no', 'LIKE', '%'. $searchKey. '%')
-            ->orWhere('email', 'LIKE', '%'. $searchKey. '%')
-            ->orWhere('address', 'LIKE', '%'. $searchKey. '%')
-            ->orWhere('city', 'LIKE', '%'. $searchKey. '%')
-            ->orWhere('state', 'LIKE', '%'. $searchKey. '%');
+            $query = $query->orWhereRaw("concat(first_name, ' ', last_name) like '%".$searchKey."%' ")
+                    ->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
+                    ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%');
         }
         return $query;
     }

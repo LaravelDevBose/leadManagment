@@ -92,7 +92,7 @@ class LeadController extends Controller
      */
     public function table(Request $request)
     {
-        $leads = Lead::isOpen()->searchBy($request)->orderBy('current_step', 'asc')->orderBy('first_name', 'asc')->paginate(30);
+        $leads = Lead::searchBy($request)->orderBy('current_step', 'asc')->orderBy('first_name', 'asc')->paginate(30);
     
         $searchKey = !empty($request->search_key)? $request->search_key : '';
         return Inertia::render('Admin/Lead/Table', compact('leads', 'searchKey'));
@@ -231,7 +231,7 @@ class LeadController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'trans_status' => ['required', 'string', 'max:20'],
-            'payment_type' => ['required', 'min:1', 'max:255'],
+            'payment_type' => ['nullable', 'min:1', 'max:255'],
             'trans_type' => ['required','min:4', 'max:255'],
         ]);
         $validation->sometimes([
@@ -253,19 +253,39 @@ class LeadController extends Controller
             'trans_status_extra',
             'trans_status_extra.issue_note', 
             ], [ 'required', 'string' ], function($input){  return $input->trans_issue == 'Issue'; });
+
+            $validation->sometimes([
+                'payment_type_extra',
+                'payment_type_extra.amount', 
+                'payment_type_extra.type', 
+                ], [ 'required'], function($input){  return !empty($input->payment_type); });
             
         $validation->validateWithBag('transactionForm');
 
         try {
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
+            $paymentExtra = $lead->payment_type_extra;
+            
+            if(!empty($request->payment_type)){
+                if(empty($paymentExtra) || !is_array($paymentExtra)){
+                    $paymentExtra = array();
+                }
+                array_push($paymentExtra, [
+                    'payment_type'=> $request->payment_type,
+                    'track_no'=> $request->payment_type_extra['track_no'],
+                    'amount'=> $request->payment_type_extra['amount'],
+                    'type'=> $request->payment_type_extra['type'],
+                ]);
+            }
+            
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > Lead::Steps['Special'] ? $lead->current_step : Lead::Steps['Payment'] ,
+                'current_step'=> $lead->current_step > Lead::Steps['Vehicle'] ? $lead->current_step : Lead::Steps['Payment'] ,
                 'trans_status'=>$request->input('trans_status'),
-                'payment_type'=>$request->input('payment_type'),
+                'payment_type'=>!empty($request->input('payment_type'))? $request->input('payment_type') : '',
                 'trans_type'=>$request->input('trans_type'),
                 'trans_status_extra'=> json_encode($request->input('trans_status_extra')),
-                'payment_type_extra'=> json_encode($request->input('payment_type_extra'))
+                'payment_type_extra'=> json_encode($paymentExtra)
             ]);
             if (!empty($leadU)){
                 $lead->logs()->create([
@@ -300,7 +320,7 @@ class LeadController extends Controller
             DB::beginTransaction();
             $lead = Lead::findOrFail($id);
             $leadU =$lead->update([
-                'current_step'=> $lead->current_step > Lead::Steps['Vehicle'] ? $lead->current_step : Lead::Steps['Special'] ,
+                'current_step'=> $lead->current_step > Lead::Steps['Payment'] ? $lead->current_step : Lead::Steps['Special'] ,
                 'special_note'=>$request->input('special_note'),
             ]);
             if (!empty($leadU)){
