@@ -83,7 +83,7 @@
                                 <i class="ri-discuss-fill"></i>
                             </inertia-link>
                         </li>
-                        <li>
+                        <li v-if="$page.user.role === 1">
                             <inertia-link
                                 :href="route('admin.users.index')"
                                 class="nav-link"

@@ -57,7 +57,7 @@
                         </inertia-link>
                     </li>
                     
-                    <li :class="route().current('admin.users.index')?'active': '' ">
+                    <li v-if="$page.user.role === 1" :class="route().current('admin.users.index')?'active': '' ">
                         <inertia-link :href="route('admin.users.index')"  class="iq-waves-effect">
                             <i class="ri-user-line"></i><span>Employee & Admin</span>
                         </inertia-link>
@@ -67,7 +67,7 @@
                             <i class="ri-discuss-fill"></i><span> Contact Form Leads</span>
                         </inertia-link>
                     </li>
-                    <li>
+                    <li v-if="$page.user.role === 1">
                         <a href="#setting-menu" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
                             <i class="ri-settings-5-fill"></i>
                             <span>Setting</span>
@@ -106,7 +106,8 @@
 
 <script>
 export default {
-    name: "AdminSidebar"
+    name: "AdminSidebar",
+    props:['user']
 }
 </script>
 
