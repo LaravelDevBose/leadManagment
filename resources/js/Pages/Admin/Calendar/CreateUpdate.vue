@@ -76,8 +76,7 @@ export default {
             }),
             isEdit: false,
             basicTimeConfig: {
-                enableTime: true,
-                dateFormat: 'Y-m-d H:i'
+                dateFormat: 'Y-m-d'
             }
         }
     },

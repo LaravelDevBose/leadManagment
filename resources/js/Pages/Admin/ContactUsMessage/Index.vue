@@ -12,6 +12,7 @@
                             <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
+                                    <th>Date</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
@@ -22,6 +23,7 @@
                                 </thead>
                                 <tbody v-if="messages && messages.length > 0">
                                 <tr v-for="(message, index) in messages" :key="index">
+                                    <td>{{ message.created_at}}</td>
                                     <td>{{ message.first_name}}</td>
                                     <td>{{ message.last_name}}</td>
                                     <td>{{ message.email}}</td>

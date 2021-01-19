@@ -56,7 +56,7 @@
                                                 >
                                                     <i class="ri-pencil-fill font-size-16"></i>
                                                 </inertia-link>
-                                                <a v-if="$page.user.role === 1" class="avatar-45 rounded-circle text-center ml-3 iq-bg-danger font-size-18"
+                                                <a v-if="$page.user.role == 1" class="avatar-45 rounded-circle text-center ml-3 iq-bg-danger font-size-18"
                                                    data-toggle="tooltip"
                                                    data-placement="top"
                                                    title=""
@@ -65,6 +65,15 @@
                                                    @click.prevent="deleteItem(lead.lead_id)"
                                                 >
                                                     <i class="ri-delete-bin-line font-size-16"></i>
+                                                </a>
+                                                <a class="avatar-45 rounded-circle text-center ml-3 iq-bg-info font-size-18"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title=""
+                                                   data-original-title="Delete"
+                                                   :href="route('admin.lead.print', lead.lead_id)"
+                                                >
+                                                    <i class="ri-printer-fill font-size-16"></i>
                                                 </a>
                                             </div>
                                         </td>
