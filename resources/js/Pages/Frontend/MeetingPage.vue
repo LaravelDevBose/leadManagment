@@ -6,8 +6,9 @@
                     Meeting Details
                 </div>
 
-                <div class="mt-6 text-gray-500" v-if="setting && setting.data">
-                   {{ setting.data.zoom_url? setting.data.zoom_url: ''}}
+                <div class="mt-6 text-gray-500" 
+                v-if="setting && setting.data" 
+                v-html="setting.data.zoom_url? setting.data.zoom_url: ''">
                 </div>
             </div>
         </div>
