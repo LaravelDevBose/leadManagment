@@ -94,6 +94,11 @@
                                     <i class="ri-contacts-book-line"></i><span>Contact Us</span>
                                 </inertia-link>
                             </li>
+                            <li :class="route().current('admin.zoom_meeting.page')?'active': '' ">
+                                <inertia-link :href="route('admin.zoom_meeting.page')">
+                                    <i class="ri-file-text-line"></i><span>Zoom</span>
+                                </inertia-link>
+                            </li>
                         </ul>
                     </li>
 

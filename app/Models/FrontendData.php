@@ -10,6 +10,7 @@ class FrontendData extends Model
     const DataKeys = [
         'About Us'=>'about_us',
         'Contact us'=>'contact_us',
+        'Zoom'=>'zoom_url'
     ];
 
     use HasFactory;

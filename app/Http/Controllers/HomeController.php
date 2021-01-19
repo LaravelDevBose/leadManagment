@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactUsMessage;
+use App\Models\FrontendData;
 use App\Models\Lead;
 use App\Models\Service;
 use App\Models\Testimonial;
@@ -36,6 +37,12 @@ class HomeController extends Controller
     public function thank_you_page()
     {
         return Inertia::render('Frontend/ThankYouPage');
+    }
+
+    public function meeting_page()
+    {
+        $setting = FrontendData::where('key', FrontendData::DataKeys['Zoom'])->first();
+        return Inertia::render('Frontend/MeetingPage', compact('setting'));
     }
 
     public function store_lead_info(Request $request)

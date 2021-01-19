@@ -43,6 +43,9 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/about_us/update', [SettingController::class, 'about_us_update'])->name('about_us.update');
     Route::get('/contact_us', [SettingController::class, 'contact_us_page'])->name('contact_us.page');
     Route::post('/contact_us/update', [SettingController::class, 'contact_us_update'])->name('contact_us.update');
+    
+    Route::get('/zoom_meeting', [SettingController::class, 'zoom_meeting_page'])->name('zoom_meeting.page');
+    Route::post('/zoom_meeting/update', [SettingController::class, 'zoom_meeting_update'])->name('zoom_meeting.update');
 
     Route::resource('users', AdminController::class);
 

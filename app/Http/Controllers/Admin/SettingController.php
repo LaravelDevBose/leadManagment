@@ -23,6 +23,12 @@ class SettingController extends Controller
         return Inertia::render('Admin/Setting/ContactUsPage', compact('setting'));
     }
 
+    public function zoom_meeting_page()
+    {
+        $setting = FrontendData::where('key', FrontendData::DataKeys['Zoom'])->first();
+        return Inertia::render('Admin/Setting/ZoomPage', compact('setting'));
+    }
+
     public function about_us_update(Request $request)
     {
         Validator::make($request->all(), [
@@ -68,6 +74,30 @@ class SettingController extends Controller
             if (!empty($data)){
                 DB::commit();
                 return redirect()->back()->with('success', 'Contact Us Updated Successfully');
+            }
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', $exception->getMessage());
+        }
+    }
+
+    public function zoom_meeting_update(Request $request)
+    {
+        Validator::make($request->all(), [
+            'zoom_url' => ['required', 'string', 'min:10', 'max:2000'],
+        ])->validateWithBag('aboutUsForm');
+
+        try {
+            DB::beginTransaction();
+            $data = FrontendData::updateOrCreate([
+                'key'=>FrontendData::DataKeys['Zoom'],
+            ],[
+                'data'=>json_encode($request->except('_method', 'token')),
+            ]);
+            if (!empty($data)){
+                DB::commit();
+                return redirect()->back()->with('success', 'Zoom Url Updated Successfully');
             }
         }catch (\Exception $exception){
             DB::rollBack();
