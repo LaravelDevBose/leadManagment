@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Carbon;
 
 class LeadController extends Controller
 {
@@ -19,8 +20,15 @@ class LeadController extends Controller
      */
     public function index()
     {
-        $leadBoards = Lead::isOpen()->orderBy('current_step', 'asc')->get()->groupBy('current_step');
-        return Inertia::render('Admin/Lead/Index', compact('leadBoards'));
+        $tenDays = Lead::isOpen()->whereDate('created_at', '>=', Carbon::today()->subDays(10))->get();
+        $tDays = Lead::isOpen()
+        ->whereDate('created_at', '>=', Carbon::today()->subDays(20))
+        ->whereDate('created_at', '<', Carbon::today()->subDays(10))
+        ->get();
+        $allDays = Lead::isOpen()
+        ->whereDate('created_at', '<', Carbon::today()->subDays(20))
+        ->get();
+        return Inertia::render('Admin/Lead/Index', compact('tenDays', 'tDays', 'allDays'));
     }
 
     /**
@@ -236,7 +244,6 @@ class LeadController extends Controller
         ]);
         $validation->sometimes([
             'trans_status_extra',
-            'trans_status_extra.dmv_date', 
             'trans_status_extra.dmv_tracking'],
             [
                 'required', 'string'
@@ -254,11 +261,11 @@ class LeadController extends Controller
             'trans_status_extra.issue_note', 
             ], [ 'required', 'string' ], function($input){  return $input->trans_issue == 'Issue'; });
 
-            $validation->sometimes([
-                'payment_type_extra',
-                'payment_type_extra.amount', 
-                'payment_type_extra.type', 
-                ], [ 'required'], function($input){  return !empty($input->payment_type); });
+        $validation->sometimes([
+            'payment_type_extra',
+            'payment_type_extra.amount', 
+            'payment_type_extra.type', 
+            ], [ 'required'], function($input){  return !empty($input->payment_type); });
             
         $validation->validateWithBag('transactionForm');
 
@@ -278,14 +285,31 @@ class LeadController extends Controller
                     'type'=> $request->payment_type_extra['type'],
                 ]);
             }
+
+            $transExtra = $lead->trans_status_extra;
+            
+            if(!empty($request->trans_status)){
+                if(empty($transExtra) || !is_array($transExtra)){
+                    $transExtra = array();
+                }
+                array_push($transExtra, [
+                    'trans_status'=> $request->trans_status,
+                    'trans_type'=> $request->trans_type,
+                    'trans_date'=> !empty($request->trans_status_extra['trans_date'])? $request->trans_status_extra['trans_date'] : now(),
+                    'dmv_tracking'=> !empty($request->trans_status_extra['dmv_tracking'])? $request->trans_status_extra['dmv_tracking'] : '',
+                    'complete_plate'=> !empty($request->trans_status_extra['complete_plate'])? $request->trans_status_extra['complete_plate'] : '',
+                    'issue_note'=> !empty($request->trans_status_extra['issue_note'])? $request->trans_status_extra['issue_note'] : '',
+                ]);
+            }
             
             $leadU =$lead->update([
                 'current_step'=> $lead->current_step > Lead::Steps['Vehicle'] ? $lead->current_step : Lead::Steps['Payment'] ,
                 'trans_status'=>$request->input('trans_status'),
                 'payment_type'=>!empty($request->input('payment_type'))? $request->input('payment_type') : '',
                 'trans_type'=>$request->input('trans_type'),
-                'trans_status_extra'=> json_encode($request->input('trans_status_extra')),
-                'payment_type_extra'=> json_encode($paymentExtra)
+                'trans_status_extra'=> json_encode($transExtra),
+                'payment_type_extra'=> json_encode($paymentExtra),
+                'lead_status'=> $request->input('trans_status') == 'Completed' ? Lead::Status['Closed'] : Lead::Status['Open']
             ]);
             if (!empty($leadU)){
                 $lead->logs()->create([

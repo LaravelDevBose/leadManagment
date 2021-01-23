@@ -16,6 +16,10 @@
                         </div>
                         <div class="iq-card-body">
                             <div class="about-info m-0 p-0">
+                                 <div class="row">
+                                    <div class="col-3">Created:</div>
+                                    <div class="col-9">{{ lead.created_at }}</div>
+                                </div>
                                 <div class="row">
                                     <div class="col-3">Full Name:</div>
                                     <div class="col-9">{{ lead.full_name }}</div>
@@ -84,28 +88,33 @@
                         <div class="iq-card-body">
                             <div class="about-info m-0 p-0">
                                 <div class="row">
-                                    <div class="col-5">Transaction Status:</div>
-                                    <div class="col-7">{{ lead.trans_status }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5">Transaction Type:</div>
-                                    <div class="col-7">{{ lead.trans_type }}</div>
-                                </div>
-                                <div class="row" v-if="lead.trans_status === 'At DMV'">
-                                    <div class="col-5">Date:</div>
-                                    <div class="col-7" v-if="lead.trans_status_extra !== null "> {{ lead.trans_status_extra.dmv_date | formated('DD-MMM-YYYY') }}</div>
-                                </div>
-                                <div class="row" v-if="lead.trans_status === 'At DMV'">
-                                    <div class="col-5">Tracking:</div>
-                                    <div class="col-7" v-if="lead.trans_status_extra !== null"> {{ lead.trans_status_extra.dmv_tracking ? lead.trans_status_extra.dmv_tracking : ''  }}</div>
-                                </div>
-                                <div class="row" v-if="lead.trans_status === 'Completed'">
-                                    <div class="col-5">Plate:</div>
-                                    <div class="col-7" v-if="lead.trans_status_extra !== null" > {{ lead.trans_status_extra.complete_plate ? lead.trans_status_extra.complete_plate : '' }}</div>
-                                </div>
-                                <div class="row" v-if="lead.trans_status === 'Issue'">
-                                    <div class="col-5">Issue Note:</div>
-                                    <div class="col-7" v-if="lead.trans_status_extra !== null"> {{ lead.trans_status_extra.issue_note? lead.trans_status_extra.issue_note : '' }}</div>
+                                    <div class="col-12 py-2"><h4>Transaction Details:</h4></div>
+                                    <div class="col-12 border-bottom" v-for="(transaction, index) in lead.trans_status_extra" :key="index">
+                                        <div class="row">
+                                            <div class="col-5">Date:</div>
+                                            <div class="col-7" v-if="transaction.trans_date !== null "> {{ transaction.trans_date | formated('DD-MMM-YYYY') }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5">Status:</div>
+                                            <div class="col-7">{{ transaction.trans_status }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5">Type:</div>
+                                            <div class="col-7">{{ transaction.trans_type }}</div>
+                                        </div>
+                                        <div class="row" v-if="transaction.trans_status === 'At DMV'">
+                                            <div class="col-5">Tracking:</div>
+                                            <div class="col-7" v-if="transaction.dmv_tracking !== null"> {{ transaction.dmv_tracking ? transaction.dmv_tracking : ''  }}</div>
+                                        </div>
+                                        <div class="row" v-if="transaction.trans_status === 'Completed'">
+                                            <div class="col-5">Plate:</div>
+                                            <div class="col-7" v-if="transaction.complete_plate !== null" > {{ transaction.complete_plate ? transaction.complete_plate : '' }}</div>
+                                        </div>
+                                        <div class="row" v-if="transaction.trans_status === 'Issue'">
+                                            <div class="col-5">Issue Note:</div>
+                                            <div class="col-7" v-if="transaction.issue_note !== null"> {{ transaction.issue_note ? transaction.issue_note : '' }}</div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="row">
@@ -402,20 +411,26 @@
                                                                 <jet-input id="trans_type" type="text" class="mt-1 block w-full" v-model="transactionForm.trans_type"  :required="true" />
                                                                 <jet-input-error :message="transactionForm.error('trans_type')" class="mt-2" />
                                                             </div>
-                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'At DMV'">
+                                                            
+                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'Issue'">
+                                                                <jet-label for="Issue" value="Issue Note" />
+                                                                <textarea id="Issue" class="form-control mt-1 block w-full" required v-model="transactionForm.trans_status_extra.issue_note"  rows="3" style="line-height: 22px;"> </textarea>
+                                                                <jet-input-error :message="transactionForm.error('trans_status_extra.issue_note')" class="mt-2" />
+                                                            </div>
+                                                            <div class="col-sm-12" v-else>
                                                                 <div class="row">
                                                                     <div class="col-sm-6">
                                                                         <jet-label for="date" value="Date" />
                                                                         <flat-pickr 
                                                                         id="date" 
-                                                                        v-model="transactionForm.trans_status_extra.dmv_date" 
+                                                                        v-model="transactionForm.trans_status_extra.trans_date" 
                                                                         class="mt-1 block w-full form-input rounded-md shadow-sm"  
                                                                         :config="basicTimeConfig" 
                                                                         placeholder="Select Date"
                                                                         ></flat-pickr>
-                                                                        <jet-input-error :message="transactionForm.error('trans_status_extra.dmv_date')" class="mt-2" />
+                                                                        <jet-input-error :message="transactionForm.error('trans_status_extra.trans_date')" class="mt-2" />
                                                                     </div>
-                                                                    <div class="col-sm-6">
+                                                                    <div class="col-sm-6" v-if="transactionForm.trans_status === 'At DMV'">
                                                                         <jet-label for="tracking" value="Tracking No" />
                                                                         <jet-input 
                                                                         id="tracking" 
@@ -425,25 +440,21 @@
                                                                         :required="true" />
                                                                         <jet-input-error :message="transactionForm.error('trans_status_extra.dmv_tracking')" class="mt-2" />
                                                                     </div>
+                                                                    <div class="col-sm-6" v-if="transactionForm.trans_status === 'Completed'">
+                                                                        <jet-label for="plate" value="plate" />
+                                                                        <jet-input 
+                                                                        id="plate" 
+                                                                        type="text" 
+                                                                        class="mt-1 block w-full" 
+                                                                        v-model="transactionForm.trans_status_extra.complete_plate"
+                                                                        :required="true" />
+                                                                        <jet-input-error :message="transactionForm.error('trans_status_extra.complete_plate')" class="mt-2" />
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'Completed'">
-                                                                <jet-label for="plate" value="plate" />
-                                                                <jet-input 
-                                                                id="plate" 
-                                                                type="text" 
-                                                                class="mt-1 block w-full" 
-                                                                v-model="transactionForm.trans_status_extra.complete_plate"
-                                                                :required="true" />
-                                                                <jet-input-error :message="transactionForm.error('trans_status_extra.complete_plate')" class="mt-2" />
-                                                            </div>
-                                                            <div class="col-sm-12" v-if="transactionForm.trans_status === 'Issue'">
-                                                                <jet-label for="Issue" value="Issue Note" />
-                                                                <textarea id="Issue" class="form-control mt-1 block w-full" required v-model="transactionForm.trans_status_extra.issue_note"  rows="3" style="line-height: 22px;"> </textarea>
-                                                                <jet-input-error :message="transactionForm.error('trans_status_extra.issue_note')" class="mt-2" />
-                                                            </div>
+                                                            
                                                         </div>
-                                                        <div class="row">
+                                                        <div class="row" v-if="transactionForm.trans_status === 'In Office'">
                                                             <div class="col-sm-6">
                                                                 <jet-label for="payment_type" value="Payment Info" />
                                                                 <select class="form-control mt-1 block w-full" v-model="transactionForm.payment_type" id="payment_type">
@@ -614,7 +625,7 @@ export default {
                 trans_type: '',
                 payment_type: '',
                 trans_status_extra: {
-                    dmv_date: '',
+                    trans_date: '',
                     dmv_tracking: '',
                     complete_plate: '',
                     issue_note: '',
@@ -673,11 +684,11 @@ export default {
             this.vehicleForm.lein_holder_info = this.lead.lein_holder_info;
         },
         updateTransactionFormData(){
-            this.transactionForm.trans_status = this.lead.trans_status;
-            this.transactionForm.trans_type = this.lead.trans_type;
-            if(this.lead.trans_status_extra !== null){
-                this.transactionForm.trans_status_extra = this.lead.trans_status_extra;
-            }
+            // this.transactionForm.trans_status = this.lead.trans_status;
+            // this.transactionForm.trans_type = this.lead.trans_type;
+            // if(this.lead.trans_status_extra !== null){
+            //     this.transactionForm.trans_status_extra = this.lead.trans_status_extra;
+            // }
         },
         updateSpecialReqFormData(){
             this.specialReqForm.special_note = this.lead.special_note;

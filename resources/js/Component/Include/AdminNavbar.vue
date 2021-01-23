@@ -115,7 +115,7 @@
                         <li class="nav-item">
                             <a href="#" class="search-toggle iq-waves-effect">
                                 <i class="fas fa-bell"></i>
-                                <span class="bg-danger dots"></span>
+                                <span class="bg-danger dots" v-if="unRead && unRead > 0"></span>
                             </a>
                             <div class="iq-sub-dropdown">
                                 <div class="iq-card shadow-none m-0">

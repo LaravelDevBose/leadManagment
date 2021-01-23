@@ -95,7 +95,9 @@ class Lead extends Model
             $searchKey = $request->search_key;
             $query = $query->orWhereRaw("concat(first_name, ' ', last_name) like '%".$searchKey."%' ")
                     ->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
-                    ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%');
+                    ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%')
+                    ->orWhere('dealer_name', 'LIKE', '%'. $searchKey. '%')
+                    ->orWhere('vin_no', 'LIKE', '%'. $searchKey. '%');
         }
         return $query;
     }
