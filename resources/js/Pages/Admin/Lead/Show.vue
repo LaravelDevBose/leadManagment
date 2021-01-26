@@ -87,12 +87,12 @@
                         </div>
                         <div class="iq-card-body">
                             <div class="about-info m-0 p-0">
-                                <div class="row">
+                                <div class="row" v-if="lead.trans_status_extra && lead.trans_status_extra.lenght > 0">
                                     <div class="col-12 py-2"><h4>Transaction Details:</h4></div>
                                     <div class="col-12 border-bottom" v-for="(transaction, index) in lead.trans_status_extra" :key="index">
                                         <div class="row">
                                             <div class="col-5">Date:</div>
-                                            <div class="col-7" v-if="transaction.trans_date !== null "> {{ transaction.trans_date | formated('DD-MMM-YYYY') }}</div>
+                                            <div class="col-7" v-if="transaction.trans_date"> {{ transaction.trans_date | formated('DD-MMM-YYYY') }}</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-5">Status:</div>
@@ -639,6 +639,7 @@ export default {
                 bag: 'transactionForm',
                 resetOnSuccess: false,
             }),
+            
         }
     },
     created() {
