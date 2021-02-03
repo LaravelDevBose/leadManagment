@@ -62,15 +62,15 @@ return [
                 'password' => null,
             ]
         ],
-        'gmail' => [ // account identifier
-            'host' => 'imap.gmail.com',
-            'port' => 993,
-            'encryption' => 'ssl',
-            'validate_cert' => true,
-            'username' => 'arupbose2787@gmail.com',
-            'password' => '@rupB0se*#',
-            'authentication' => 'oauth',
-        ],
+        // 'gmail' => [ // account identifier
+        //     'host' => 'imap.gmail.com',
+        //     'port' => 993,
+        //     'encryption' => 'ssl',
+        //     'validate_cert' => true,
+        //     'username' => '',
+        //     'password' => '',
+        //     'authentication' => 'oauth',
+        // ],
 
         /*
         'gmail' => [ // account identifier
