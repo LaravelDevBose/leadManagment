@@ -55,6 +55,7 @@ class InboxController extends Controller
                 }
             }
             $f =  MailFolder::where('name', $folderName)->first();
+            
             $inboxes = ModelsMail::where('folder_id', $f->id)->paginate(20);
         }
         return Inertia::render('Admin/Email/Inbox', compact('inboxes', 'folders', 'folderName'));
@@ -145,8 +146,8 @@ class InboxController extends Controller
                 'mail_attachments'=> json_encode($attachments),
             ]);
             if (!empty($inbox)){
-                DB::commit();
                 Mail::send(new SendAdminMail($inbox->fresh()));
+                DB::commit();
                 return redirect()->route('admin.email.inbox', 'INBOX')->with('success', 'Email Send Successfully');
             }
         }catch (\Exception $exception){
