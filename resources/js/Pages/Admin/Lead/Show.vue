@@ -87,7 +87,7 @@
                         </div>
                         <div class="iq-card-body">
                             <div class="about-info m-0 p-0">
-                                <div class="row" v-if="lead.trans_status_extra && lead.trans_status_extra.lenght > 0">
+                                <div class="row" v-if="lead.trans_status_extra && typeof lead.trans_status_extra === 'object' && lead.trans_status_extra.constructor === Array">
                                     <div class="col-12 py-2"><h4>Transaction Details:</h4></div>
                                     <div class="col-12 border-bottom" v-for="(transaction, index) in lead.trans_status_extra" :key="index">
                                         <div class="row">
@@ -477,7 +477,7 @@
                                                                     </div>
                                                                     <div class="col-sm-4">
                                                                         <jet-label for="amount" value="Amount" />
-                                                                        <jet-input id="amount" type="number" step="0.0" class="mt-1 block w-full" v-model="transactionForm.payment_type_extra.amount"  :required="true" />
+                                                                        <jet-input id="amount" type="number" step="0.01" class="mt-1 block w-full" v-model="transactionForm.payment_type_extra.amount"  :required="true" />
                                                                         <jet-input-error :message="transactionForm.error('payment_type_extra.amount')" class="mt-2" />
                                                                     </div>
                                                                     <div class="col-sm-4">
