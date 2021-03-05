@@ -8,7 +8,7 @@ export default class Event {
     this.body = is(String, event.body) ? event.body : ''
     this.isAllday = event.isAllday === 1
     this.start = is(Object, event.start) ? (new Date(event.start._date)).toISOString() : event.start
-    this.end = is(Object, event.end) ? (new Date(event.end._date)).toISOString() : event.end
+    this.end = is(Object, event.start) ? (new Date(event.start._date)).toISOString() : event.start
     this.category = is(String, event.category) ? event.category : 'time'
     this.dueDateClass = is(String, event.dueDateClass) ? event.dueDateClass : ''
     this.color = this.eventColor(event.calendarId).color? this.eventColor(event.calendarId).color : '#ffffff'

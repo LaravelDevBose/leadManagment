@@ -93,11 +93,15 @@ class Lead extends Model
         if (!empty($request->search_key)){
             
             $searchKey = $request->search_key;
-            $query = $query->orWhereRaw("concat(first_name, ' ', last_name) like '%".$searchKey."%' ")
-                    ->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
-                    ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('dealer_name', 'LIKE', '%'. $searchKey. '%')
-                    ->orWhere('vin_no', 'LIKE', '%'. $searchKey. '%');
+            if(strtolower($searchKey) == 'complete' || strtolower($searchKey) == 'completed'){
+                $query = $query->orWhere('lead_status', self::Status['Closed']);
+            }else{
+                $query = $query->orWhereRaw("concat(first_name, ' ', last_name) like '%".$searchKey."%' ")
+                ->orWhere('first_name', 'LIKE', '%'. $searchKey .'%')
+                ->orWhere('last_name', 'LIKE', '%'. $searchKey. '%')
+                ->orWhere('dealer_name', 'LIKE', '%'. $searchKey. '%')
+                ->orWhere('vin_no', 'LIKE', '%'. $searchKey. '%');
+            }
         }
         return $query;
     }

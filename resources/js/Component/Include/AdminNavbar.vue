@@ -96,7 +96,7 @@
                     </ul>
                     <div class="iq-search-bar">
                         <form :action="route('admin.lead.table')"  method="get" class="searchbox">
-                            <input type="text" name="search_key" :value="searchKey" class="text search-input" placeholder="Type here to search...">
+                            <input type="text" name="search_key" :value="$page.searchKey" class="text search-input" placeholder="Type here to search...">
                             <button type="submit" class="search-link"><i class="ri-search-line"></i></button>
                         </form>
                     </div>

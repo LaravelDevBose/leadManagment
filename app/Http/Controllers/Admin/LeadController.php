@@ -309,7 +309,7 @@ class LeadController extends Controller
                 'trans_type'=>$request->input('trans_type'),
                 'trans_status_extra'=> json_encode($transExtra),
                 'payment_type_extra'=> json_encode($paymentExtra),
-                'lead_status'=> $request->input('trans_status') == 'Completed' ? Lead::Status['Closed'] : Lead::Status['Open']
+                // 'lead_status'=> $request->input('trans_status') == 'Completed' ? Lead::Status['Closed'] : Lead::Status['Open']
             ]);
             if (!empty($leadU)){
                 $lead->logs()->create([
@@ -377,6 +377,26 @@ class LeadController extends Controller
             if (!empty($lead) && $lead->delete()){
                 DB::commit();
                 return redirect()->back()->with('success', 'Lead Deleted Successfully');
+            }
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', $exception->getMessage());
+        }
+    }
+
+    public function make_complete_lead($leadId)
+    {
+        try {
+            DB::beginTransaction();
+            $lead = Lead::findOrFail($leadId);
+
+            $leadU = $lead->update([
+                'lead_status'=> Lead::Status['Closed'],
+            ]);
+            if (!empty($leadU)){
+                DB::commit();
+                return redirect()->back()->with('success', 'Lead Mark as Completed Successfully');
             }
         }catch (\Exception $exception){
             DB::rollBack();
