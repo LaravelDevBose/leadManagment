@@ -552,7 +552,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 text-center">
-                            <a :href="route('admin.lead.mark.complete', lead.lead_id)" class="btn btn-lg btn-success"><i class="ri-check-double-fill"></i> Mark As Complete</a>
+                            <a v-if="lead.lead_status !== 2" :href="route('admin.lead.mark.complete', lead.lead_id)" class="btn btn-lg btn-success"><i class="ri-check-double-fill"></i> Mark As Complete</a>
                         </div>
                     </div>
                 </div>
