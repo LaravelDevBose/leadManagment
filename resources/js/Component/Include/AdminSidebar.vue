@@ -46,17 +46,17 @@
                             </li>
                         </ul>
                     </li>
-                    <li :class="route().current('admin.email.inbox', 'INBOX')?'active': '' ">
+                    <!-- <li :class="route().current('admin.email.inbox', 'INBOX')?'active': '' ">
                         <inertia-link :href="route('admin.email.inbox', 'INBOX')"  class="iq-waves-effect">
                             <i class="ri-mail-line"></i><span>Mail</span>
                         </inertia-link>
-                    </li>
+                    </li> -->
                     <li :class="route().current('admin.calender.index')?'active': '' ">
                         <inertia-link :href="route('admin.calender.index')"  class="iq-waves-effect">
                             <i class="ri-calendar-todo-fill"></i><span>Calendar</span>
                         </inertia-link>
                     </li>
-                    
+
                     <li v-if="$page.user.role == 1" :class="route().current('admin.users.index')?'active': '' ">
                         <inertia-link :href="route('admin.users.index')"  class="iq-waves-effect">
                             <i class="ri-user-line"></i><span>Employee & Admin</span>

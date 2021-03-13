@@ -63,7 +63,7 @@
                                 <i class="ri-calendar-todo-fill"></i>
                             </inertia-link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <inertia-link
                                 :href="route('admin.email.inbox', 'INBOX')"
                                 class="nav-link"
@@ -72,7 +72,7 @@
                                 :class="route().current('admin.email.inbox')?'font-weight-bold search-box-toggle': '' ">
                                 <i class="ri-mail-line"></i>
                             </inertia-link>
-                        </li>
+                        </li> -->
                         <li>
                             <inertia-link
                                 :href="route('admin.contact_us.message.index')"
@@ -192,7 +192,7 @@ export default {
             intervalId: '',
         }
     },
-    
+
     mounted() {
         this.notificationRequest();
         this.getNotifications();
