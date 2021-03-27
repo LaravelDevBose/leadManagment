@@ -3,7 +3,6 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/lead/register', [HomeController::class, 'lead_register'])->name('lead.register');
 Route::post('/lead/register', [HomeController::class, 'store_lead_info'])->name('lead.store');

@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\InboxController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as'=>'admin.'],function (){
@@ -29,8 +31,8 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/transaction_info/{lead_id}/update',   [LeadController::class, 'updateTransactionInfo'])->name('transaction.update');
     Route::post('/special_req/{lead_id}/update',        [LeadController::class, 'updateSpecialReqInfo'])->name('special_req.update');
 
-    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
-    Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
+    Route::resource('services', ServiceController::class);
+    Route::resource('testimonials', TestimonialController::class);
 
     Route::get('contact_us/messages', [ContactUsMessageController::class, 'index'])->name('contact_us.message.index');
     Route::delete('contact_us/message/{id}', [ContactUsMessageController::class, 'destroy'])->name('contact_us.message.delete');
@@ -44,7 +46,7 @@ Route::group(['middleware'=>['auth:sanctum', 'verified'], 'prefix'=>'admin', 'as
     Route::post('/about_us/update', [SettingController::class, 'about_us_update'])->name('about_us.update');
     Route::get('/contact_us', [SettingController::class, 'contact_us_page'])->name('contact_us.page');
     Route::post('/contact_us/update', [SettingController::class, 'contact_us_update'])->name('contact_us.update');
-    
+
     Route::get('/zoom_meeting', [SettingController::class, 'zoom_meeting_page'])->name('zoom_meeting.page');
     Route::post('/zoom_meeting/update', [SettingController::class, 'zoom_meeting_update'])->name('zoom_meeting.update');
 
