@@ -70,7 +70,7 @@
                             <h2>About Us</h2>
                         </div>
                         <hr>
-                        <p>{{ !empty($aboutUs->data)? $aboutUs->data['details']: '' }}</p>
+                        <p>{{ !empty($aboutUs->data) && !empty($aboutUs->data['details'])? $aboutUs->data['details']: '' }}</p>
                         <h3>There is no task too small or too large!</h3>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
 
     <div class="container ">
         <div class="copyright">
-            &copy; Copyright <strong><span>OnCall</span></strong>. All Rights Reserved.  || Powered By Brainchild Software
+            &copy; Copyright <strong><span>OnCall</span></strong>. All Rights Reserved.  || Powered By <a href="http://brainchildsoft.com">Brainchild Software</a>
         </div>
 
     </div>
