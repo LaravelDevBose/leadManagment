@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7538a409-8881-49cf-ba85-ff11becd4e4f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Component/Include/AdminSidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/guest.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/guest.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/vendor/jetstream/components/authentication-card-logo.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/vendor/jetstream/components/authentication-card-logo.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,11 +187,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\user_managment" />
       <recent name="D:\xampp\htdocs\user_managment\public\assets\img" />
       <recent name="D:\xampp\htdocs\user_managment\public\assets" />
       <recent name="D:\xampp\htdocs\user_managment\public" />
       <recent name="D:\xampp\htdocs\user_managment\resources\views" />
-      <recent name="D:\xampp\htdocs\user_managment\resources\views\print" />
     </key>
   </component>
   <component name="RunManager" selected="npm.watch">
@@ -235,9 +241,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.production" />
         <item itemvalue="npm.watch" />
-        <item itemvalue="npm.dev" />
         <item itemvalue="npm.prod" />
       </list>
     </recent_temporary>
@@ -270,7 +276,9 @@
       <workItem from="1610132643435" duration="278000" />
       <workItem from="1610227245512" duration="594000" />
       <workItem from="1612438561476" duration="9000" />
-      <workItem from="1616830006564" duration="1125000" />
+      <workItem from="1616830006564" duration="1752000" />
+      <workItem from="1616924580076" duration="109000" />
+      <workItem from="1617097844194" duration="1234000" />
     </task>
     <servers />
   </component>

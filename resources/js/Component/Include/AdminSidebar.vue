@@ -2,7 +2,7 @@
     <div class="iq-sidebar">
         <div class="iq-sidebar-logo d-flex justify-content-between">
             <a :href="route('admin.dashboard')">
-                <img src="/logo.jpg" class="img-fluid" alt="">
+                <img src="/public/logo.jpg" class="img-fluid" alt="">
 <!--                <span>On Call</span>-->
             </a>
             <div class="iq-menu-bt-sidebar">
